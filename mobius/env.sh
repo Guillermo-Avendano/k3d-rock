@@ -43,10 +43,18 @@ POSTGRESQL_PASSWORD=postgres
 POSTGRESQL_DBNAME_MOBIUSVIEW=mobiusview
 POSTGRESQL_DBNAME_MOBIUS=mobiusserver
 POSTGRESQL_DBNAME_EVENTANALYTICS=eventanalytics
-POSTGRESQL_DBNAME_AAS=aas11_1_2
+POSTGRESQL_DBNAME_KEYCLOAK=keycloak
 POSTGRESQL_HOST=postgresql.$NAMESPACE_SHARED
 POSTGRESQL_PORT=5432
 POSTGRES_VALUES_TEMPLATE=postgres-mobius.yaml
+
+
+################################################################################
+# KEYCLOAK
+################################################################################
+export KEYCLOAK_ENABLED=true    # true for Authentication or AAS Integration
+export KEYCLOAK_HELM_DEPLOY_NAME=keycloak
+export KEYCLOAK_URL="keycloak.local.net"
 
 ################################################################################
 # ELASTICSEARCH

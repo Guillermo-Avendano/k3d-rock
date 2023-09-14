@@ -1,0 +1,148 @@
+auth:
+  ## @param auth.adminUser Keycloak administrator user
+  ##
+  adminUser: admin
+  ## @param auth.adminPassword Keycloak administrator password for the new user
+  ##
+  adminPassword: "admin"
+  ## @param auth.managementUser Wildfly management user
+  ##
+  managementUser: manager
+  ## @param auth.managementPassword Wildfly management password
+  ##
+  managementPassword: "manager"
+## @param replicaCount Number of Keycloak replicas to deploy
+##
+replicaCount: 1
+
+## Service configuration
+##
+service:
+  ## @param service.type Kubernetes service type
+  ##
+  type: ClusterIP
+  ## @param service.http.enabled Enable http port on service
+  ##
+  http:
+    enabled: true
+  ## @param service.ports.http Keycloak service HTTP port
+  ## @param service.ports.https Keycloak service HTTPS port
+  ##
+  ports:
+    http: 80
+
+ingress:
+  ## @param ingress.enabled Enable ingress record generation for Keycloak
+  ##
+  enabled: true
+  ## @param ingress.ingressClassName IngressClass that will be be used to implement the Ingress (Kubernetes 1.18+)
+  ## This is supported in Kubernetes 1.18+ and required if you have more than one IngressClass marked as the default for your cluster .
+  ## ref: https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
+  ##
+  ingressClassName: "nginx"
+  ## @param ingress.pathType Ingress path type
+  ##
+  pathType: ImplementationSpecific
+
+  ## @param ingress.apiVersion Force Ingress API version (automatically detected if not set)
+  ##
+  apiVersion: ""
+  ## @param ingress.hostname Default host for the ingress record (evaluated as template)
+  ##
+  hostname: <KEYCLOAK_URL>
+  ## @param ingress.path Default path for the ingress record
+  ##
+  path: /
+  ## @param ingress.servicePort Backend service port to use
+  ## Default is http. Alternative is https.
+  ##
+  servicePort: http
+  ## @param ingress.annotations [object] Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
+  ## Use this parameter to set the required annotations for cert-manager, see
+  ## ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
+  ## e.g:
+  ## annotations:
+  ##   kubernetes.io/ingress.class: nginx
+  ##   cert-manager.io/cluster-issuer: cluster-issuer-name
+  ##
+  annotations:
+   {
+     nginx.ingress.kubernetes.io/rewrite-target: /
+    }
+  ## @param ingress.tls Enable TLS configuration for the host defined at `ingress.hostname` parameter
+  ## TLS certificates will be retrieved from a TLS secret with name: `{{- printf "%s-tls" (tpl .Values.ingress.hostname .) }}`
+  ## You can:
+  ##   - Use the `ingress.secrets` parameter to create this TLS secret
+  ##   - Rely on cert-manager to create it by setting the corresponding annotations
+  ##   - Rely on Helm to create self-signed certificates by setting `ingress.selfSigned=true`
+  ##
+  tls: false
+
+  secrets:
+  - name: "keycloak.rocket-sandbox.local.net-tls"  
+    # file: certificates/keycloak.rocket-sandbox.local.net.crt 
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      MIIDiDCCAnCgAwIBAgIUbtrbPbB5PJdBGvrZ6rX2+C9RplEwDQYJKoZIhvcNAQEL
+      BQAwLDEqMCgGA1UEAwwha2V5Y2xvYWsucm9ja2V0LXNhbmRib3gubG9jYWwubmV0
+      MB4XDTIyMDcxMTE2MzEzNFoXDTMyMDcwODE2MzEzNFowLDEqMCgGA1UEAwwha2V5
+      Y2xvYWsucm9ja2V0LXNhbmRib3gubG9jYWwubmV0MIIBIjANBgkqhkiG9w0BAQEF
+      AAOCAQ8AMIIBCgKCAQEAsAYmLVdwXn8j1Jwfh+FPJoYZAdZCKBAL/Cz6GLi8kRYE
+      L7nTGmaW0fK7rA2IrWBY0riJ7/eoesqOApZqf3+jV5g37cn+nHbKm3nemfds81JG
+      ZC3rQyFO/E1x9MOjjij6uU/K0MTVuhCFpezv+WIjD2RT8wCUzwb6jZizellXLRF7
+      OQ1Rv0ARuigkqdH2qtgZ9KWT815LukZIQKmS9IlmG5FDqcJ+rGoDZAXs6BTRjxDb
+      yIgYSCsgVGjU9LGQ7jyAip7bgZHtMp7DmCCsgccoSSITc3pSP5VLaE5T7l95aXVv
+      ccquSdPpqLcwdlFpwxtdw61eNCTyD62KKSfMayr7+wIDAQABo4GhMIGeMB0GA1Ud
+      DgQWBBQfihi9OMT1mqjL770p/B2SdxXf7DAfBgNVHSMEGDAWgBQfihi9OMT1mqjL
+      770p/B2SdxXf7DAPBgNVHRMBAf8EBTADAQH/MCwGA1UdEQQlMCOCIWtleWNsb2Fr
+      LnJvY2tldC1zYW5kYm94LmxvY2FsLm5ldDAdBgNVHSUEFjAUBggrBgEFBQcDAQYI
+      KwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBABPUMouf/CiYCE65Ihv5WleOet0w
+      Rk49xlSA1C7G0Tk1GxVgqWZpL7ZFEbUj8Valka8RNrpaR50Q1IBv3kgI0rpBXBND
+      gHLW463GVoZuB7xATlgiVUsW0EXaHzSREtpaj6vkG1AyI2nOlgK4EpIQZ0N8u/ya
+      Y2+qSvigdrZFKT7DH06btXjByE2Z5lx8gwlgnZjtalVtOLpIH5jFm8KEh9GB14GL
+      q1bvAw4n+kSj975HPz7KcvZMme1GJsChk6liG74reMZZd1DdeCGZd1o2NSEIRslR
+      H3yV/fQVuoJ5R3rrioQ60jfpYSib4MbHys+NOHP0geZdmv/frITTFjRXIJs=
+      -----END CERTIFICATE-----
+    # file: certificates/keycloak.rocket-sandbox.local.net.key   
+    key: | 
+      -----BEGIN PRIVATE KEY-----
+      MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCwBiYtV3BefyPU
+      nB+H4U8mhhkB1kIoEAv8LPoYuLyRFgQvudMaZpbR8rusDYitYFjSuInv96h6yo4C
+      lmp/f6NXmDftyf6cdsqbed6Z92zzUkZkLetDIU78TXH0w6OOKPq5T8rQxNW6EIWl
+      7O/5YiMPZFPzAJTPBvqNmLN6WVctEXs5DVG/QBG6KCSp0faq2Bn0pZPzXku6RkhA
+      qZL0iWYbkUOpwn6sagNkBezoFNGPENvIiBhIKyBUaNT0sZDuPICKntuBke0ynsOY
+      IKyBxyhJIhNzelI/lUtoTlPuX3lpdW9xyq5J0+motzB2UWnDG13DrV40JPIPrYop
+      J8xrKvv7AgMBAAECggEATsnp07jEON/y00swh9svWQCD+AEF6rXID4+4QFGMQerX
+      Y99q4PHTh1T9cPU73NL33xYv08QIWzIIH5thPwGMRPyC6EJWX4WCidYib8tCrqUA
+      kf3FxO4HU0J9BAB/2HV6SHExSIIaYmbb05m7DmbBZ7XSJ752XTZz9uZHS7fqn+Zo
+      f00bgOX/A07IN3XYOwONyeBN7GMxprNT1TwNeGZYgLsNMBvGpVIu2ovkl6yXt9C4
+      Z/K53S2TSa25Opcf+jsj9mUlmmr6KKgRqtgkgyzZyB7u9jebQ5ev1eQt+GU05op2
+      /FUlPSgpzMfe30HBDEBsUIlIyC8o/k+LNmYoG2iR9QKBgQDts1wDio8ckPsA+Ik5
+      LFBj8uNSUeLnSUfvEhcGoAwzpFOhdpju+prqlhgg2Q6fC3JHpuDD95z6Cb8hAj4u
+      ZAU51Ce45wsrVHmZX0wktLAEMiZ5DxlcEPX1/1Ey1+cL4kj8TIEYmfOStKCB6VCT
+      43hZ5IRu8pmXkLSaN8k1Qr47bQKBgQC9k0H4FYghJ61VWLtDEd+ATmyOKypqNNkH
+      Ajbox3WMgDUK6s2pArIrg0/AUyLhGfjJdLPHqwKooEYhJzBV2iqnyDOvTYukydlF
+      03W7K15aYnSs5W+xX3jHWSG/pqe3aq+N3WprTVQQPVu+0i9TUrXUbZqyLlCotPqJ
+      2Nf26L9MBwKBgCACC/zqFpVZLIOX9Bp/zh93YIcAQda1NnuJ6xHYUWxOz3gpmTRt
+      CJlYNs2NjPt7thrR7OhWmovM7jDKtYbXryB3YhXy/r0J9gniHEXBEwatniKlFtwf
+      6I8En3GCQzmFciCPSL8AVB1IN2jm+xO/CMDKFc8+2dHgCYHOy0hhwW4NAoGBAJuX
+      qjRQj8sOgqAi1IdmuvbW5xgEa6qBt4KeGa0ST/NCIsbUEnnd4Zf/DUy/r0frhhrq
+      cse1HtiBuy1oua4tAod0tJ7z2WIl3PMHbIBzRtyOJE7nfLWqszmCeUWQJeVPZcjc
+      6oQpEo7FnXBPmFId92jjkG0fwEnHSD4tQIvBWYivAoGANJPcJiGQd2lQnxRZFuuk
+      wJm+QB5cOjyDVeJgU54jvcuDa4fZ06aB6vJ6RvWzQEywF8AADwlTjB7MfoofyLjE
+      RxUUgaESurIggtkiTsrU3b8G6pQ8Ne3ycgc0KJnLgIEztGroW6bxmtaXmNZmYZUh
+      0HLIavxpwmGMyuNAK2bl3lY=
+      -----END PRIVATE KEY-----
+
+postgresql:
+  enabled: false
+  
+
+externalDatabase:
+  host: "<database_host>"
+  port: "<database_port>"
+  user: "<database_user>"
+  database: <database_name_keycloak>
+  password: "<database_password>"
+  existingSecret: ""
+  existingSecretPasswordKey: ""

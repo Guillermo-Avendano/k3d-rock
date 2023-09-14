@@ -64,4 +64,4 @@ primary:
         CREATE DATABASE <database_name_mobius> OWNER <database_user> ENCODING 'UTF8' TEMPLATE template0 LC_COLLATE 'C' LC_CTYPE 'C' CONNECTION LIMIT -1;
         CREATE DATABASE <database_name_mobiusview> OWNER <database_user> ENCODING 'UTF8' TEMPLATE template0 LC_COLLATE 'C' LC_CTYPE 'C' CONNECTION LIMIT -1;
         CREATE DATABASE <database_name_eventanalytics> OWNER <database_user> ENCODING 'UTF8' TEMPLATE template0 LC_COLLATE 'C' LC_CTYPE 'C' CONNECTION LIMIT -1;
-        CREATE DATABASE <database_name_aas> OWNER <database_user> ENCODING 'UTF8' TEMPLATE template0 LC_COLLATE 'C' LC_CTYPE 'C' CONNECTION LIMIT -1;
+        CREATE DATABASE <database_name_keycloak> OWNER <database_user> ENCODING 'UTF8' TEMPLATE template0 LC_COLLATE 'C' LC_CTYPE 'C' CONNECTION LIMIT -1;

@@ -10,6 +10,7 @@ source ../cluster/local_registry.sh
 source database/database.sh
 source elasticsearch/elasticsearch.sh
 source kafka/kafka.sh
+source keycloak/keycloak.sh
 source mobiusserver/mobiusserver.sh
 source mobiusview/mobiusview.sh
 source eventanalytics/eventanalytics.sh
@@ -59,6 +60,14 @@ else
       wait_for_database_ready;
       info_message "The database services are ready now.";
 
+      #install keycloak
+      if [ "$KEYCLOAK_ENABLED" == "true" ]; then
+         highlight_message "Deploying Keycloak"
+         install_keycloak;
+         info_progress_header "Waiting for keycloak to be ready ...";
+         wait_for_keycloak_ready;
+      fi
+      
       #install elasticsearch
       if [ "$ELASTICSEARCH_ENABLED" == "true" ]; then
         ELASTICSEARCH_VERSION="${ELASTICSEARCH_VERSION:-7.17.3}";
@@ -91,7 +100,13 @@ else
 
       uninstall_database;
 
-      #install elasticsearch
+      #uninstall Keycloak
+      if [ "$KEYCLOAK_ENABLED" == "true" ]; then
+         highlight_message "Uninstalling keycloak"
+         uninstall_keycloak;
+      fi
+
+      #uninstall elasticsearch
       if [ "$ELASTICSEARCH_ENABLED" == "true" ]; then
         ELASTICSEARCH_VERSION="${ELASTICSEARCH_VERSION:-7.17.3}";
         ELASTICSEARCH_CONF_FILE=elasticsearch.yaml;
@@ -101,7 +116,7 @@ else
         uninstall_elasticsearch;
       fi
 
-      #install kafka
+      #uninstall kafka
       if [ "$KAFKA_ENABLED" == "true" ]; then
         KAFKA_VOLUME=`eval echo ~/${NAMESPACE}_data/kafka`
         KAFKA_CONF_FILE=kafka-statefulset.yaml;

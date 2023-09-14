@@ -1,0 +1,13 @@
+1) Get Helm Script for keaycloak
+
+- helm repo add bitnami https://charts.bitnami.com/bitnami
+- helm repo update
+- helm pull bitnami/keycloak
+
+2) create keycloak database in postgres
+   create database keycloak;
+
+3) Deploy keycloak, and keycloak application
+
+   helm install keycloak keycloak/keycloak-16.1.4  -f ./keycloak-values-1-0.yaml --namespace=keycloak --create-namespace --wait
+
