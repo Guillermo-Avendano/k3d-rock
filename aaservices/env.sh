@@ -43,8 +43,6 @@ POSTGRESQL_PORT=5432
 #########################################
 export AAS_URL="aaservices.local.net"
 
-export AAS_LICENSE=$AAS_LICENSE
-
 # Define persistent storage in /cluster/cluster.sh  --> cluster_volumnes()
 # Copy this definitions, and adds to pv_folder array
 

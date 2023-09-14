@@ -7,9 +7,9 @@ spec:
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   hostPath:
-    path: "/mnt/c/Rocket.Git/rocket/pv_cluster/aas-log"
+    path: "/mnt/c/Rocket.Git/k3d-rock/pv_cluster/aas-log"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -18,7 +18,7 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
@@ -32,9 +32,9 @@ spec:
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   hostPath:
-    path: "/mnt/c/Rocket.Git/rocket/pv_cluster/aas-shared"
+    path: "/mnt/c/Rocket.Git/k3d-rock/pv_cluster/aas-shared"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -43,7 +43,7 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
