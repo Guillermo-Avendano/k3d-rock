@@ -7,13 +7,10 @@ spec:
     spec:
      containers:
       - name: install-mobius-remote-cli
-        image: alpine:latest
+        image: byrnedo/alpine-curl
         command: ["/bin/sh", "-c"]
         args:
-        - curl -k -o /inbox/MobiusRemoteCLI.tar <IFW_MOBIUS_REMOTE_CLI_URL> 
-        - curl -k -o /inbox/setup.sh <IFW_MOBIUS_REMOTE_CLI_SETUP_URL> 
-        - chmod +x /inbox/setup.sh
-        - /inbox/setup.sh
+        - curl -k -o /inbox/MobiusRemoteCLI.tar <IFW_MOBIUS_REMOTE_CLI_URL> && curl -k -o /inbox/setup.sh <IFW_MOBIUS_REMOTE_CLI_SETUP_URL> && chmod +x /inbox/setup.sh && . /inbox/setup.sh
         volumeMounts:
         - mountPath: "/inbox"
           name: "ifw-inbox-claim" 

@@ -95,6 +95,7 @@ wait_for_ifw_ready() {
 
 uninstall_ifw(){
    if helm list -A | grep $IFW_HELM_DEPLOY_NAME > /dev/null 2>&1; then 
+      kubectl -n $NAMESPACE delete job/install-mobius-remote-cli
 
       highlight_message "Removing Helm Chart $IFW_HELM_DEPLOY_NAME from namespace $NAMESPACE"
       helm uninstall $IFW_HELM_DEPLOY_NAME --namespace $NAMESPACE
