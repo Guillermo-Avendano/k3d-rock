@@ -169,8 +169,8 @@ else
          
       highlight_message "Mobius 12 set replicas to 0"
       kubectl scale deployment eventanalytics --replicas=0 -n $NAMESPACE
-      kubectl scale deployment mobiusview12 --replicas=0 -n $NAMESPACE
-      kubectl scale deployment mobius12  --replicas=0 -n $NAMESPACE
+      kubectl scale deployment mobiusview --replicas=0 -n $NAMESPACE
+      kubectl scale deployment mobius  --replicas=0 -n $NAMESPACE
 
       kubectl scale statefulset postgresql --replicas=0 -n $NAMESPACE_SHARED
       kubectl scale statefulset kafka --replicas=0 -n $NAMESPACE_SHARED
@@ -184,8 +184,8 @@ else
       kubectl scale statefulset elasticsearch-master  --replicas=1 -n $NAMESPACE_SHARED
 
       kubectl scale deployment eventanalytics --replicas=1 -n $NAMESPACE
-      kubectl scale deployment mobius12  --replicas=1 -n $NAMESPACE
-      kubectl scale deployment mobiusview12 --replicas=1 -n $NAMESPACE
+      kubectl scale deployment mobius  --replicas=1 -n $NAMESPACE
+      kubectl scale deployment mobiusview --replicas=1 -n $NAMESPACE
 
     elif [[ $option == "debug" ]]; then
       debug_namespace;
