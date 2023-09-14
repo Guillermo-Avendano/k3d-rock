@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mobius-storage
+  labels:
+    type: mobius-storage
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/mnt/c/Rocket.Git/k3d-rock/pv_cluster/mobius-storage"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mobius-storage-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000M
+  selector: 
+    matchLabels: 
+      type: mobius-storage    
+---      
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mobius-diagnose
+  labels:
+    type: mobius-diagnose
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/mnt/c/Rocket.Git/k3d-rock/pv_cluster/mobius-diagnose"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mobius-diagnose-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000M
+  selector: 
+    matchLabels: 
+      type: mobius-diagnose   
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mobius-fts-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000M

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  eosaccess
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  eosaccess
+  template:
+    metadata:
+      labels:
+        app:  eosaccess
+    spec: 
+      containers:
+      - name: eosaccess
+        image: registry.rocketsoftware.com/eosacess:3.1.1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /usr/local/tomcat/logs
+          name: pvc-eosaccess-logs
+      volumes:
+        - name: pvc-eosaccess-logs
+          persistentVolumeClaim:
+            claimName: pvc-eosaccess-logs   

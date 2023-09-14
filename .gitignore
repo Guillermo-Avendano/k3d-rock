@@ -1,0 +1,12 @@
+*.zip
+*.tar
+.terraform/
+*.bak
+*.tfstate
+*.backup
+*.hcl
+logs/
+images/
+pv_cluster/
+cluster/zenith.local-mycluster_config.yaml
+cluster/mobius-mycluster_config.yaml

@@ -1,0 +1,277 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mobius.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "mobius.name" . }}
+    helm.sh/chart: {{ include "mobius.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mobius.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "mobius.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        {{- if .Values.image.pullSecret }}
+        - name: {{ .Values.image.pullSecret | quote }}
+        {{- end }}
+      volumes:
+        - name:  mobius-pv-storage
+          {{- if .Values.mobius.persistentVolume.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.mobius.persistentVolume.claimName }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: mobius-pv-fts-storage
+          {{- if .Values.mobius.fts.persistentVolume.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.mobius.fts.persistentVolume.claimName }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if and (eq .Values.mobius.sap.enabled true) (eq  .Values.mobius.sap.persistentVolume.enabled true) }}
+        - name: mobius-pv-sap-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.mobius.sap.persistentVolume.claimName }}
+        {{- end }}
+        - name: mobius-diagnostics
+          {{- if .Values.mobius.mobiusDiagnostics.persistentVolume.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.mobius.mobiusDiagnostics.persistentVolume.claimName }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if .Values.additionalVolumes -}}
+        {{- toYaml .Values.additionalVolumes | nindent 8 }}
+        {{- end }}
+      initContainers:
+      {{- if .Values.initContainerCheckDbReady }}
+        - name: check-db-ready
+          image: postgres:10.5
+          command: ['sh', '-c',
+                    'until pg_isready -h {{ .Values.mobius.rds.endpoint }} -p {{ .Values.mobius.rds.port }};
+                    do echo waiting for database; sleep 1; done;']
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+         {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+              httpGet:
+                path: {{ .Values.livenessProbe.path }}
+                port: {{ .Values.ports.containerPort }}
+                httpHeaders:
+                - name: {{ .Values.livenessProbe.header.name }}
+                  value: {{ .Values.livenessProbe.header.value }}
+              initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+              periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+              timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          {{- end }}
+         {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.ports.containerPort }}
+              httpHeaders:
+              - name: {{ .Values.readinessProbe.header.name }}
+                value: {{ .Values.readinessProbe.header.value }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          {{- end }}
+          env:
+          - name: RDSPROVIDER
+            value: '{{ .Values.mobius.rds.provider }}'
+          - name: RDSENDPOINT
+            value: '{{ .Values.mobius.rds.endpoint }}'
+          - name: RDSPORT
+            value: '{{ .Values.mobius.rds.port }}'
+          - name: RDSPROTO
+            value: '{{ .Values.mobius.rds.protocol }}'
+          - name: RDSSID
+            value: '{{ .Values.mobius.rds.sid }}'
+          - name: RDSSVC
+            value: '{{ .Values.mobius.rds.serviceName }}'
+          - name: RDSINITORUPGRADEDB
+            value: '{{ .Values.mobius.rds.initOrUpgrade }}'
+          - name: MOBIUSUSERNAME
+            value: '{{ .Values.mobius.rds.user }}'
+          - name: MOBIUSSCHEMANAME
+            value: '{{ .Values.mobius.rds.schema }}'
+          - name: MOBIUSSCHEMAPASSWORD
+            value: '{{ .Values.mobius.rds.password }}'
+
+          - name: FQDN
+            value: '{{ .Values.mobius.fqdn }}'
+          - name: PRIVATE_FQDN
+            value: '{{ .Values.mobius.privateFqdn }}'
+          - name: CONTAINERTYPE
+            value: '{{ .Values.mobius.containerType }}'
+          - name: CREATEDOCUMENTSERVER
+            value: '{{ .Values.mobius.createDocumentServer }}'
+          - name: DEFAULT_SSO_KEY
+            value: '{{ .Values.mobius.defaultSSOKey }}'
+
+          - name: ENABLEINDEX
+            value: '{{ .Values.mobius.fts.enabled }}'
+          - name: MOBIUS_FTS_ENGINE_TYPE
+            value: '{{ .Values.mobius.fts.engineType}}'
+          - name: MOBIUS_FTS_SERVER_PROTOCOL
+            value: '{{ .Values.mobius.serverProtocol}}'
+          - name: MOBIUS_FTS_HOST
+            value: '{{ .Values.mobius.fts.host }}'
+          - name: MOBIUS_USE_FTS_CLOUD
+            value: '{{ .Values.mobius.fts.useCloud }}'
+          - name: ZK_PORT
+            value: '{{ .Values.mobius.fts.zookeeperPort }}'
+          - name: MOBIUS_FTS_PORT
+            value: '{{ .Values.mobius.fts.port }}'
+          - name: MOBIUS_FTS_INDEX_NAME
+            value: '{{ .Values.mobius.fts.indexName }}'
+        {{- if .Values.mobius.admin.group }}
+          - name: MOBIUS_ADMIN_GROUP
+            value: '{{ .Values.mobius.admin.group }}'
+        {{- end }}
+        {{- if .Values.mobius.admin.user }}
+          - name: MOBIUS_ADMIN_USER
+            value: '{{ .Values.mobius.admin.user }}'
+        {{- end }}
+        {{- if .Values.mobius.admin.password }}
+          - name: MOBIUS_SET_PASSWORD
+            value: '{{ .Values.mobius.admin.password }}'
+        {{- end }}
+          - name: CACHETYPE
+            value: '{{ .Values.mobius.fts.pagecache.type }}'
+          - name: VDRJAVA_LOG_LEVEL
+            value: '{{ .Values.mobius.loglevel.java }}'
+          - name: OCR_LOG_LEVEL
+            value: '{{ .Values.mobius.loglevel.ocr }}'
+          - name: VDRNATIVE_LOG_LEVEL
+            value: '{{ .Values.mobius.loglevel.native }}'
+          - name: MOBIUS_CLUSTERING_KUBERNETES_ENABLED
+            value: '{{ .Values.mobius.clustering.kubernetes.enabled }}'
+          - name: MOBIUS_CLUSTERING_KUBERNETES_SERVICENAME
+            value: '{{ .Values.mobius.clustering.kubernetes.serviceName }}'
+          - name: MOBIUS_CLUSTERING_KUBERNETES_NAMESPACE
+            value: '{{ .Values.mobius.clustering.kubernetes.namespace }}'
+          - name: MOBIUS_CLUSTERING_PORT
+            value: '{{ .Values.mobius.clustering.port }}'
+          - name: MOBIUS_EXTERNAL_SHARED_DIRECTORY
+            value: "/nfs/mobius_cluster"
+        {{- if .Values.mobius.mobiusDiagnostics.unusedLogPurgeInMinutes }}
+          - name: MOBIUS_UNUSED_LOG_PURGE_IN_MINUTES
+            value: '{{ .Values.mobius.mobiusDiagnostics.unusedLogPurgeInMinutes }}'
+          - name: MOBIUS_LOG_DEL_JOB_INITIAL_DELAY_MS
+            value: '{{ .Values.mobius.mobiusDiagnostics.initialDelayInMs | default 43200000}}'
+          - name: MOBIUS_LOG_DEL_JOB_FIXED_DELAY_MS
+            value: '{{ .Values.mobius.mobiusDiagnostics.fixedDelayInMs | default 3600000}}'
+        {{- end }}
+          - name: CURR_POD_UID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.uid
+        {{- if hasKey .Values.spring.cloud.discovery.client.simple.instances.metrics "uri" }}
+          - name: SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_METRICS_0_URI
+            value: '{{ .Values.spring.cloud.discovery.client.simple.instances.metrics.uri }}'
+        {{- end }}
+        {{- with .Values.asg.security }}
+          - name: ASG_SECURITY_DEFAULT_TENANT
+            value: '{{ .defaultTenant }}'
+        {{- end }}
+        {{- with .Values.asg.metrics }}
+          - name: ASG_METRICS_TRACKER_ENABLED
+            value: '{{ .tracker.enabled }}'
+          - name: ASG_METRICS_TRACKER_CACHETIME
+            value: '{{ .tracker.cacheTime }}'
+          - name: ASG_METRICS_TRACKER_DATABASETIME
+            value: '{{ .tracker.databaseTime }}'
+          - name: ASG_METRICS_SCHEDULER_ENABLED
+            value: '{{ .scheduler.enabled }}'
+          - name: ASG_METRICS_SCHEDULER_JOBTIME
+            value: '{{ .scheduler.jobTime }}'
+          - name: ASG_METRICS_TYPE
+            value: '{{ .type }}'
+        {{- end }}
+          - name: IS_SAAS
+            value: '{{ .Values.mobius.isSaas }}'
+          {{- if eq .Values.mobius.isSaas "YES" }}
+          - name: SHAREDFILETEMPLATE
+            value: '{{ .Values.mobius.sharedFileTemplate }}'
+          {{- end }}
+          - name: MOBIUS_SOA_MEMORY_LIMIT
+            value: '{{ .Values.mobius.memoryLimit.soa }}'
+          - name: MOBIUS_FTS_MEMORY_LIMIT
+            value: '{{ .Values.mobius.memoryLimit.fts }}'
+          - name: MOBIUS_GETPAGES_MEMORY_LIMIT
+            value: '{{ .Values.mobius.memoryLimit.getPages }}'
+          - name: MOBIUS_RMI_MEMORY_LIMIT
+            value: '{{ .Values.mobius.memoryLimit.rmi }}'
+          {{- if .Values.mobius.archiveBlocklist }}
+          - name: MOBIUS_ARCHIVE_BLOCKLIST
+            value: '{{ .Values.mobius.archiveBlocklist }}'
+          {{- end }}
+          {{- if .Values.mobius.azureStorageConnection }}
+          - name: AZURE_STORAGE_CONNECTION_STRING
+            value: '{{ .Values.mobius.azureStorageConnection }}'
+          {{- end }}
+          {{- if .Values.mobius.auditService }}
+          - name: MOBIUS_AUDIT_SERVICE_PRIVATE_KEY
+            value: '{{ .Values.mobius.auditService.privateKey }}'
+          {{- end }}
+          {{- with .Values.mobius.sap }}
+          {{- if ( eq .enabled true ) }}
+          - name: ENABLESAP
+            value: 'YES'
+          {{- end }}
+        {{- end }}  
+          ports:
+            - name: {{ .Values.ports.name }}
+              containerPort: {{ .Values.ports.containerPort }}
+              protocol: {{ .Values.ports.protocol }}
+          volumeMounts:
+            - mountPath: /mnt/efs
+              name:  mobius-pv-storage
+            {{- if .Values.mobius.fts.persistentVolume.enabled }}
+            - mountPath: /ftsdata
+              name: mobius-pv-fts-storage
+            {{- end }}
+            {{- if and (eq .Values.mobius.sap.enabled true) (eq  .Values.mobius.sap.persistentVolume.enabled true) }}
+            - mountPath: /mnt/efs/sap
+              name: mobius-pv-sap-storage
+            {{- end }}
+            - mountPath: /var/log/mobius
+              subPathExpr: mobius_cluster/$(CURR_POD_UID)
+              name: mobius-diagnostics
+            - mountPath: /var/log/mobius_cluster
+              subPath: mobius_cluster
+              name: mobius-diagnostics
+            {{- if .Values.additionalVolumeMounts -}}
+            {{- toYaml .Values.additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        {{- if .Values.additionalContainers -}}
+        {{- toYaml .Values.additionalContainers | nindent 8 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

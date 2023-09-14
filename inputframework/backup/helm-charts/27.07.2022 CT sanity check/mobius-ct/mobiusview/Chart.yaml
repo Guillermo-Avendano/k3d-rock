@@ -1,0 +1,10 @@
+apiVersion: v2
+appVersion: 11.2.5002
+description: ASG Mobius View combines enterprise content federation and viewing services.
+home: https://asg.com/
+keywords:
+- asg
+- mobius
+- view
+name: mobiusview
+version: 11.2.6

@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "inputframework.fullname" . }}
+  labels:
+    {{- include "inputframework.labels" . | nindent 4 }}
+spec:  
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+        inputframework: web
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        inputframework: web
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "inputframework.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/image_create_scripts/start_stack.sh"]  
+          env:
+          - name: NOINIT
+            value: '{{ .Values.initRepository.NOINIT  }}'              
+          - name: IPADMINPASS
+            value: '{{ .Values.initRepository.IPADMINPASS  }}' 
+          - name: IPADMIN
+            value: '{{ .Values.initRepository.IPADMIN  }}'             
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: "/volume"
+              name: "inputframework-volume"
+            - mountPath: "/inbox"
+              name: "inputframework-inbox"
+            - mountPath: /home/mobius/asg/mobius/mobius-cli/
+              name: application-yaml-config-map
+            - mountPath: /home/mobius/asg/security/
+              name: secret-sec-config-map              
+      volumes:
+         - name: "inputframework-volume"
+           persistentVolumeClaim:
+             claimName: "{{ .Values.initRepository.VOLUMECLAIM  }}"   
+         - name: "inputframework-inbox"
+           persistentVolumeClaim:
+             claimName: "{{ .Values.initRepository.INBOXCLAIM  }}"   
+         - name: "application-yaml-config-map" 
+           configMap:
+             name: "application-yaml-config-map"
+         - name: "secret-sec-config-map"
+           configMap:
+             name: "secret-sec-config-map"                                    
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+

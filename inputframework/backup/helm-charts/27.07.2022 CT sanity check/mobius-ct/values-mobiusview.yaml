@@ -1,0 +1,399 @@
+# Default values for mobiusview.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#replicaCount is the number of replicas required for this service
+replicaCount: 1
+#namespace is the place for the service to run
+namespace: mobius-ct
+
+image:
+#repository is the docker registory to pull docker images
+  repository: 542390421023.dkr.ecr.eu-central-1.amazonaws.com/raitt-tef-dm-test-ecr
+#tag is the docker image tag(it may be latest or 9.1)
+  tag: mobiusview11.2.6
+#pullPolicy is the policy to pull images
+  pullPolicy: IfNotPresent
+#pullSecret is the authentication based image pull from registry
+  pullSecret: dockerlocal
+
+#tags_environment: "zenith-dev"
+#aws_region: us-east-1
+
+#nameOverride is the name of the service to publish with  
+nameOverride: ""
+#fullnameOverride is the full name of the service to publish with
+fullnameOverride: ""
+
+service:
+#name is the name of the port
+  type: ClusterIP
+#name is the name of the port
+  port: 80
+
+ports:
+#name is the name of the port
+     name: http
+#containerPort is the port where container should run     
+     containerPort: 8080
+#targetPort is the port where the service points to
+     targetPort: 8080
+#protocol is the name of the protocol
+     protocol: TCP 
+
+livenessProbe:
+#enabled is the flag to indicate whether liveness probe check is required or not
+  enabled: false
+#path is the http path that will be used to perform the liveness check, the port defined as the containerPort will be
+#used in the request.
+  path: "/mobius/actuator/health"
+#header is the header to be passed along with the http request.
+  header:
+    name: "Accept"
+    value: "application/vnd.spring-boot.actuator.v3+json"
+#initialDelaySeconds is the number of seconds delayed for liveness probes to get initiated
+  initialDelaySeconds: 200
+#periodSeconds is the measure of frequency to perform the liveness probe
+  periodSeconds: 10
+#timeoutSeconds is the number of seconds after which the liveness probe times out
+  timeoutSeconds: 30
+#failureThreshold determines the number of times a failure must occur before it will restart the pod.
+  failureThreshold: 25
+
+readinessProbe:
+#enabled is the flag to indicate whether readiness probe check is required or not
+  enabled: false
+#path is the http path that will be used to perform the readiness check, the port defined as the containerPort will be
+#used in the request.
+  path: "/mobius/actuator/health"
+# header is the header to be passed along with the http request.
+  header:
+    name: "Accept"
+    value: "application/vnd.spring-boot.actuator.v3+json"
+#initialDelaySeconds is the number of seconds delayed for readiness probes to get initiated
+  initialDelaySeconds: 200
+#periodSeconds is the measure of frequency to perform the Readiness probe
+  periodSeconds: 10
+#timeoutSeconds is the number of seconds after which the Readiness probe times out
+  timeoutSeconds: 30
+#failureThreshold determines the number of times a failure must occur before it will stop trying
+  failureThreshold: 25
+  
+master:
+  persistence:
+#enabled is the flag to indicate whether persistence claim is required or not
+   enabled: true
+#claimName is the name of the claim created by the user, which will be bound to the mapped persistence volume
+   claimName: mobius-view-ct-pv-claim-11.2.6-efs
+#accessMode is the access specified to claim from persistence volume
+   accessMode: ReadWriteMany
+#size is the storage claimed from persistence volume
+   size: 5Gi
+
+  mobiusViewDiagnostics:
+    persistentVolume:
+ #enabled is the flag to indicate whether persistence claim is required for mobius diagnostics reports or not
+      enabled: true
+ #claimName is the name of the claim created by the user, which will be bound to the mapped persistence volume
+      claimName: mobius-viewdiag-ct-pv-claim-11.2.6-efs
+ #accessMode is the access specified to claim from persistence volume
+      accessMode: ReadWriteMany
+ #size is the storage claimed from persistence volume
+      size: 5Gi
+    # In auto scaling environment then the lifetime of the containers depends on the
+    # system load, if the system load is more then new containers will be created and if the load is reduced the
+    # containers will be deleted, even after the containers are removed , the logs are still available in the shared
+    # directory, there is a internal job that takes cate of removing the orphan logs.
+
+    # If the container is idle for 2 days then the logs folder will be removed
+    # If you want to handle the log deletion manually don't configure unusedLogPurgeInMinutes
+    unusedLogPurgeInMinutes: 2880
+    # After server start up the job will run only after 12 hours
+    initialDelayInMs: "43200000"
+    # Delay between each run , the default value is 1 hour
+    fixedDelayInMs: "3600000"
+  presentations:
+    persistence:
+      #enabled is the flag to indicate whether presentation persistence claim is required or not    
+      enabled: false
+      #claimName is the name of the claim created by the user, which will be bound to the mapped persistence volume
+      claimName: mobius-pv-presentation-images-claim-dev
+#resources is the CPU/Memory resource requests/limits	
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 2000m
+    memory: 8192Mi
+  requests:
+    cpu: 1000m
+    memory: 2048Mi
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: 
+    kubernetes.io/ingress.class: nginx-mobius-ct
+    nginx.ingress.kubernetes.io/rewrite-target: /mobius$1
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "session-cookie"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "false"
+    nginx.ingress.kubernetes.io/session-cookie-hash: sha1
+    nginx.ingress.kubernetes.io/session-cookie-path: /mobius
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: dm-mobius-ct.high.raitcs01-test.aws.de.pri.o2.com
+      paths:
+        - path: /mobius(.*)$
+          pathType: ImplementationSpecific
+  tls: 
+    - secretName: mobius-ct-tls-secret 
+      hosts:
+        - dm-mobius-ct.high.raitcs01-test.aws.de.pri.o2.com
+#nodeSelector is the node labels for pod assignment
+nodeSelector: {}
+#tolerations is the toleration labels for pod assignment
+tolerations: []
+#affinity is the node affinity
+affinity: {}
+
+datasource:
+#url is the db endpoint with port number and schema name where the database connectivity will be established
+   url: jdbc:postgresql://dm20210805123452097300000002.cisrnwofw81v.eu-central-1.rds.amazonaws.com:5432/mobiusview_ct_11.2.6
+#username is the admin account for the Database, used when creating new DB schemas
+   username: raittadmin
+#password is the admin account password for the Database, used when creating new DB schemas
+   password: Raitt123
+#driverClassName is the database drive class name
+   driverClassName: org.postgresql.Driver
+   hikari:
+     autoCommit: false
+   
+jpa:
+#databasePlatform is the jpa database platform
+  databasePlatform: org.hibernate.dialect.PostgreSQL9Dialect
+  hibernate:
+# ddlAuto is the ddl auto commit status of JPA
+      ddlAuto: none
+      
+# Use authentication type = COGNITO if you are using cognito for authentication.
+authentication:
+  type: STANDARD
+defaultSSOKey: "ADASDFASDFXGGEG25585"
+java:
+  opts: ""
+asg:
+  bootstrap:
+    mobiusAdministratorUser: mobiusadmin
+    search:
+      resultCache:
+        # enables/disables search results cache.
+        enabled: true
+        # max items stored in cache.
+        maxSize: 5000
+        # The maximum number of seconds for each entry to stay in the cache. Entries that are older than timeToLive will
+        # be automatically evicted from the cache. Updates on the entry do not change the eviction time.
+        # Any integer between 0 and Integer.MAX_VALUE. 0 means infinite.
+        timeToLive: 3600
+        # Maximum number of seconds for each entry to stay idle in the cache. Entries that are idle(not touched) for
+        # more than idleTime will get automatically evicted from the cache. Entry is touched if get, getAll, put or
+        # containsKey is called. Any integer between 0 and Integer.MAX_VALUE. 0 means infinite.
+        idleTime: 1800
+  #Workflow 2.0 portal endpoints to integrate with mobius ui.
+  #this is a configuration needed to expose the APIs of Workflow/externalmappings
+  external-mapping:
+    type: restserver
+  workflow:
+  # processContextRoot contains Host and port zenith deployment
+    #processContextRoot: https://localhost:443
+  #processUrlPath is relative End point to get the list of of process definitions in prs system
+    #processUrlPath: /zenith/prs/adminrest/process-definitions
+  #inboxUrlPath is Relative path for inbox static page
+    #inboxUrlPath: /portal/inbox
+  #processNotificationsUrlPath is relative path for getting inbox notifications
+    #processNotificationsUrlPath: /prs/rest/processnotifications
+
+  email:
+    type: embedded
+    link:
+      host: "http://localhost:8080"
+    smtpconfig:
+      fromAddress: admin@asg.com
+      fromAddressReadonly: true
+      replyToAddress: admin@asg.com
+      replyToAddressReadonly: true
+      linkText: Click here to open
+      smtpAddress: smtp.asg.com
+      smtpPort: 25
+      smtpProtocol:
+      smtpAuthenticationRequired: false
+      smtpUser: admin
+      smtpPasswd:
+      autoGenerateEmail: true
+      emailDomainAddress: asg.com
+      copySmtpConfigFromGlobal: true
+  iamDirectory:
+    enabled: false
+  clustering:
+# Port exposing is always required, even when there is just one node, you can either specify a single port of a range (in the example if the first port is busy, the next one will be chosen, that is a preferred way)
+    port: 6701-6800
+    kubernetes:
+      enabled: true
+# URL of Kubernetes Master; https://kubernetes.default.svc by default
+#      kubernetesMaster: https://kubernetes.default.svc
+# If set to true, it checks also the addresses of PODs which are not ready
+#      resolveNotReadyAddressed: true
+# Kubernetes Namespace where Hazelcast is running; if not specified, the value is taken from the environment variables KUBERNETES_NAMESPACE or OPENSHIFT_BUILD_NAMESPACE
+      namespace: mobius-ct
+# Service name used to scan only PODs connected to the given service; if not specified, then all PODs in the namespace are checked
+      serviceName: mobiusview
+# Service label and value used to tag services that should form the Hazelcast cluster together
+#      serviceLabelName:
+#      serviceLabelValue:
+# API Token to Kubernetes API; if not specified, the value is taken from the file /var/run/secrets/kubernetes.io/serviceaccount/token
+#      apiToken: /var/run/secrets/kubernetes.io/serviceaccount/token
+  metrics:
+    type: embedded
+    tracker:
+      enabled: false
+      cacheTime: 60000
+      databaseTime: 120000
+      # change the below value to configure the data retention period of metrics(in days)
+      dataRetentionPeriod: 15
+    scheduler:
+      enabled: false
+      jobTime: 180000
+  vendor:
+    type: OIDC
+  cognito:
+    enableAWSCognitoAuth: false
+    clientId: "63r5id4m4kisa123"
+    appWebDomain: "mobius.auth.us-east-1.amazoncognito.com"
+    tokenScopesArray:
+      - "openid"
+      - "profile"
+      - "http://asgportal/api.fullaccess"
+    redirectUriSignIn: "https://localhost:8080/mobius"
+    redirectUriSignOut: "https://login.microsoftonline.com/common/oauth2/v2.0/logout"
+    identityProvider: "admin"
+    userPoolId: "Pool Id"
+    advancedSecurityDataCollectionFlag: "false"
+  authorization:
+    type: restserver
+    username: mobiusadmin
+    enabled: true
+    group: true
+    tenant: _
+    registerTenant: true
+    assignAdministrator: true
+  security:
+    #basicauth:
+    #  username: "admin"
+    #  password: "admin"
+    #  groups: "mobiusadmin"
+    enabled: true
+#    The defaultTenant will be picked when uncommented. The enabled flag is considered for defaultTenant.
+#    defaultTenant: ""
+    urlPatterns: "/rest/*,/adminrest/*,/directconnect/*,/cmis/*"
+    openidConnect:
+      server:
+        enabled: false
+      validate: false
+      whitelistIssuers: 
+        - "*"                                                                                                                                                             
+      inbound: true
+      outbound: true
+      urlPatterns: "/rest/*,/adminrest/*,/directconnect/*,/cmis/*"
+      idpProvider: external
+      claimsMapping:
+        username: "subname"
+        groups: "roles"
+      identityService:
+        enabled: false
+        profile: "http://identity-asg-identity-service.shared/api/Users/profile"
+        groups: "http://identity-asg-identity-service.shared/api/Users/groups"
+      client:
+        jwkUrl: "http://auth.host.com:8080/auth/realms/myrealm/protocol/openid-connect/certs"
+    openidConnectTwo:
+      enabled: false
+      type: "identity"
+      validate: true
+      iamGroups: true
+      outbound: true
+      client:
+        jwkbase: "http://asg-idp-service:8080/auth/realms"
+      mapping:
+        username: "preferred_username"
+        userid:  "zenith-user-id"
+        tenantname: "zenith-tenant-code"
+        tenantid: "zenith-tenant-id"
+        groups: "groups"
+      serviceTokenSettings:
+        oidcConfig:
+          serviceTokenUrl: "http://asg-idp-service:8080/auth/realms/master/protocol/openid-connect/token"
+          tenantCode: "_"
+          serviceTokens:
+            - name: "mobiusview"
+              clientId: "zenith-mobius-view-s2s"
+              clientSecret: "<client_secret>"
+              scopes: ["authorization.registration.application"]
+          generateTokens:
+            - urlPatterns: ["/authorization/*"]
+              name: "mobiusview"
+    oidc:
+      npm:
+        oidcconfig:
+          issuer: "http://asg-idp-service:8080/auth/realms/master"
+          redirecturi: ""
+          clientid: ""
+          responsetype: "code"
+          scope: "openid profile email zenith-api"
+          logouturl: "http://asg-idp-service:8080/auth/realms/master/protocol/openid-connect/logout"
+          keycloak: true
+
+logging:
+    pattern:
+      console: "%d %-5level %logger : %msg%n"
+      file: "%d{yyyy-MM-dd HH:mm:ss,SSS}  %-5level [%thread] - (%logger{36}) - %msg%n"
+    level:
+      org:
+        springframework: ERROR
+        hibernate: ERROR
+        glassfish: ERROR
+spring:
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            metrics:
+              uri: http://localhost:9500
+            asgdirservice:
+              uri: http://asg-directory-service:8080
+            authorization:
+              uri: http://asg-authorization-common:8080
+
+matomo:
+    enabled: false
+
+initRepository:
+  enabled: false
+  host: "localhost"
+  port: "8080"
+  documentServer: "vdrnetds"
+  defaultSSOKey: "ADASDFASDFXGGEG25585"
+  logLevel: "ERROR"
+  java:
+    opts: ""
+#Define mobius server admin credentials
+  mobius:
+    server:
+      user: "ADMIN"
+      #password: 

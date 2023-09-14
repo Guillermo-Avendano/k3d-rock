@@ -1,0 +1,174 @@
+# Default values for eventanalytics.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#replicaCount is the number of replicas required for this service
+replicaCount: 1
+#namespace is the place for the service to run
+namespace: dev
+
+
+image:
+  #repository is the docker registory to pull docker images
+  repository: registry.asg.com/eventanalytics
+  #tag is the docker image tag(it may be latest or any version)
+  tag: 1.3.8
+  #pullPolicy is the policy to pull images
+  pullPolicy: IfNotPresent
+  #pullSecret is the authentication based image pull from registry
+  pullSecret: dockerlocal
+
+#nameOverride is the name of the service to publish with
+nameOverride: ""
+#fullnameOverride is the full name of the service to publish with
+fullnameOverride: ""
+
+service:
+  #name is the name of the port
+  type: ClusterIP
+  #name is the name of the port
+  port: 8500
+
+ports:
+  #name is the name of the port
+  name: http
+  #containerPort is the port where container should run
+  containerPort: 8500
+  #targetPort is the port where the service points to
+  targetPort: 8500
+  #protocol is the name of the protocol
+  protocol: TCP
+
+datasource:
+  #url is the db endpoint with port number and schema name where the database connectivity will be established
+  url: jdbc:postgresql://postgres-postgresql:5432/mobius_tenant1
+  #username is the admin account for the Database, used when creating new DB schemas
+  username: mobius_tenant1
+  #password is the admin account password for the Database, used when creating new DB schemas
+  password: mobius_123
+  #driverClassName is the database drive class name
+  driverClassName: org.postgresql.Driver
+  hikari:
+    autoCommit: false
+
+
+livenessProbe:
+  #enabled is the flag to indicate whether liveness probe check is required or not
+  enabled: false
+  #path is the http path that will be used to perform the liveness check, the port defined as the containerPort will be
+  #used in the request.
+  path: "/actuator/health"
+  #header is the header to be passed along with the http request.
+  header:
+    name: "Accept"
+    value: "application/json"
+  #initialDelaySeconds is the number of seconds delayed for liveness probes to get initiated
+  initialDelaySeconds: 45
+  #periodSeconds is the measure of frequency to perform the liveness probe
+  periodSeconds: 10
+  #timeoutSeconds is the number of seconds after which the liveness probe times out
+  timeoutSeconds: 8
+
+readinessProbe:
+  #enabled is the flag to indicate whether readiness probe check is required or not
+  enabled: false
+  #path is the http path that will be used to perform the readiness check, the port defined as the containerPort will be
+  #used in the request.
+  path: "/actuator/health"
+  # header is the header to be passed along with the http request.
+  header:
+    name: "Accept"
+    value: "application/json"
+  #initialDelaySeconds is the number of seconds delayed for readiness probes to get initiated
+  initialDelaySeconds: 45
+  #periodSeconds is the measure of frequency to perform the Readiness probe
+  periodSeconds: 10
+  #timeoutSeconds is the number of seconds after which the Readiness probe times out
+  timeoutSeconds: 8
+
+#Placeholder to add env variables . Add any required value in below format in 
+#your values.yml file
+#extraEnv: { VARIABLENAME1: VARIABLEVALUE1 , VARIABLENAME2: VARIABLEVALUE2 }
+extraEnv: {}
+
+asg:
+  eventanalytics:
+    kafka:
+      topic: "audit"
+      groupId: "event-analytics-group"
+        
+      # Enable the keystore section if  mutual TLS  is used between broker
+      # and eventanalytics and there is a need to supply custom keystore.
+      # A secret need to be created with below required details and applied
+      # to the cluster.
+      # The secretName is name of secret contains keystore details like
+      # the keystore content, keystore password and key password. 
+      # Create a secret with three key items -  keystorePassword,keyPassword
+      # and name of the keystore file like eventanalytics.keystore.p12. The   
+      # values of the key are keystore password, key password and contents of 
+      # keystore.
+      # All values must be base 64 encoded . 
+      # For example, the data section of the secret looks like
+         #keystorePassword: Y2hhbmdlaXQK
+         #keyPassword: Y2hhbmdlaXQK
+         #eventanalytics.keystore.p12: MIIQEQIBAzCCD8oGCSqGSIb3DQEH== 
+         
+      #keystore:
+        #secretName: eventanalytics-keystore-secret
+        #name: eventanalytics.keystore.p12
+     
+      # Enable the truststore section if you  TLS / mTLS  is used between    
+      # broker and eventanalytics and there is a need to supply custom 
+      # trusted certificate.
+      # A secret need to be created with below required details and applied
+      # to the cluster.
+      # The secretName is name of secret contains truststore details like
+      # the trusted certificate content. 
+      # Create a secret with one key item - 
+      # name of the trusted certificate file like RootCA.crt. The value of 
+      # the key is content of trusted certificate.
+      # All values must be base 64 encoded . 
+      # For example, the datasection of the secret looks like
+      #      RootCA.crt: ASDDFIBAzCCD8oGCSqGSIb3DQEH== 
+      
+      #truststore:
+        #secretName: eventanalytics-truststore-secret
+        #certificateName: RootCA.crt
+
+spring:
+  kafka: 
+    security:
+      protocol: PLAINTEXT
+    bootstrap:
+      servers: broker:29092
+    consumer:
+      auto:
+        offset:
+          reset: earliest
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+## specify additional volumes to mount in the container, this can be used
+## to specify additional storage of material or to inject files from ConfigMaps
+## into the running container
+additionalVolumes: []
+
+## specify where the additional volumes are mounted in the container
+additionalVolumeMounts: []

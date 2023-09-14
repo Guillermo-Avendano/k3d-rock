@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: install-mobius-remote-cli
+spec:
+  template:
+    spec:
+     containers:
+      - name: install-mobius-remote-cli
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args:
+        - curl -k -o /inbox/MobiusRemoteCLI.tar https://myshare.rocketsoftware.com/myshare/d/PqgkLvj51 
+        - curl -k -o /inbox/setup.sh https://myshare.rocketsoftware.com/myshare/d/y3gz27g56 
+        - chmod +x /inbox/setup.sh
+        - /inbox/setup.sh
+        volumeMounts:
+        - mountPath: "/inbox"
+          name: "ifw-inbox-claim" 
+        - mountPath: "/volume"
+          name: "ifw-volume-claim"                     
+     restartPolicy: Never
+     volumes:
+     - name: "ifw-inbox-claim"
+       persistentVolumeClaim:
+         claimName: "ifw-inbox-claim"  
+     - name: "ifw-volume-claim"
+       persistentVolumeClaim:
+         claimName: "ifw-volume-claim"                  
+  backoffLimit: 4

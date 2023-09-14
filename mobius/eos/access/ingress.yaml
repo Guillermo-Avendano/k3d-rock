@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eosaccess
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: eosaccess.local.net
+    http:
+      paths:
+      - path: /eos-access
+        pathType: Prefix
+        backend:
+          service:
+            name: eosaccess 
+            port:
+              number: 8080
+      - path: /wsEOS
+        pathType: Prefix
+        backend:
+          service:
+            name: eosaccess 
+            port:
+              number: 8080

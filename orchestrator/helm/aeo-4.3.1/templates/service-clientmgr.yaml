@@ -1,0 +1,18 @@
+{{- if .Values.scheduler.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.clientmgr.name }} 
+  name: {{ .Values.clientmgr.name }} 
+spec:
+  ports:
+  - name: "aeo-web"
+    port: 7980
+    targetPort: 7980
+  - name: "7911"
+    port: 7911
+    targetPort: 7911  
+  selector:
+    app: {{ .Values.clientmgr.name }} 
+{{- end }}

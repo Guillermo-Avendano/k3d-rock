@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  eosopenserver-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  eosopenserver-demo
+  template:
+    metadata:
+      labels:
+        app:  eosopenserver-demo
+    spec: 
+      containers:
+      - name: eosopenserver-demo
+        image: registry.rocketsoftware.com/eosopenserver-demo:1.0
+        imagePullPolicy: IfNotPresent      
+        ports:
+        - containerPort: 36000         
+#        volumeMounts:
+#        - mountPath: /home/rsduser/rsdbase
+#          name: pvc-rsdbase
+#      volumes:
+#        - name: pvc-rsdbase
+#          persistentVolumeClaim:
+#            claimName: pvc-rsdbase   

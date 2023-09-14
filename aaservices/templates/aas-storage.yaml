@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aas-log-vol
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/c/Rocket.Git/rocket/pv_cluster/aas-log"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aas-log-vol-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aas-shared
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/c/Rocket.Git/rocket/pv_cluster/aas-shared"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aas-shared-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

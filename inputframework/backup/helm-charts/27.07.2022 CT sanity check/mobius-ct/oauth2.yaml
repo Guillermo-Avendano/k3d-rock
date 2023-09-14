@@ -1,0 +1,35 @@
+image:
+  repository: 542390421023.dkr.ecr.eu-central-1.amazonaws.com/raitt-tef-dm-test-ecr
+  tag: oauth7.3
+
+extraArgs:
+  provider: oidc
+  set-xauthrequest: false
+  provider-display-name: Login
+  client-id: mobius-oauth2-client
+  client-secret: Dhey@kjsh$16bG
+  redirect-url: "https://dm-mobius-ct.high.raitcs01-test.aws.de.pri.o2.com/oauth2/callback"
+  login-url: "https://eiam.high.raitcs01-test.aws.de.pri.o2.com/eiam/oauth2/realms/root/realms/workforce/authorize"
+  redeem-url: "https://eiam.high.raitcs01-test.aws.de.pri.o2.com/eiam/oauth2/realms/root/realms/workforce/access_token"
+  validate-url: "https://eiam.high.raitcs01-test.aws.de.pri.o2.com/eiam/oauth2/realms/root/realms/workforce/connect/jwk_uri"
+  oidc-jwks-url: "https://eiam.high.raitcs01-test.aws.de.pri.o2.com/eiam/oauth2/realms/root/realms/workforce/connect/jwk_uri"
+  cookie-secure: "false"
+  email-domain: "*"
+  #cookie-domain: "mobidanannaga2v.mobid.dev.asgint.loc"
+  #cookie-samesite: "none"
+  cookie-secret: "somerandomstring12341234567890AB"
+  set-authorization-header: "true"
+  standard-logging: "true"
+  auth-logging: "true"
+  request-logging: "true"
+  skip-oidc-discovery: "true"
+  skip-provider-button: "true"
+  #keycloak-group: "groups"
+  insecure-oidc-allow-unverified-email: "true"
+  whitelist-domain: "eiam.high.raitcs01-test.aws.de.pri.o2.com"
+  ssl-insecure-skip-verify: "true"
+  insecure-oidc-allow-unverified-email: "true"
+  insecure-oidc-skip-issuer-verification: "true"
+  scope: "openid roles"
+  oidc-email-claim: "sub"
+  oidc-issuer-url: "https://eiam.high.raitcs01-test.aws.de.pri.o2.com/eiam/oauth2/realms/root/realms/workforce"

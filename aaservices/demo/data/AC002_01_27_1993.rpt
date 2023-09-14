@@ -1,0 +1,51 @@
+01/27/93                                                                                                    PAGE    1
+     REPORT ID: AC002                                      GASTOS MENSUALES
+    DEPARTMENT: SALE   SALES
+        REGION: EA     EASTERN
+        OFFICE: NWK    NEWARK, NEW JERSEY
+
+ACCT   ACCT                              PLANNED       ACTUAL       VARIANCE      PLANNED        ACTUAL       VARIANCE
+CODE   DESCRIPTION                         MTD          MTD            MTD           YTD           YTD           YTD
+------ ------------------------------   ---------     ---------     ---------     ---------     ---------     ---------
+805001 ADMINISTRATIVOS                      1,479             0         1,158        14,279        25,857        11,578
+
+810001 PUBLICIDAD                             984             0           770         9,499        17,202         7,702
+
+812501 LIBROS Y SUBSCRIOCOINES                 14             0            11           135           245           110
+
+820001 PROCESAMIENTO DE DATOS               1,291             0         1,010        12,456        22,556        10,100
+
+830001 ELECTRICIDAD                         1,840             0         1,440        17,762        32,164        14,402
+
+835000 BENEFOCIOS EMPLEADOS                 1,840             0         1,440        17,762        32,164        14,402
+
+840001 ALQUIER DE EQUIPAMIENTO                951             0           744         9,182        16,627         7,445
+
+845001 COMIDA, VIAJES Y HOTELES               497             0           389         4,800         8,691         3,892
+
+860001 SUMINISTROS PARA OFICINA                23             0            18           226           410           184
+
+865001 CORREO, FLETES , ETC.                  699             0           547         6,749        12,221         5,472
+
+870001 IMPRESIONES                             46             0            36           446           808           362
+
+875001 SERVIOS PROFESIONALES                   39             0            31           377           683           306
+
+880001 PROMOCIONES                             75             0            59           724         1,311           587
+
+890001 REPRODUCTION                           115             0            90         1,112         2,014           902
+
+895001 SALARIOS Y GASTOS RELACIONADOS         500             0           392         4,831         8,748         3,917
+
+900001 LAVANDERIA                              63             0            50           613         1,110           497
+
+905001 SUBCONTRACTADOS                        247             0           194         2,389         4,326         1,937
+
+935001 CELULARES E INTERNET                   477             1           374         4,609         8,346         3,737
+
+980001 ALQUILERES                             607        21,999           475         5,854        10,601         4,747
+
+
+
+                                        ---------     ---------     ---------     ---------     ---------     ---------
+         TOT. OFICINA:                     11,791        21,999         9,228       113,806       206,081        92,275

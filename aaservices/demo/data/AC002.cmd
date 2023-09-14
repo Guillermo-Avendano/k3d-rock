@@ -1,0 +1,3 @@
+C:
+CD \Program Files\ASG\ViewDirect-ABS
+ABSCMD AC002_Balance C:\DATA\AC002_POLICY.PLC C:\DATA\%1 -U "ADMIN" -P ""

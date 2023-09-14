@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aas-log-vol
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "<PV_PATH_aas_log_vol_claim>"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <PV_aas_log_vol_claim>
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aas-shared
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "<PV_PATH_aas_shared_claim>"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <PV_aas_shared_claim>
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

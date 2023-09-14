@@ -1,0 +1,1 @@
+java -cp "." -jar -Dspring.profiles.active=demo ../JobExecutorCLI/aas-cli-11.1.2.jar -jobName XMLImport -user admin -password admin -file /opt/tomcat/logs/AC002_Balance_Full.xml  -loadtype BOTH -importfromolderthan9 true

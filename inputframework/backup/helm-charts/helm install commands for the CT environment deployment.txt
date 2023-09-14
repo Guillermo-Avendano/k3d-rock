@@ -1,0 +1,35 @@
+The helm charts are located in the following directory:
+
+/home/ec2-user/mobius-ct
+
+drwxr-x---. 2 ec2-user ec2-user   276 Feb 22 14:06 Infrastructure
+drwxr-x---. 3 ec2-user ec2-user    77 Feb 22 14:06 inputframework
+drwxr-x---. 3 ec2-user ec2-user    77 Feb 22 14:06 mobiusexplorer
+drwxr-x---. 4 ec2-user ec2-user   145 Feb 22 14:06 mobius-server
+drwxr-x---. 4 ec2-user ec2-user   114 Feb 22 14:06 mobiusview
+-rw-r-----. 1 ec2-user ec2-user  2266 Feb 22 14:03 values-inputframework.yaml
+-rw-r-----. 1 ec2-user ec2-user  2937 Feb 22 14:03 values-mobiusexplorer.yaml
+-rw-r-----. 1 ec2-user ec2-user 10857 Feb 25 09:39 values-mobius-server.yaml
+-rw-r-----. 1 ec2-user ec2-user 15010 Feb 25 09:38 values-mobiusview.yaml
+
+---------------------------------------------------------------------------------------------------------
+
+helm install -f values-mobius-server.yaml mobius-server ./mobius-server -n mobius-ct
+
+helm install -f values-mobiusview.yaml mobiusview ./mobiusview -n mobius-ct
+
+helm install -f values-inputframework.yaml inputframework ./inputframework -n mobius-ct
+
+helm install -f values-mobiusexplorer.yaml mobiusexplorer ./mobiusexplorer -n mobius-ct
+
+---------------------------------------------------------------------------------------------------------
+
+
+kubectl get po -n mobius-ct
+
+---------------------------------------------------------------------------------------------------------
+
+URLs:
+=====
+
+Mobius Administrator:		https://dm-mobius.low.raitcs01-dev.aws.de.pri.o2.com/mobius/admin/

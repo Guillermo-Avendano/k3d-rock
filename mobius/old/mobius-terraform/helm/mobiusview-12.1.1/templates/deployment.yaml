@@ -1,0 +1,646 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mobiusview.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "mobiusview.name" . }}
+    helm.sh/chart: {{ include "mobiusview.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mobiusview.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "mobiusview.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        {{- if .Values.image.pullSecret }}
+        - name: {{ .Values.image.pullSecret }}
+        {{- end }}
+      volumes:        
+        {{- if hasKey .Values.asg.audit.kafka "keystore" }}        
+        - name: audit-keystore
+          secret:
+            secretName: {{ .Values.asg.audit.kafka.keystore.secretName}}
+            items:
+            - key: {{ .Values.asg.audit.kafka.keystore.name}}
+              path: {{ .Values.asg.audit.kafka.keystore.name}}
+        {{- end }}
+        {{- if hasKey .Values.asg.audit.kafka "truststore" }}        
+        - name: audit-truststore-cert
+          secret:
+            secretName: {{ .Values.asg.audit.kafka.truststore.secretName}}
+            items:
+            - key: {{ .Values.asg.audit.kafka.truststore.certificateName}}
+              path: {{ .Values.asg.audit.kafka.truststore.certificateName}}      
+        {{- end }}                
+        - name: mobius-pv-storage
+          {{- if .Values.master.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.master.persistence.claimName }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: mobius-view-diagnostics
+          {{- if .Values.master.mobiusViewDiagnostics.persistentVolume.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.master.mobiusViewDiagnostics.persistentVolume.claimName }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: mobius-pv-presentation-images
+          {{- if .Values.master.presentations.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.master.presentations.persistence.claimName }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if .Values.additionalVolumes -}}
+        {{- toYaml .Values.additionalVolumes | nindent 8 }}
+        {{- end }}
+      {{- if .Values.dependson }}
+      initContainers:
+        {{- if .Values.dependson }}
+        - name: dependency-wait
+          image: centos:7
+          command: ['bash', '-c', '
+            IFS=",";
+            read -ra URLS <<< {{.Values.dependson}};
+            for uri in "${URLS[@]}";
+            do
+              echo "Processing $uri";
+              HTTP_CODE=$(curl --write-out "%{http_code}\n" "${uri}" --output output.txt --silent);
+              while [[ "$HTTP_CODE" != "200" ]];
+              do
+                HTTP_CODE=$(curl --write-out "%{http_code}\n" "${uri}" --output output.txt --silent);
+                sleep 5;
+              done;
+              echo "${uri} is up";
+            done;
+            echo "all dependencies are up";
+        ']
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+         {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+              httpGet:
+                path: {{ .Values.livenessProbe.path }}
+                port: {{ .Values.ports.containerPort }}
+                httpHeaders:
+                - name: {{ .Values.livenessProbe.header.name }}
+                  value: {{ .Values.livenessProbe.header.value }}
+              initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+              periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+              timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+              failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- end }}
+         {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.ports.containerPort }}
+              httpHeaders:
+              - name: {{ .Values.readinessProbe.header.name }}
+                value: {{ .Values.readinessProbe.header.value }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
+          {{- if (eq .Values.initRepository.enabled true) }}
+          command:
+          - /bin/sh
+          - -c
+          - /opt/tomcat/bin/init-repository.sh 2>&1 ; tail -f /dev/null
+          {{- end }}
+          env:
+          {{- if (eq .Values.initRepository.enabled true) }}
+          - name: MOBIUS_LICENSE
+            valueFrom:
+              secretKeyRef:
+                name: mobius-license
+                key: license
+          - name: MOBIUS_HOST
+            value: '{{ .Values.initRepository.host  }}'
+          - name: MOBIUS_INIT_REPOSITORY
+            value: "true"
+          - name: MOBIUS_PORT
+            value: '{{ .Values.initRepository.port }}'
+          - name: LOG_LEVEL
+            value: '{{ .Values.initRepository.logLevel }}'
+          - name: MOBIUS_DOC_SERVER_NAME
+            value: '{{ .Values.initRepository.documentServer }}'
+        {{- if .Values.initRepository.mobius.server.user }}
+          - name: MOBIUS_SERVER_ADMIN_USER
+            value: '{{ .Values.initRepository.mobius.server.user }}'
+        {{- end}}
+        {{- if .Values.initRepository.mobius.server.password}}
+          - name: MOBIUS_SERVER_ADMIN_PASSWORD
+            value: '{{ .Values.initRepository.mobius.server.password }}'
+        {{- end}}
+          - name: DEFAULT_SSO_KEY
+            value: '{{ .Values.initRepository.defaultSSOKey }}'
+          {{- end }}
+
+          {{- if hasKey .Values.asg "clustering" }}
+            {{- with .Values.asg.clustering }}
+              {{- if .kubernetes.enabled }}
+          - name: ASG_CLUSTERING_PORT
+            value: '{{ .port }}'
+          - name: ASG_CLUSTERING_KUBERNETES_ENABLED
+            value: '{{ .kubernetes.enabled }}'
+                {{- if hasKey .kubernetes "kubernetesMaster" }}
+          - name: ASG_CLUSTERING_KUBERNETES_KUBERNETESMASTER
+            value: '{{ .kubernetes.kubernetesMaster }}'
+                {{- end }}
+                {{- if hasKey .kubernetes "resolveNotReadyAddressed" }}
+          - name: ASG_CLUSTERING_KUBERNETES_RESOLVENOTREADYADDRESSED
+            value: '{{ .kubernetes.resolveNotReadyAddressed }}'
+                {{- end }}
+                {{- if hasKey .kubernetes "namespace" }}
+          - name: ASG_CLUSTERING_KUBERNETES_NAMESPACE
+            value: '{{ .kubernetes.namespace }}'
+                {{- end }}
+                {{- if hasKey .kubernetes "serviceName" }}
+          - name: ASG_CLUSTERING_KUBERNETES_SERVICENAME
+            value: '{{ .kubernetes.serviceName }}'
+                {{- end }}
+                {{- if hasKey .kubernetes "serviceLabelName" }}
+          - name: ASG_CLUSTERING_KUBERNETES_SERVICELABELNAME
+            value: '{{ .kubernetes.serviceLabelName }}'
+                {{- end }}
+                {{- if hasKey .kubernetes "serviceLabelValue" }}
+          - name: ASG_CLUSTERING_KUBERNETES_SERVICELABELVALUE
+            value: '{{ .kubernetes.serviceLabelValue }}'
+                {{- end }}
+                {{- if hasKey .kubernetes "apiToken" }}
+          - name: ASG_CLUSTERING_KUBERNETES_APITOKEN
+            value: '{{ .kubernetes.apiToken }}'
+                {{- end }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          - name: allowForwardedUri
+            value: '{{ .Values.allowForwardedUri }}'
+          - name: CURR_POD_UID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.uid
+          - name: MOBIUS_VIEW_EXTERNAL_SHARED_DIRECTORY
+            value: "/nfs/mobius_view_cluster"
+          {{- if .Values.datasource.databaseConnectivitySecretName }}
+          - name: SPRING_DATASOURCE_URL
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.datasource.databaseConnectivitySecretName }}
+                key: {{ .Values.datasource.databaseUrlSecretValue }}
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.datasource.databaseConnectivitySecretName }}
+                key: {{ .Values.datasource.databaseUsernameSecretValue }}
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.datasource.databaseConnectivitySecretName }}
+                key: {{ .Values.datasource.databasePasswordSecretValue }}
+          {{- else }}
+          - name: SPRING_DATASOURCE_URL
+            value: '{{ .Values.datasource.url }}'
+          - name: SPRING_DATASOURCE_USERNAME
+            value: '{{ .Values.datasource.username }}'
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: '{{ .Values.datasource.password }}'
+          {{- end }}
+          - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+            value: '{{ .Values.datasource.driverClassName }}'
+          - name: SPRING_DATASOURCE_HIKARI_AUTO_COMMIT
+            value: '{{ .Values.datasource.hikari.autoCommit }}'
+          - name: SPRING_JPA_DATABASE_PLATFORM
+            value: '{{ .Values.jpa.databasePlatform }}'
+          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+            value: '{{ .Values.jpa.hibernate.ddlAuto }}'
+        {{- if hasKey .Values.spring "kafka" }}
+          - name: ASG_AUDIT_KAFKA_TOPIC
+            value: '{{ .Values.asg.audit.kafka.topic }}'
+          - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+            value: '{{ .Values.spring.kafka.bootstrap.servers }}'
+          - name: SPRING_KAFKA_PRODUCER_ACKS
+            value: '{{ .Values.spring.kafka.producer.acks }}'
+          - name: SPRING_KAFKA_PRODUCER_PROPERTIES_ENABLE_IDEMPOTENCE
+            value: '{{ .Values.spring.kafka.producer.properties.enable.idempotence }}'
+          - name: SPRING_KAFKA_SECURITY_PROTOCOL
+            value: '{{ .Values.spring.kafka.security.protocol }}'            
+        {{- if hasKey .Values.asg.audit.kafka "keystore" }}     
+          - name: SPRING_KAFKA_SSL_KEY_STORE_LOCATION
+            value: "file:///mnt/certificate/{{ .Values.asg.audit.kafka.keystore.name}}" 
+          - name: SPRING_KAFKA_SSL_KEY_STORE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.asg.audit.kafka.keystore.secretName}}
+                key: keystorePassword
+          - name: SPRING_KAFKA_SSL_KEY_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.asg.audit.kafka.keystore.secretName}}
+                key: keyPassword 
+        {{- end }}        
+        {{- end }}
+          - name: ASG_BOOTSTRAP_VENDOR_TYPE
+            value: '{{ .Values.asg.vendor.type }}'
+          - name: ASG_BOOTSTRAP_SEARCH_RESULTCACHE_ENABLED
+            value: '{{ .Values.asg.bootstrap.search.resultCache.enabled }}'
+          - name: ASG_BOOTSTRAP_SEARCH_RESULTCACHE_MAXSIZE
+            value: '{{ .Values.asg.bootstrap.search.resultCache.maxSize }}'
+          - name: ASG_BOOTSTRAP_SEARCH_RESULTCACHE_TIMETOLIVE
+            value: '{{ .Values.asg.bootstrap.search.resultCache.timeToLive }}'
+          - name: ASG_BOOTSTRAP_SEARCH_RESULTCACHE_IDLETIME
+            value: '{{ .Values.asg.bootstrap.search.resultCache.idleTime }}'
+          - name: ASG_EXTERNALMAPPING_TYPE
+            value: '{{ index .Values "asg" "external-mapping" "type" }}' 
+          {{- if .Values.asg.workflow}}
+          {{- if .Values.asg.workflow.processContextRoot}}
+          - name: ASG_WORKFLOW_PROCESSCONTEXTROOT
+            value: '{{.Values.asg.workflow.processContextRoot}}'
+          - name: ASG_WORKFLOW_PROCESSURLPATH
+            value: '{{ .Values.asg.workflow.processUrlPath }}'
+          - name: ASG_WORKFLOW_PROCESSINSTANCESURLPATH
+            value: '{{ .Values.asg.workflow.processInstancesUrlPath }}'
+          - name: ASG_WORKFLOW_INBOXURLPATH
+            value: '{{ .Values.asg.workflow.inboxUrlPath }}'
+          - name: ASG_WORKFLOW_PROCESSNOTIFICATIONSURLPATH
+            value: '{{ .Values.asg.workflow.processNotificationsUrlPath }}'
+          - name: ASG_WORKFLOW_INDEXUPDATEWORKFLOWPROCESSNAME
+            value: '{{ .Values.asg.workflow.indexUpdateWorkflowProcessName }}'
+          {{- end }}
+          {{- end }}
+          {{- with .Values.asg.email }}
+          - name: ASG_EMAIL_TYPE
+            value: '{{ .type }}'
+          - name: ASG_EMAIL_LINK_HOST
+            value: '{{ .link.host }}'
+          - name: ASG_EMAIL_SMTPCONFIG_FROMADDRESS
+            value: '{{ .smtpconfig.fromAddress }}'
+          - name: ASG_EMAIL_SMTPCONFIG_FROMADDRESSREADONLY
+            value: '{{ .smtpconfig.fromAddressReadOnly }}'
+          - name: ASG_EMAIL_SMTPCONFIG_REPLYTOADDRESS
+            value: '{{ .smtpconfig.replyToAddress }}'
+          - name: ASG_EMAIL_SMTPCONFIG_REPLYTOADDRESSREADONLY
+            value: '{{ .smtpconfig.replyToAddressReadonly }}'
+          - name: ASG_EMAIL_SMTPCONFIG_LINKTEXT
+            value: '{{ .smtpconfig.linkText }}'
+          - name: ASG_EMAIL_SMTPCONFIG_SMTPADDRESS
+            value: '{{ .smtpconfig.smtpAddress }}'
+          - name: ASG_EMAIL_SMTPCONFIG_SMTPPORT
+            value: '{{ .smtpconfig.smtpPort }}'
+          - name: ASG_EMAIL_SMTPCONFIG_SMTPPROTOCOL
+            value: '{{ .smtpconfig.smtpProtocol }}'
+          - name: ASG_EMAIL_SMTPCONFIG_SMTPAUTHENTICATIONREQUIRED
+            value: '{{ .smtpconfig.smtpAuthenticationRequired }}'
+          - name: ASG_EMAIL_SMTPCONFIG_SMTPUSER
+            value: '{{ .smtpconfig.smtpUser }}'
+          - name: ASG_EMAIL_SMTPCONFIG_SMTPPASSWD
+            value: '{{ .smtpconfig.smtpPasswd }}'
+          - name: ASG_EMAIL_SMTPCONFIG_AUTOGENERATEEMAIL
+            value: '{{ .smtpconfig.autoGenerateEmail }}'
+          - name: ASG_EMAIL_SMTPCONFIG_EMAILDOMAINADDRESS
+            value: '{{ .smtpconfig.emailDomainAddress }}'
+          - name: ASG_EMAIL_SMTPCONFIG_COPYSMTPCONFIGFROMGLOBAL
+            value: '{{ .smtpconfig.copySmtpConfigFromGlobal }}'
+          {{- end }}
+          - name: SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_AUDITS_0_URI
+            value: '{{ .Values.spring.cloud.discovery.client.simple.instances.audit.uri }}'
+          {{- if hasKey .Values.spring.cloud.discovery.client.simple.instances.authorization "uri" }}
+          - name: SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_AUTHORIZATION_0_URI
+            value: '{{ .Values.spring.cloud.discovery.client.simple.instances.authorization.uri }}'
+          {{- end }}
+          {{- if hasKey .Values.spring.cloud.discovery.client.simple.instances.asgdirservice "uri" }}
+          - name: SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_ASGDIRSERVICE_0_URI
+            value: '{{ .Values.spring.cloud.discovery.client.simple.instances.asgdirservice.uri }}'
+          {{- end }}
+          {{- if hasKey .Values.spring.cloud.discovery.client.simple.instances.metrics "uri" }}
+          - name: SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_METRICS_0_URI
+            value: '{{ .Values.spring.cloud.discovery.client.simple.instances.metrics.uri }}'
+          {{- end }}
+          {{- if hasKey .Values.asg.bootstrap "mobiusAdministratorUser" }}
+          - name: ASG_BOOTSTRAP_MOBIUSADMINISTRATORS_0_USER
+            value: '{{ .Values.asg.bootstrap.mobiusAdministratorUser }}'
+          {{- else if hasKey .Values.asg.bootstrap "mobiusAdministratorUsers" }}
+            {{- range $i, $value := .Values.asg.bootstrap.mobiusAdministratorUsers }}
+          - name: ASG_BOOTSTRAP_MOBIUSADMINISTRATORS_{{$i}}_USER
+            value: {{ $value | squote}}
+            {{- end }}
+          {{- end }}
+          {{- if hasKey .Values.asg.bootstrap "mobiusAdministratorGroups" }}
+          - name: ASG_BOOTSTRAP_AUTHORIZED_MOBIUS_VIEW_ADMINISTRATOR_GROUPS
+            value: '{{ .Values.asg.bootstrap.mobiusAdministratorGroups }}'
+          {{- end }}
+          {{- if hasKey .Values.asg.security "basicauth" }}
+          - name: ASG_SECURITY_BASICAUTH_USERS_0_USERNAME
+            value: '{{ .Values.asg.security.basicauth.username }}'
+          - name: ASG_SECURITY_BASICAUTH_USERS_0_PASSWORD
+            value: '{{ .Values.asg.security.basicauth.password}}'
+          - name: ASG_SECURITY_BASICAUTH_USERS_0_GROUPS
+            value: '{{ .Values.asg.security.basicauth.groups}}'
+          {{- end }}
+          {{- with .Values.asg.metrics }}
+          - name: ASG_METRICS_TRACKER_ENABLED
+            value: '{{ .tracker.enabled }}'
+          - name: ASG_METRICS_TRACKER_CACHETIME
+            value: '{{ .tracker.cacheTime }}'
+          - name: ASG_METRICS_TRACKER_DATABASETIME
+            value: '{{ .tracker.databaseTime }}'
+          - name: ASG_METRICS_TRACKER_DATARETENTIONPERIOD
+            value: '{{ .tracker.dataRetentionPeriod }}'
+          - name: ASG_METRICS_SCHEDULER_ENABLED
+            value: '{{ .scheduler.enabled }}'
+          - name: ASG_METRICS_SCHEDULER_JOBTIME
+            value: '{{ .scheduler.jobTime }}'
+          - name: ASG_METRICS_TYPE
+            value: '{{ .type }}'
+          {{- end }}
+          {{- with .Values.logging }}
+          - name: LOGGING_PATTERN_CONSOLE
+            value: '{{ .pattern.console }}'
+          - name: LOGGING_PATTERN_FILE
+            value: '{{ .pattern.file }}'
+          - name: LOGGING_LEVEL_ORG.SPRINGFRAMEWORK
+            value: '{{ .level.org.springframework }}'
+          - name: LOGGING_LEVEL_ORG.HIBERNATE
+            value: '{{ .level.org.hibernate }}'
+          - name: LOGGING_LEVEL_ORG.GLASSFISH
+            value: '{{ .level.org.glassfish }}'
+          {{- end }}
+          {{- with .Values.asg.authorization }}
+          - name: ASG_AUTHORIZATION_TYPE
+            value: '{{ .type }}'
+          {{- if .enabled }}
+          - name: ASG_AUTHORIZATION_ENABLED
+            value: '{{ .enabled }}'
+          - name: ASG_AUTHORIZATION_USERNAME
+            value: '{{ .username }}'
+          - name: ASG_AUTHORIZATION_TENANTNAME
+            value: '{{ .tenant }}'
+          - name: ASG_AUTHORIZATION_GROUP
+            value: '{{ .group }}'
+          - name: ASG_AUTHORIZATION_ASSIGNADMINISTRATOR
+            value: '{{ .assignAdministrator }}'
+          {{- if hasKey . "registerApplication" }}
+          - name: ASG_AUTHORIZATION_REGISTERAPPLICATION
+            value: '{{ .registerApplication }}'
+          {{- end }}
+          - name: ASG_AUTHORIZATION_REGISTERTENANT
+            value: '{{ .registerTenant }}'
+          {{- end }}
+          {{- end }}
+          {{- with .Values.asg.cognito }}
+          {{- if .enableAWSCognitoAuth }}
+          - name: ASG_COGNITO_ENABLEAWSCOGNITOAUTH
+            value: '{{ .enableAWSCognitoAuth }}'
+          - name: ASG_COGNITO_COGNITOCONFIG_CLIENTID
+            value: '{{ .clientId }}'
+          - name: ASG_COGNITO_COGNITOCONFIG_APPWEBDOMAIN
+            value: '{{ .appWebDomain }}'
+          {{- range $i, $value := .tokenScopesArray }}
+          - name: ASG_COGNITO_COGNITOCONFIG_TOKENSCOPESARRAY_{{$i}}
+            value: {{ $value | quote }}
+          {{- end }}
+          - name: ASG_COGNITO_COGNITOCONFIG_REDIRECTURISIGNIN
+            value: '{{ .redirectUriSignIn }}'
+          - name: ASG_COGNITO_COGNITOCONFIG_REDIRECTURISIGNOUT
+            value: '{{ .redirectUriSignOut }}'
+          - name: ASG_COGNITO_COGNITOCONFIG_IDENTITYPROVIDER
+            value: '{{ .identityProvider }}'
+          - name: ASG_COGNITO_COGNITOCONFIG_USERPOOLID
+            value: '{{ .userPoolId }}'
+          - name: ASG_COGNITO_COGNITOCONFIG_ADVANCEDSECURITYDATACOLLECTIONFLAG
+            value: '{{ .advancedSecurityDataCollectionFlag }}'
+          {{- end }}
+          {{- end }}
+          - name: AUTHENTICATION_TYPE
+            value: '{{ .Values.authentication.type }}'
+        {{- if eq .Values.asg.vendor.type "CUSTOM" }}
+          - name: ASG_BOOTSTRAP_VENDOR_ATTRIBUTES_USERNAME
+            value: '{{ .Values.asg.security.custom.userNameHeader }}'
+          - name: ASG_BOOTSTRAP_VENDOR_ATTRIBUTES_GROUPNAMES
+            value: '{{ .Values.asg.security.custom.groupNamesHeader }}'
+          - name: ASG_BOOTSTRAP_VENDOR_ATTRIBUTES_GROUPSEPARATOR
+            value: '{{ .Values.asg.security.custom.groupNamesSeparator }}'
+        {{ end }}
+
+      {{- if .Values.asg.security.enabled }}
+          - name: ASG_SECURITY_ENABLED
+            value: '{{ .Values.asg.security.enabled }}'
+           {{- if hasKey .Values.asg.security "defaultTenant" }}
+          - name: ASG_SECURITY_DEFAULT_TENANT
+            value: '{{ .Values.asg.security.defaultTenant }}'
+           {{- end }}
+          - name: ASG_SECURITY_URL_PATTERNS
+            value: '{{ .Values.asg.security.urlPatterns }}'
+      {{- end }}
+
+      {{- if eq .Values.asg.vendor.type "ASG" }}
+        {{- if .Values.asg.security.openidConnectTwo.enabled }}
+          {{- with .Values.asg.security }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_ENABLED
+            value: '{{ .openidConnectTwo.enabled }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_TYPE
+            value: '{{ .openidConnectTwo.type }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_VALIDATE
+            value: '{{ .openidConnectTwo.validate }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_IAMGROUPS
+            value: '{{ .openidConnectTwo.iamGroups }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_OUTBOUND
+            value: '{{ .openidConnectTwo.outbound }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_MAPPING_USERNAME
+            value: '{{ .openidConnectTwo.mapping.username }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_MAPPING_USERID
+            value: '{{ .openidConnectTwo.mapping.userid }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_MAPPING_TENANTNAME
+            value: '{{ .openidConnectTwo.mapping.tenantname }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_MAPPING_TENANTID
+            value: '{{ .openidConnectTwo.mapping.tenantid }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_MAPPING_GROUPS
+            value: '{{ .openidConnectTwo.mapping.groups }}'
+          {{- if hasKey .openidConnectTwo.client "jwkUrl" }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_CLIENT_JWKURL
+            value: '{{ .openidConnectTwo.client.jwkUrl }}'
+          {{- end }}
+
+      #Should not set any npm variables if not using npm as in the case of oauth proxy
+      {{- if (eq .oidc.npm.enabled false) }}
+          - name: ASG_SECURITY_OIDC_NPM_ENABLED
+            value: 'false'
+      {{- else }}
+          - name: ASG_SECURITY_OIDC_NPM_URLCONFIG
+            value: '{{ .oidc.npm.urlConfig }}'
+          - name: ASG_SECURITY_OIDC_NPM_OIDCCONFIG_ISSUER
+            value: '{{ .oidc.npm.oidcconfig.issuer }}'
+          - name: ASG_SECURITY_OIDC_NPM_OIDCCONFIG_REDIRECTURI
+            value: '{{ .oidc.npm.oidcconfig.redirecturi }}'
+          - name: ASG_SECURITY_OIDC_NPM_OIDCCONFIG_CLIENTID
+            value: '{{ .oidc.npm.oidcconfig.clientid }}'
+          - name: ASG_SECURITY_OIDC_NPM_OIDCCONFIG_RESPONSETYPE
+            value: '{{ .oidc.npm.oidcconfig.responsetype }}'
+          - name: ASG_SECURITY_OIDC_NPM_OIDCCONFIG_SCOPE
+            value: '{{ .oidc.npm.oidcconfig.scope }}'
+          - name: ASG_SECURITY_OIDC_NPM_OIDCCONFIG_LOGOUTURL
+            value: '{{ .oidc.npm.oidcconfig.logouturl }}'
+          - name: ASG_SECURITY_OIDC_NPM_OIDCCONFIG_KEYCLOAK
+            value: '{{ .oidc.npm.oidcconfig.keycloak }}'
+          {{- if .oidc.npm.gui }}
+          {{- if .oidc.npm.gui.fileLocations }}
+          {{- range $i, $fileLocation := .oidc.npm.gui.fileLocations }}
+          - name: ASG_SECURITY_OIDC_NPM_GUI_FILELOCATIONS_{{$i}}_URL
+            value: {{ $fileLocation.url | quote }}
+            {{- range $j, $path := $fileLocation.paths }}
+          - name: ASG_SECURITY_OIDC_NPM_GUI_FILELOCATIONS_{{$i}}_PATHS_{{$j}}
+            value: {{ $path | quote }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- if hasKey .openidConnectTwo "whitelistIssuers" }}
+            {{- range $i, $value := .openidConnectTwo.whitelistIssuers }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_WHITELISTISSUERS_{{$i}}
+            value: {{ $value | quote }}
+            {{- end }}
+          {{- end }}          
+          {{- if .openidConnectTwo.validate }}
+            {{- if hasKey .openidConnectTwo.client "jwkbase" }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_CLIENT_JWKBASE
+            value: {{ .openidConnectTwo.client.jwkbase | quote }}
+            {{- end }}
+          {{- end }}
+
+          {{- end }}
+        {{- end }}
+      {{- end }}
+
+      {{- if .Values.asg.security.openidConnectTwo.serviceTokenSettings.enabled  }}
+        {{- with .Values.asg.security.openidConnectTwo.serviceTokenSettings.oidcConfig }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENURL
+            value: '{{ .serviceTokenUrl }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_TENANTCODE
+            value: '{{ .tenantCode }}'
+
+         {{- range $i, $value := .serviceTokens }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENS_{{$i}}_NAME
+            value: {{ $value.name | quote }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENS_{{$i}}_CLIENTID
+            value: "zenith-mobius-view-s2s"
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENS_{{$i}}_CLIENTSECRET
+            valueFrom:
+              secretKeyRef:
+                name: asg-mobius-view-service-client-secret
+                key: value
+          {{- range $j, $scope := $value.scopes }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENS_{{$i}}_SCOPES_{{$j}}
+            value: {{ $scope | quote }}
+          {{- end }}
+         {{- end }}
+
+          {{- range $i, $value := .generateTokens }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_GENERATETOKENS_{{$i}}_NAME
+            value: {{ $value.name | quote }}
+            {{- range $j, $url := $value.urlPatterns }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_GENERATETOKENS_{{$i}}_URLPATTERNS_{{$j}}
+            value: {{ $url | quote }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+
+        {{- if hasKey .Values.asg "iamDirectory" }}
+          - name: ASG_IAM_DIRECTORY_ENABLED
+            value: '{{ .Values.asg.iamDirectory.enabled }}'
+        {{- end }}
+          - name: JAVA_OPTS
+            value: '{{.Values.java.opts}}'
+          - name: DEFAULT_SSO_KEY
+            value: '{{.Values.defaultSSOKey}}'
+          - name: MATOMO_ENABLE
+            value: '{{ .Values.matomo.enabled }}'
+        {{- if .Values.master.mobiusViewDiagnostics.unusedLogPurgeInMinutes }}
+          - name: MOBIUS_UNUSED_LOG_PURGE_IN_MINUTES
+            value: '{{ .Values.master.mobiusViewDiagnostics.unusedLogPurgeInMinutes }}'
+          - name: MOBIUS_LOG_DEL_JOB_INITIAL_DELAY_MS
+            value: '{{ .Values.master.mobiusViewDiagnostics.initialDelayInMs | default 43200000 }}'
+          - name: MOBIUS_LOG_DEL_JOB_FIXED_DELAY_MS
+            value: '{{ .Values.master.mobiusViewDiagnostics.fixedDelayInMs | default 3600000 }}'
+        {{- end }}
+        {{- if .Values.asg.security.jwt }}
+        {{- if .Values.asg.security.jwt.serviceTokenSettings }}
+        {{- if .Values.asg.security.jwt.serviceTokenSettings.internalConfig  }}
+        {{- if .Values.asg.security.jwt.serviceTokenSettings.internalConfig.privateKey }}
+          - name: ASG_SECURITY_JWT_SERVICETOKENSETTINGS_INTERNALCONFIG_PRIVATEKEY
+            value: '{{.Values.asg.security.jwt.serviceTokenSettings.internalConfig.privateKey}}'
+        {{- end }}
+        {{- if .Values.asg.security.jwt.serviceTokenSettings.internalConfig.publicKey }}
+          - name: ASG_SECURITY_JWT_SERVICETOKENSETTINGS_INTERNALCONFIG_PUBLICKEY
+            value: '{{.Values.asg.security.jwt.serviceTokenSettings.internalConfig.publicKey}}'
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- range $key, $value := .Values.extraEnv }}
+          - name: {{ $key }}
+            value: {{ $value }}
+        {{- end }}
+          ports:
+            - name: {{ .Values.ports.name }}
+              containerPort: {{ .Values.ports.containerPort }}
+              protocol: {{ .Values.ports.protocol }}
+          volumeMounts:          
+            {{- if hasKey .Values.asg.audit.kafka "keystore" }} 
+            - mountPath: /mnt/certificate
+              name: audit-keystore
+              readOnly: true
+            {{- end }}
+            {{- if hasKey .Values.asg.audit.kafka "truststore" }}            
+            - mountPath: /etc/pki/tls/custom
+              name: audit-truststore-cert
+              readOnly: true
+            {{- end }}          
+            - mountPath: /mnt/efs
+              name: mobius-pv-storage
+            - mountPath: /home/mobius/asg/mobius/logs
+              subPathExpr: mobius_view_cluster/$(CURR_POD_UID)
+              name: mobius-view-diagnostics
+            - mountPath: /home/mobius/asg/mobius/mobius_view_cluster
+              subPath: mobius_view_cluster
+              name: mobius-view-diagnostics
+            - mountPath: /home/mobius/asg/mobius/data/images
+              name: mobius-pv-presentation-images
+            {{- if .Values.additionalVolumeMounts -}} 
+            {{- toYaml .Values.additionalVolumeMounts | nindent 12 }} 
+            {{- end }} 
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        {{- if .Values.additionalContainers -}}
+        {{- toYaml .Values.additionalContainers | nindent 8 }}
+        {{- end }}            
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+

@@ -1,0 +1,8 @@
+apiVersion: getambassador.io/v1
+kind:  Mapping
+metadata:
+  name:  mobius
+spec:
+  prefix: /vdrws/
+  rewrite: /vdrws/
+  service: mobius:8080

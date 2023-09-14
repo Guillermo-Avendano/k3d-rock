@@ -1,0 +1,9 @@
+*.zip
+*.tar
+*.tgz
+.terraform/
+.terraform.lock.hcl
+*.bak
+*.tfstate
+*.backup
+*.hcl

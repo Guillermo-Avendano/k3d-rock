@@ -1,0 +1,22 @@
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "aeo-agent-lapubuntu"
+spec:
+  ports:
+    - name: "aeo-agent-lapubuntu"
+      protocol: "TCP"
+      port: 7913
+      targetPort: 7913 
+---
+kind: "Endpoints"
+apiVersion: "v1"
+metadata:
+  name: "lapubuntu"
+subsets: 
+  - addresses:
+      #- ip: "192.168.0.5" #The IP Address of the external server lapubuntu
+      - hostname: lat7490
+    ports:
+      - port: 7913 
+        name: "aeo-agent-lapubuntu"

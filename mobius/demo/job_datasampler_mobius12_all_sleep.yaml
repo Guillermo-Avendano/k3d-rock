@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-mobiusdatasampler-all-sleep
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: my-job-mobiusdatasampler-all
+        image: "guillermoavendano/mobiusdatasampler:12.2.0"
+        command: ["/bin/bash", "-ec", "sleep 99999999"]
+        env:
+          - name: MV_URL
+            value: "http://mobiusview:80/mobius"
+          - name: MV_REPOSITORY
+            value: "Mobius"
+          - name: MV_BASIC_AUTH_USER
+            value: "admin"
+          - name: MV_BASIC_AUTH_PASS 
+            value: "ASG_ENC(c1LpoXEIRe3h7b6TVoDfNP91rGK/9wGM)"
+        volumeMounts:
+          - mountPath: /mnt/efs
+            name:  mobius-content-classes
+      volumes:
+        - name: mobius-content-classes
+          persistentVolumeClaim: 
+            claimName: "mobius-storage-claim"

@@ -1,0 +1,39 @@
+spring:
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            aaservices:
+              - uri: http://aaservices.local.net
+logging:
+  level:
+    root: "ERROR"
+app:
+  version: 11.1.2
+job:
+  status:
+    retrieve:
+      interval: 1000
+#Change auth-type to 'basic' to configure basic authentication.
+asg:
+  #mobius:
+    #uri: "http://localhost:8080"
+  security:
+    basic-auth:
+      outbound: true
+    external:
+      headers:
+        - name: "asg-client-name"
+          value: "asg-cli"
+    auth-type: basic
+    configurations:
+      - setIn: header
+        key: Authorization
+        value: token.txt
+#To set value in Cookie
+#      - setIn: cookie
+#        key: LTPAToken
+#        value: Ltpa_token.txt
+
+

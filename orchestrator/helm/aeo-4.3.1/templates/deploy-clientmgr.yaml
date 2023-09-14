@@ -1,0 +1,72 @@
+{{- if .Values.scheduler.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  {{ .Values.clientmgr.name }} 
+spec:
+  replicas: {{ .Values.clientmgr.replicas }}  
+  selector:
+    matchLabels:
+      app:  {{ .Values.clientmgr.name }} 
+  template:
+    metadata:
+      labels:
+        app:  {{ .Values.clientmgr.name }} 
+    spec:
+      hostname:  {{ .Values.clientmgr.name }}
+      containers:
+      - name:  {{ .Values.clientmgr.name }} 
+        image: {{ .Values.clientmgr.image }}
+        imagePullPolicy: IfNotPresent        
+        ports:
+          - containerPort: 7980
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - /opt/aeo/bin/LINUX64/compstat list | grep -q "running"
+          initialDelaySeconds: 15
+          periodSeconds: 30  
+        env:
+          - name: CURR_POD_UID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.uid
+          - name: DB_DRIVER
+            value: {{ .Values.database.driver }}
+          - name: DB_TYPE
+            value: {{ .Values.database.type }}
+          - name: DB_URL
+            value: {{ .Values.database.url }}
+          - name: DB_NAME
+            value: {{ .Values.database.name }}
+          - name: DB_SERVER
+            value: {{ .Values.database.server }}
+          - name: DB_USER
+            value: {{ .Values.database.user }}
+          - name: DB_PASSWORD
+            value: {{ .Values.database.password }}
+          - name: PORT
+            value: "7980"
+        volumeMounts:
+            - mountPath: /opt/aeo/data
+              subPathExpr: cluster/$(CURR_POD_UID)
+              name: pvc-aeo-clientmgr
+            - mountPath: /opt/aeo/data/cluster
+              subPath: cluster
+              name: pvc-aeo-clientmgr         
+            - mountPath: /opt/aeo/logs
+              subPathExpr: cluster/$(CURR_POD_UID)
+              name: pvc-aeo-clientmgr-ctl-log
+            - mountPath: /opt/aeo/logs/cluster
+              subPath: cluster
+              name: pvc-aeo-clientmgr-ctl-log        
+      volumes:
+        - name: pvc-aeo-clientmgr
+          persistentVolumeClaim:
+            claimName: pvc-aeo-clientmgr
+        - name: pvc-aeo-clientmgr-ctl-log
+          persistentVolumeClaim:
+            claimName: pvc-aeo-clientmgr-ctl-log          
+{{- end }}

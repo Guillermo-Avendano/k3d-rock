@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<procedure autoDownload="false" downloadIntermediate="false" name="/DEMO/AC002_Balance" policyname="ViewDirect Report" primarydsv="ARCHIVO_INPUT" rpname="AC002_Balance" scriptPath="null" type="dsrp" uuid="185bd17f-1622998f41e-d5beb01d438a0d4745d963720cd5c213" writeToDatabase="false" zipResults="false">
+<declarations>
+<parameters>
+<!-- POLITICA AS STRING -->
+<parameter enabled="yes" name="POLITICA" type="STRING"/>
+<!-- ARCHIVO AS STRING -->
+<parameter enabled="yes" name="ARCHIVO" type="STRING"/>
+</parameters>
+<fields>
+<!-- ACT_TOTAL AS NUMERIC -->
+<field keyfield="yes" level="1" name="ACT_TOTAL" type="NUMERIC"/>
+<!-- ACT_DETAILS AS NUMERIC -->
+<field level="1" name="ACT_DETAILS" type="NUMERIC"/>
+</fields>
+<variables>
+<!-- SUM_ACT_DETAILS AS NUMERIC -->
+<variable enabled="yes" name="SUM_ACT_DETAILS" type="NUMERIC"/>
+<!-- SUM_ACT_TOTAL AS NUMERIC -->
+<variable enabled="yes" name="SUM_ACT_TOTAL" type="NUMERIC"/>
+</variables>
+<data_sources>
+<!-- ARCHIVO_INPUT AS ViewDirect Report -->
+<data_source dsdname="VP Source" enabled="yes" is_auto_download="true" is_input="false" is_output="false" name="ARCHIVO_INPUT" type="DSV">
+<definition>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;&#13;
+&lt;dataprovider name=""&gt;&#13;
+&lt;common&gt;&#13;
+&lt;fields&gt;&#13;
+&lt;field isenabled="1" iskey="0" isvisible="1" name="ACT_DETAILS" order="2" type="NUMERIC"/&gt;&#13;
+&lt;field isenabled="1" iskey="1" isvisible="1" name="ACT_TOTAL" order="1" type="NUMERIC"/&gt;&#13;
+&lt;/fields&gt;&#13;
+&lt;/common&gt;&#13;
+&lt;/dataprovider&gt;&#13;
+</definition>
+<definitionphysical>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;&#13;
+&lt;dataprovider is_auto_download="true" is_input="false" is_output="false" name="VP Source"&gt;&#13;
+&lt;specific&gt;&#13;
+&lt;policy_name&gt;C:\\DATA\\AC002_POLICY.PLC&lt;/policy_name&gt;&#13;
+&lt;policy_file&gt;C:\\DATA\\AC002_01_19_1993.rpt&lt;/policy_file&gt;&#13;
+&lt;fields&gt;&#13;
+&lt;field name="ACT_TOTAL" type="NUMERIC"/&gt;&#13;
+&lt;field name="ACT_DETAILS" type="NUMERIC"/&gt;&#13;
+&lt;/fields&gt;&#13;
+&lt;sorted&gt;false&lt;/sorted&gt;&#13;
+&lt;sorted&gt;false&lt;/sorted&gt;&#13;
+&lt;/specific&gt;&#13;
+&lt;/dataprovider&gt;&#13;
+</definitionphysical>
+<redaction>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;RedactionRules/&gt;
+</redaction>
+<definitioninfo>
+<dataprovider name="VP Source">
+<common>
+<fields>
+<field isenabled="1" iskey="0" isvisible="1" name="ACT_DETAILS" order="2" type="NUMERIC"/>
+<field isenabled="1" iskey="1" isvisible="1" name="ACT_TOTAL" order="1" type="NUMERIC"/>
+</fields>
+</common>
+</dataprovider>
+</definitioninfo>
+</data_source>
+</data_sources>
+<options>
+<!-- DATE_FORMAT  =  M/D/YYYY -->
+<option displayvalue="M/D/YYYY" name="DATE_FORMAT" value=""/>
+<!-- NUMERIC_FORMAT  =  -#,###.## -->
+<option displayvalue="-#,###.##" name="NUMERIC_FORMAT" value=""/>
+<!-- FILE_ENCODING  =  UTF-8 -->
+<option displayvalue="UTF-8" name="FILE_ENCODING" value="UTF-8"/>
+<!-- GENLEVEL  =  APPLICATION -->
+<option displayvalue="APPLICATION" name="GENLEVEL" value="APPLICATION"/>
+<!-- NO_VALUE  =  ERROR -->
+<option displayvalue="ERROR" name="NO_VALUE" value="ERROR"/>
+</options>
+</declarations>
+<cases>
+<!-- ON_START REPORT -->
+<case id="100004" name="report" type="start">
+<block>
+<!-- SUM_ACT_TOTAL = 0 -->
+<statement enabled="yes" id="13780" type="assignment">
+<var name="SUM_ACT_TOTAL">0</var>
+</statement>
+<!-- SUM_ACT_DETAILS = ACT_DETAILS -->
+<statement enabled="yes" id="13781" type="assignment">
+<var name="SUM_ACT_DETAILS">ACT_DETAILS</var>
+</statement>
+<!-- ARCHIVO_INPUT = ARCHIVO POLITICA -->
+<statement enabled="yes" id="13782" type="dsvinit">
+<target filenameoption="0" intervaltype="4" name="ARCHIVO_INPUT" novalexception="yes" policyname="POLITICA" relativeinterval="0" reportid="" versionmode="0" vp="yes">ARCHIVO</target>
+<esavitem/>
+</statement>
+</block>
+</case>
+<!-- ON_START ACT_TOTAL -->
+<case field="ACT_TOTAL" id="100009" name="field" type="start">
+<block/>
+</case>
+<!-- ON_EACH RECORD -->
+<case id="100006" name="record" type="each">
+<block>
+<!-- SUM_ACT_TOTAL = SUM_ACT_TOTAL + ACT_TOTAL -->
+<statement enabled="yes" id="13870" type="assignment">
+<var name="SUM_ACT_TOTAL">SUM_ACT_TOTAL + ACT_TOTAL</var>
+</statement>
+<!-- SUM_ACT_DETAILS = SUM_ACT_DETAILS + ACT_DETAILS -->
+<statement enabled="yes" id="13783" type="assignment">
+<var name="SUM_ACT_DETAILS">SUM_ACT_DETAILS + ACT_DETAILS</var>
+</statement>
+</block>
+</case>
+<!-- ON_END ACT_TOTAL -->
+<case field="ACT_TOTAL" id="100010" name="field" type="end">
+<block/>
+</case>
+<!-- ON_END REPORT -->
+<case id="100005" name="report" type="end">
+<block>
+<!-- IF SUM_ACT_TOTAL = SUM_ACT_DETAILS -->
+<statement enabled="yes" id="13784" type="condition">
+<if>SUM_ACT_TOTAL = SUM_ACT_DETAILS</if>
+<conditionitems>
+<conditionitem andor="" comparison="=" lexpression="SUM_ACT_TOTAL" lparen="" not="" rexpression="SUM_ACT_DETAILS" rparen=""/>
+</conditionitems>
+<then>
+<block>
+<!-- PRINTLOG  ( "BALANCE OK. La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL ) -->
+<statement enabled="yes" id="13785" type="printlog">
+<printlog>"BALANCE OK. La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL</printlog>
+</statement>
+<!-- SENDMAIL  ( recipient="guillermo.avendano@asgxguille.com", cc= , bcc= , attachments= , subject="Reporte AC002 gastos mensuales - Correcto " + ARCHIVO, body="La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL ) -->
+<statement enabled="yes" id="13786" type="action">
+<provider name="SENDMAIL"/>
+<parameters>
+<param name="body">"La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL</param>
+<param name="subject">"Reporte AC002 gastos mensuales - Correcto " + ARCHIVO</param>
+<param name="recipient">"guillermo.avendano@asgxguille.com"</param>
+</parameters>
+</statement>
+<!-- RETURN SUCCESS , "BALANCE OK. La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL , Approved -->
+<statement enabled="yes" id="13787" type="return">
+<return code="0" error_message="&quot;BALANCE OK. La suma de los detalles &quot; + SUM_ACT_DETAILS + &quot;, coincide con el total en el reporte &quot; + SUM_ACT_TOTAL" status="1"/>
+</statement>
+</block>
+</then>
+<else>
+<block>
+<!-- PRINTLOG  ( "ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL ) -->
+<statement enabled="yes" id="13788" type="printlog">
+<printlog>"ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL</printlog>
+</statement>
+<!-- // SENDMAIL  ( recipient="guillermo.avendano@asgxguille.com", cc= , bcc= , attachments= , subject="Reporte AC002 de Gastos Mensuales - ERROR " + ARCHIVO, body="ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL ) -->
+<statement enabled="no" id="13789" type="action">
+<provider name="SENDMAIL"/>
+<parameters>
+<param name="body">"ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL</param>
+<param name="subject">"Reporte AC002 de Gastos Mensuales - ERROR " + ARCHIVO</param>
+<param name="recipient">"guillermo.avendano@asgxguille.com"</param>
+</parameters>
+</statement>
+<!-- RETURN WARNING , "ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL , Rejected -->
+<statement enabled="yes" id="13790" type="return">
+<return code="4" error_message="&quot;ERROR - La suma de los detalles &quot; + SUM_ACT_DETAILS + &quot;, NO coincide con el total en el reporte &quot; + SUM_ACT_TOTAL" status="2"/>
+</statement>
+</block>
+</else>
+</statement>
+</block>
+</case>
+</cases>
+</procedure>

@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mobiusview
+  annotations:
+    kubernetes.io/ingress.class: "nginx-mobius-ct"
+    nginx.ingress.kubernetes.io/auth-url: "https://dm-mobius-ct.high.raitcs01-test.aws.de.pri.o2.com:443/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://dm-mobius-ct.high.raitcs01-test.aws.de.pri.o2.com:443/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "64k"
+    nginx.ingress.kubernetes.io/auth-response-headers: "Authorization"
+    nginx.ingress.kubernetes.io/proxy-body-size: "32m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+spec:
+  rules:
+  - host: dm-mobius-ct.high.raitcs01-test.aws.de.pri.o2.com
+    http:
+      paths:
+      - path: /mobius(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: mobiusview
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - dm-mobius-ct.high.raitcs01-test.aws.de.pri.o2.com
+    secretName: mobius-ct-tls-secret

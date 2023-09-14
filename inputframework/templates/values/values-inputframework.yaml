@@ -1,0 +1,96 @@
+# Default values for mobiusview.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#replicaCount is the number of replicas required for this service
+replicaCount: 1
+#namespace is the place for the service to run
+namespace: <namespace>
+
+image:
+  repository: <IFW_image_name> 
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: <IFW_image_version>
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: 
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  runAsUser: 0
+
+mobiusRemoteCLI:
+  hostPort: <IFW_MOBIUS_REMOTE_HOST_PORT>
+
+service:
+  type: ClusterIP
+  port: 8080
+  name: "inputframework-entrypoint"  
+  
+networkPolicy:
+  name: "inputframework-netpol"
+  enabled: true
+    
+ports:
+  - name: inputframework
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+     
+initRepository:
+  NOINIT: ""  
+  IPADMIN: "SYSADMIN"  
+  IPADMINPASS: "ASG"
+  VOLUMECLAIM: "<PV_ifw_volume_claim>"
+  INBOXCLAIM: "<PV_ifw_inbox_claim>"
+
+ingress:
+  name: "inputframework-ingress"
+  hostname: <IFW_URL>
+  enabled: true
+  className: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx-tef
+    # nginx.ingress.kubernetes.io/rewrite-target: /mobius$1
+    # kubernetes.io/tls-acme: "true"
+  hosts:    
+    inputframeworkport: 8080
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+   limits:
+     memory: 4Gi
+   requests:
+     cpu: 2
+     memory: 4Gi
+     
+autoscaling:
+  enabled: false
+  minReplicas: 2 
+  maxReplicas: 2 
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

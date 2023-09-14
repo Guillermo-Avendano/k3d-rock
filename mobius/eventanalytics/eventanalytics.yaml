@@ -1,0 +1,58 @@
+# Default values for eventanalytics.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#replicaCount is the number of replicas required for this service
+replicaCount: 1
+namespace: mobius
+
+
+
+image:
+  #repository is the docker registory to pull docker images
+  repository: localhost:5000/eventanalytics
+  #tag is the docker image tag(it may be latest or any version)
+  tag:  1.3.18
+  #pullPolicy is the policy to pull images
+  pullPolicy: IfNotPresent
+  
+service:
+  type: ClusterIP
+
+
+datasource:
+  #url is the db endpoint with port number and schema name where the database connectivity will be established
+  url: jdbc:postgresql://postgresql.shared:5432/eventanalytics
+  #username is the admin account for the Database, used when creating new DB schemas
+  username: mobius
+  #password is the admin account password for the Database, used when creating new DB schemas
+  password: postgres
+  #driverClassName is the database drive class name
+  driverClassName: org.postgresql.Driver
+  hikari:
+    autoCommit: false
+
+asg:
+  eventanalytics:
+    kafka:
+      topic: "audit"
+      groupid: "event-analytics-group"
+       
+#      keystore:
+#        secretName: eventanalytics-keystore-secret
+#        name: eventanalytics.keystore.p12
+       
+#      truststore:
+#        secretName: eventanalytics-truststore-secret
+#        certificateName: RootCA.crt
+
+spring:
+  kafka: 
+    security:
+      protocol: PLAINTEXT
+    bootstrap:
+      servers: kafka.shared:9092
+    consumer:
+      auto:
+        offset:
+          reset: earliest

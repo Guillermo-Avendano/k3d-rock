@@ -1,0 +1,15 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mobius-pv-presentation-images-claim-dev
+  namespace: dev
+  annotations:
+    volume.beta.kubernetes.io/storage-class: efs
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2000M
+  volumeName: mobius-pv-presentation-images-dev

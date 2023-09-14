@@ -1,0 +1,313 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aaservices.fullname" . }}
+  labels:
+    {{- include "aaservices.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "aaservices.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "aaservices.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecrets }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      restartPolicy: {{ .Values.restartPolicy }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - name: {{ .Values.ports.name }}
+            containerPort: {{ .Values.ports.containerPort }}
+            protocol: {{ .Values.ports.protocol }}
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              port: {{ .Values.ports.containerPort }}
+              path: {{ .Values.livenessProbe.path }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.ports.containerPort }}
+              path: {{ .Values.readinessProbe.path }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
+          env:
+          - name: JAVA_OPTS
+            value: '{{ .Values.javaOpts }}'
+          - name: DATABASE_URL
+            value: '{{ .Values.datasource.url }}'
+          - name: DATABASE_USERNAME
+            value: '{{ .Values.datasource.username }}'
+          - name: DATABASE_PASSWORD
+            value: '{{ .Values.datasource.password }}'
+          - name: APP_SERVER_TYPE
+            value: '{{ .Values.asg.security.appServer.type }}'
+          - name: DISABLE_SECURITY_CONSTRAINT
+            value: '{{ .Values.init.securityConstraint.disabled }}'
+          - name: UPDATE_CONFIGURATION
+            value: '{{ .Values.init.updateConfiguration.enabled }}'
+          - name: AAS_LICENSE
+            value: '{{ .Values.init.updateConfiguration.license }}'
+          - name: RESTADMIN_SERVICE_LDAPENABLE
+            value: '{{ .Values.restadmin.service.ldapenable }}'
+    {{- if .Values.storage.secret.mobiusCertificate.enabled }}
+      {{- with .Values.storage.secret.mobiusCertificate }}
+          - name: IMPORT_MOBIUS_CERTIFICATE
+            value: '{{ .enabled }}'
+      {{- end }}
+    {{- end }}
+    {{- $releasename := .Release.Namespace -}}
+    {{- $fullname := include "aaservices.fullname" . -}}
+
+    {{- if hasKey .Values.asg "clustering" }}
+      {{- with .Values.asg.clustering }}
+        {{- if .kubernetes.enabled }}
+          - name: KUBERNETES_CLUSTERING_ENABLED
+            value: '{{ .kubernetes.enabled }}'
+            {{- if hasKey .kubernetes "kubernetesMaster" }}
+          - name: ASG_CLUSTERING_KUBERNETES_KUBERNETESMASTER
+            value: '{{ .kubernetes.kubernetesMaster }}'
+            {{- end }}
+            {{- if hasKey .kubernetes "resolveNotReadyAddressed" }}
+          - name: ASG_CLUSTERING_KUBERNETES_RESOLVENOTREADYADDRESSED
+            value: '{{ .kubernetes.resolveNotReadyAddressed }}'
+            {{- end }}
+          - name: ASG_CLUSTERING_KUBERNETES_NAMESPACE
+            value: '{{ $releasename }}'
+          - name: ASG_CLUSTERING_KUBERNETES_SERVICENAME
+            value: '{{ $fullname }}'
+            {{- if hasKey .kubernetes "serviceLabelName" }}
+          - name: ASG_CLUSTERING_KUBERNETES_SERVICELABELNAME
+            value: '{{ .kubernetes.serviceLabelName }}'
+            {{- end }}
+            {{- if hasKey .kubernetes "serviceLabelValue" }}
+          - name: ASG_CLUSTERING_KUBERNETES_SERVICELABELVALUE
+            value: '{{ .kubernetes.serviceLabelValue }}'
+            {{- end }}
+            {{- if hasKey .kubernetes "apiToken" }}
+          - name: ASG_CLUSTERING_KUBERNETES_APITOKEN
+            value: '{{ .kubernetes.apiToken }}'
+            {{- end }}
+          {{- end }}
+      {{- end }}
+    {{- end }}
+
+    {{- if .Values.asg.security.openidConnectTwo.enabled}}
+      {{- with .Values.asg.security }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_ENABLED
+            value: '{{ .openidConnectTwo.enabled }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_IDP_PROVIDER
+            value: '{{ .openidConnectTwo.idpProvider }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_INBOUND
+            value: '{{ .openidConnectTwo.inbound }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_URL_PATTERNS
+            value: '{{ .openidConnectTwo.urlPatterns }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_MAPPING_USERNAME
+            value: '{{ .openidConnectTwo.mapping.username }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_MAPPING_GROUPS
+            value: '{{ .openidConnectTwo.mapping.groups }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_MAPPING_USERID
+            value: '{{ .openidConnectTwo.mapping.userId }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_OUTBOUND
+            value: '{{ .openidConnectTwo.outbound }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_VALIDATE
+            value: '{{ .openidConnectTwo.validate }}'
+            {{- if hasKey .openidConnectTwo "jwtHeader" }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_JWTHEADER
+            value: '{{ .openidConnectTwo.jwtHeader }}'
+            {{- end }}
+      {{- end }}
+      {{- with .Values.asg.security.openidConnectTwo.serviceTokenSettings.internalConfig }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_INTERNALCONFIG_PRIVATEKEY
+            value: '{{ .privateKey }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_INTERNALCONFIG_PUBLICKEY
+            value: '{{ .publicKey }}'
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_INTERNALCONFIG_EXPIRESECONDS
+            value: '{{ .expireSeconds }}'
+      {{- end }}
+      {{- with .Values.asg.security.openidConnectTwo.serviceTokenSettings.oidcConfig }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENURL
+            value: '{{ .serviceTokenUrl }}'
+          {{- range $i, $value := .serviceTokens }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENS_{{$i}}_NAME
+            value: {{ $value.name | quote }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENS_{{$i}}_CLIENTID
+            value: {{ $value.name | quote }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_SERVICETOKENS_{{$i}}_CLIENTSECRET
+            value: {{ $value.name | quote }}
+          {{- end }}
+
+          {{- range $i, $value := .generateTokens }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_GENERATETOKENS_{{$i}}_NAME
+            value: {{ $value.name | quote }}
+            {{- range $j, $url := $value.urlPatterns }}
+          - name: ASG_SECURITY_OPENIDCONNECTTWO_SERVICETOKENSETTINGS_OIDCCONFIG_GENERATETOKENS_{{$i}}_URLPATTERNS_{{$j}}
+            value: {{ $url | quote }}
+            {{- end }}
+          {{- end }}
+      {{- end }}
+    {{- end }}
+    {{- if .Values.asg.security.trustedConnection}}
+      {{- with .Values.asg.security.trustedConnection }}
+          - name: ASG_SECURITY_TRUSTEDCONNECTION_OUTBOUND
+            value: '{{ .outbound }}'
+          - name: ASG_SECURITY_TRUSTEDCONNECTION_TRUSTED_KEY
+            value: '{{ .trustedKey }}'
+      {{- end }}
+    {{- end }}
+    {{- if .Values.asg.security.basicAuth}}
+      {{- with .Values.asg.security.basicAuth }}
+          - name: ASG_SECURITY_BASIC_AUTH_OUTBOUND
+            value: '{{ .outbound }}'
+          - name: ASG_SECURITY_BASIC_AUTH_URL_PATTERNS
+            value: '{{ .urlPatterns }}'
+      {{- end }}
+    {{- end }}
+    {{- if hasKey .Values.asg.security "encryptionKeySecret"}}
+          - name: ASG_SECURITY_CLIENTID_ENCRYPTKEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.asg.security.encryptionKeySecret.secretKeyName}}
+                key: {{ .Values.asg.security.encryptionKeySecret.encryptionKeySecretKeyName }}
+          {{- if hasKey .Values.asg.security.encryptionKeySecret "signingKeySecretKeyName"}}
+          - name: ASG_SECURITY_CLIENTID_SIGNINGKEY
+            valueFrom:
+              secretKeyRef:
+               name: {{ .Values.asg.security.encryptionKeySecret.secretKeyName }}
+               key: {{ .Values.asg.security.encryptionKeySecret.signingKeySecretKeyName }}
+           {{- end }}
+    {{- end }}
+    {{- if .Values.asg.security.appServer}}
+      {{- with .Values.asg.security.appServer }}
+          - name: APP_SERVER_ENABLED
+            value: '{{ .enabled }}'
+      {{- end }}
+    {{- end }}
+    {{- if .Values.asg.iam.ldap.enabled}}
+     {{- with .Values.asg.iam.ldap }}
+          - name: ASG_IAM_LDAP_ENABLED
+            value: '{{ .enabled }}'
+          - name: ASG_IAM_LDAP_SERVER
+            value: '{{ .server }}'
+          - name: ASG_IAM_LDAP_PORT
+            value: '{{ .port }}'
+          - name: ASG_IAM_LDAP_USER
+            value: '{{ .user }}'
+          - name: ASG_IAM_LDAP_PASSWORD
+            value: '{{ .password }}'
+          - name: ASG_IAM_LDAP_GROUPDN
+            value: '{{ .groupDN }}'
+          - name: ASG_IAM_LDAP_USERDN
+            value: '{{ .userDN }}'
+          - name: ASG_IAM_LDAP_SEARCHTYPE
+            value: '{{ .searchType }}'
+          - name: ASG_IAM_LDAP_USERATTRIBUTES
+            value: '{{ .userAttributes }}'
+          - name: ASG_IAM_LDAP_USERIDATTRIBUTE
+            value: '{{ .userIdAttribute }}'
+          - name: ASG_IAM_LDAP_CONNECTIONTIMEOUT
+            value: '{{ .connectionTimeout }}'
+          - name: ASG_IAM_LDAP_SECURED
+            value: '{{ .secured }}'
+     {{- end }}
+    {{- end }}
+    {{- if .Values.logging}}
+      {{- with .Values.logging.level }}
+          - name: LOGGING_LEVEL_ROOT
+            value: '{{ .root }}'
+          - name: LOGGING_LEVEL_COM_HAZELCAST_SYSTEM
+            value: '{{ .com.hazelcastSystem }}'
+          - name: LOGGING_LEVEL_COM_HAZELCAST_INTERNAL_CLUSTER
+            value: '{{ .com.hazelcastInternalCluster }}'
+          - name: LOGGING_LEVEL_COM_ZAXXER_HIKARI
+            value: '{{ .com.zaxxerHikari }}'
+          - name: LOGGING_LEVEL_COM_ASG_SERVICES_RESTADMIN
+            value: '{{ .com.asgServices.restadmin }}'
+          - name: LOGGING_LEVEL_COM_ASG_SERVICES_AUTHORIZATION
+            value: '{{ .com.asgServices.authorization }}'
+          - name: LOGGING_LEVEL_COM_ASG_SERVICES_DASHBOARDS
+            value: '{{ .com.asgServices.dashboards }}'
+          - name: LOGGING_LEVEL_ORG_FLYWAYDB_CORE
+            value: '{{ .org.flywaydbCore }}'
+          - name: LOGGING_LEVEL_ORG_GLASSFISH_JERSEY
+            value: '{{ .org.glassfishJersey }}'
+          - name: LOGGING_LEVEL_ORG_REFLECTIONS
+            value: '{{ .org.reflections }}'
+          - name: LOGGING_LEVEL_ORG_HIBERNATE_ENGINE_JDBC_ENV_INTERNAL
+            value: '{{ .org.hibernateEngineJdbcEnvInternal }}'
+          - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_JDBC_DATASOURCE
+            value: '{{ .org.springframeworkJdbcDatasource }}'
+      {{- end }}
+    {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /opt/tomcat/logs/
+              subPath: tomcat-logs
+              name: aas-log-vol
+            - mountPath: /home/mobius/asg/services
+              subPath: services-logs
+              name: aas-log-vol
+            - mountPath: /home/mobius/logs
+              subPath: aas-logs
+              name: aas-log-vol
+      {{- if eq .Values.storage.secret.mobiusCertificate.enabled true}}
+            - mountPath: /home/mobius/certificates/mobius.cer
+              subPath: '{{ .Values.storage.secret.mobiusCertificate.key }}'
+              name: secret-vol
+      {{- end }}
+            {{- if .Values.additionalVolumeMounts -}}
+            {{- toYaml .Values.additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+      volumes:
+        - name: aas-log-vol
+          {{- if eq .Values.storage.persistence.aaslogs.enabled true}}
+          persistentVolumeClaim:
+            claimName: {{ .Values.storage.persistence.aaslogs.claimName }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- if eq .Values.storage.secret.mobiusCertificate.enabled true}}
+        - name: secret-vol
+          secret:
+            secretName: '{{ .Values.storage.secret.mobiusCertificate.secretName }}'
+      {{- end }}
+
+        {{- if .Values.additionalVolumes -}}
+        {{- toYaml .Values.additionalVolumes | nindent 8 }}
+        {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,147 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "eventanalytics.fullname" . }}
+  labels:
+    {{- include "eventanalytics.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "eventanalytics.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "eventanalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        {{- if .Values.image.pullSecret }}
+        - name: {{ .Values.image.pullSecret }}
+        {{- end }}
+      volumes:
+        {{- if hasKey .Values.asg.eventanalytics.kafka "keystore" }}        
+        - name: eventanalytics-keystore
+          secret:
+            secretName: {{ .Values.asg.eventanalytics.kafka.keystore.secretName}}
+            items:
+            - key: {{ .Values.asg.eventanalytics.kafka.keystore.name}}
+              path: {{ .Values.asg.eventanalytics.kafka.keystore.name}}
+        {{- end }}
+        {{- if hasKey .Values.asg.eventanalytics.kafka "truststore" }}        
+        - name: eventanalytics-truststore-cert
+          secret:
+            secretName: {{ .Values.asg.eventanalytics.kafka.truststore.secretName}}
+            items:
+            - key: {{ .Values.asg.eventanalytics.kafka.truststore.certificateName}}
+              path: {{ .Values.asg.eventanalytics.kafka.truststore.certificateName}}
+        {{- end }}
+        {{- if .Values.additionalVolumes -}}
+        {{- toYaml .Values.additionalVolumes | nindent 8 }}
+        {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+             {{- if hasKey .Values.asg.eventanalytics.kafka "keystore" }} 
+            - mountPath: /mnt/certificate
+              name: eventanalytics-keystore
+              readOnly: true
+             {{- end }}
+             {{- if hasKey .Values.asg.eventanalytics.kafka "truststore" }}            
+            - mountPath: /etc/pki/tls/custom
+              name: eventanalytics-truststore-cert
+              readOnly: true
+             {{- end }}
+            {{- if .Values.additionalVolumeMounts -}}
+            {{- toYaml .Values.additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: {{ .Values.ports.name }}
+              containerPort: {{ .Values.ports.containerPort }}
+              protocol: {{ .Values.ports.protocol }}
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path }}
+              port: {{ .Values.ports.containerPort }}
+              httpHeaders:
+              - name: {{ .Values.livenessProbe.header.name }}
+                value: {{ .Values.livenessProbe.header.value }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          {{end}}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.ports.containerPort }}
+              httpHeaders:
+              - name: {{ .Values.readinessProbe.header.name }}
+                value: {{ .Values.readinessProbe.header.value }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          {{end}}
+          env:
+            - name: SPRING_DATASOURCE_JDBC_URL
+              value: '{{ .Values.datasource.url }}'
+            - name: SPRING_DATASOURCE_USERNAME
+              value: '{{ .Values.datasource.username }}'
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: '{{ .Values.datasource.password }}'
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: '{{ .Values.datasource.driverClassName }}'
+            - name: SPRING_DATASOURCE_HIKARI_AUTO_COMMIT
+              value: '{{ .Values.datasource.hikari.autoCommit }}'  
+            - name: ASG_EVENTANALYTICS_KAFKA_TOPIC
+              value: '{{ .Values.asg.eventanalytics.kafka.topic }}'
+            - name: ASG_EVENTANALYTICS_KAFKA_GROUPID
+              value: '{{ .Values.asg.eventanalytics.kafka.groupId }}'  
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: '{{ .Values.spring.kafka.bootstrap.servers }}'
+            - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
+              value: '{{ .Values.spring.kafka.consumer.auto.offset.reset }}'    
+            - name: SPRING_KAFKA_SECURITY_PROTOCOL
+              value: '{{ .Values.spring.kafka.security.protocol }}'
+            {{- if hasKey .Values.asg.eventanalytics.kafka "keystore" }}     
+            - name: SPRING_KAFKA_SSL_KEY_STORE_LOCATION
+              value: "file:///mnt/certificate/{{.Values.asg.eventanalytics.kafka.keystore.name}}"
+            - name: SPRING_KAFKA_SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.asg.eventanalytics.kafka.keystore.secretName}}
+                  key: keystorePassword
+            - name: SPRING_KAFKA_SSL_KEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.asg.eventanalytics.kafka.keystore.secretName}}
+                  key: keyPassword
+            {{- end }}
+            {{- range $key, $value := .Values.extraEnv }}
+            - name: {{ $key }}
+              value: {{ $value }}
+            {{- end }}            
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

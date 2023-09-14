@@ -1,0 +1,201 @@
+# Default values for aaservices.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: wal-artifactory.rocketsoftware.com:6564/aaservices
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 11.1.2
+  pullSecrets: "dockerlocal"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "aas"
+restartPolicy: Always
+service:
+  type: ClusterIP
+  port: 8079
+
+
+ports:
+  # name is the name of the port
+  name: http
+  # containerPort is the port where container should run
+  containerPort: 8079
+  # targetPort is the port where the service points to
+  targetPort: 8079
+  # protocol is the name of the protocol
+  protocol: TCP
+
+livenessProbe:
+  # enabled is the flag to indicate whether liveness probe check is required or not
+  enabled: false
+  path: /actuator/health
+  # initialDelaySeconds is the number of seconds delayed for liveness probes to get initiated
+  initialDelaySeconds: 2000
+  # periodSeconds is the measure of frequency to perform the liveness probe
+  periodSeconds: 5
+  # timeoutSeconds is the number of seconds after which the liveness probe times out
+  timeoutSeconds: 3
+  failureThreshold: 1200
+
+readinessProbe:
+  # enabled is the flag to indicate whether readiness probe check is required or not
+  enabled: false
+  path: /actuator/health
+  # initialDelaySeconds is the number of seconds delayed for readiness probes to get initiated
+  initialDelaySeconds: 2000
+  # periodSeconds is the measure of frequency to perform the Readiness probe
+  periodSeconds: 1
+  # timeoutSeconds is the number of seconds after which the Readiness probe times out
+  timeoutSeconds: 3
+  failureThreshold: 1200
+# config to enable postgres as chart dependency
+requirements:
+  postgres:
+    enabled: false
+
+datasource:
+  # DB url with port number and schema name where the database connectivity will be established
+  url: jdbc:postgresql://postgres:5432/db
+  # Database username
+  username: username
+  # Database password
+  password: password
+
+
+storage:
+  persistence:
+    aaslogs:
+      enabled: false
+      claimName: aas-log-vol-claim
+
+  # Create secret  Example
+  # kubectl create secret generic mobius-secret --from-file=certificatekey=<PATH TO Certificate .cer>
+  secret:
+    mobiusCertificate:
+      enabled: false
+      secretName: mobius-secret
+      key: certificatekey
+
+init:
+  # Update license and database details in A&AS Web Configuration section
+  updateConfiguration:
+    enabled: false
+    license: dummy
+  # Disable/Enable all web.xml security constraints
+  securityConstraint:
+    disabled: false
+
+# Enable the user fetch from ldap. it requires also the `iam.ldap:` properties need to be configured
+restadmin:
+  service:
+    ldapenable: false
+
+asg:
+  clustering:
+    kubernetes:
+      enabled: false
+      # URL of Kubernetes Master; https://kubernetes.default.svc by default
+      #      kubernetesMaster: https://kubernetes.default.svc
+      # If set to true, it checks also the addresses of PODs which are not ready
+      #      resolveNotReadyAddressed: true
+  # Service label and value used to tag services that should form the Hazelcast cluster together
+  #      serviceLabelName:
+  #      serviceLabelValue:
+  # API Token to Kubernetes API; if not specified, the value is taken from the file /var/run/secrets/kubernetes.io/serviceaccount/token
+  #      apiToken: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+  security:
+# The encryptionKeySecret block describes the source of a Kubernetes injected secret
+# used to encrypt the authorization client id.  If absent, Mobius View generates its
+# own private encryption keys.
+# 
+# If present, The encryptionKeySecret block, must contain the  mandatory parameters 
+# "secretName", which indicates the secret to pull values from, and 
+# "encryptionKeySecretKeyName", which names the data object within the secret that 
+# holds the encryption key.  Optionally, it may specify a separate signing key data 
+# object within the same secret by the parameter "signingKeySecretKeyName".
+
+#  "secretKeyName" and "encryptionKeySecretKeyName" whereas "signingKeySecretKeyName".
+# This contains the names of the secret's data elements that has encryption or signing key
+
+#    encryptionKeySecret:
+#      secretKeyName: asg-authorization-clientidkey-secret
+#      encryptionKeySecretKeyName: encryptionKey
+#      signingKeySecretKeyName: signingKey
+    openidConnectTwo:
+      enabled: true
+      idpProvider: "external"
+      inbound: true
+      urlPatterns: "/rest/*,/adminrest/*"
+      mapping:
+        username: "preferred_username"
+        groups: "groups"
+        userId: "preferred_username"
+      #The below section will work for OIDC authentication (AWS cognito as OIDC provider). Comment the above mapping section and uncomment below to work with AWS cognito.
+      # jwtHeader: x-amzn-oidc-accesstoken
+      # mapping:
+        # username: "username"
+        # groups: "cognito:groups"
+      outbound: true
+      validate: false
+      serviceTokenSettings:
+        internalConfig:
+          privateKey: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCRenfeiYqE8S55yDEJISWttwsInNIO3izpI7JbxFeKRAQUd05ZL+dbc0JUE4k//W0sZeSIAs3a/21XLkIVZxIie4pnNi+zOBeqcD1hLpzfYFjyStPvCh/zRELplUwT7FQXqiVeOOBis+gC2Pfj7P22H8nLvE1wtPhH/wf4/45knoI+Qza1sGCA8uKyXNayRvOLYnPvGVluN0Gj/jfX6gjvDl3Z46es6qx+Wa7q7uclurTSO4ApE8lYpSBj1Ss5dPJmIk3Ju2TUcSIySs+EjbUUJWWOsIXZekl9K5qQZ981bDuVEpT1kVY9BCDW/2SceBieakBOPNAWDT3ZGv9f6qsjAgMBAAECggEANJLRpvaFvK18Yj5amjYEa9bugdpKf10DVe20kz1NdYZHAy5qfgi1z3LD0aaNvzZSsezQveZlhnMwjIUHFLz+7L9AsTP/4QCwbMPLKsexoXgsLMOl+4jpKvzMQaXWrIyHh1XR008yp/jkK8NFMnV+6sZqItqWEdkUsNAVjYKtbubaMh9k5zn2FMYoY9Ie0zkGehmzQJFzMhBxFiNgGvJuj5fDxn8kyQvfPxgnYZUl88KxSSXT7sphqdBgUqYtOM54lwW+0ThYtm5sxv2vuDTxnK9o5iDDCEep40YCFA0rl/n3KIWRECMzOppoXSBHgY9IirYqxfy3pLhiOMyd1SCdgQKBgQD0vbQW5wzL9FWMO2aV5OHWbPmPUN3ibggv34avZR3v7b933lihBdmxo0gy3ptXTp62Lji4Jdc784Ka+DQsz0PybUI7NE+BzjoKHsPEHRPtL0aVoGx48eqSqGsjPo3yIA3N/8dX4spcHEBc3kuQWSsfPiKcox5+MPbkKoQgusWXkwKBgQCYK8GXU4Pq3KRJQZ/4BY9hT7JhKASDt6NL+nav8OOaCuGl4ep0mXuu264aA3UTI1PNDP9PjPYSpWeWz9KhS6uPBhSKiAb/GP0qm/QZeokcJKzxrm5+3PuQfgWK4iNCEqvfe6WryDxThTozLetANAIcKNJ0MZZ0d9RtTF6tgp24MQKBgAiaororZUfGTzue2vxqD4Z6Tku7jBFpzN/h+9ous967fP+50WPX0M9t7hvbt5paKTo+ZcATlH2HEhBgqXTp1HmxXaK3NBRcK64vZrJ+UzUDdHfOLAIUfyqowRt8F4FrnxCe7WMplfOnCpw5NG7es6VlidH36hqFnihnVj3QUyIBAoGATFNmPuj8+gjBvpzUCCuBx2WaK3FPEmJB3hI7BfTltJZQqEuwtdtmVkaKBTJGvtqxZeBnDxe9NY0RcGu9UnoKCysZkoK4P6vhEEY5Ia58p0keFftQIQHmjIspbIgQ90s2Olpits8wsxPYJWOa5BEyHb28Edvtg223dzsfIhip04ECgYBpFyOpXiyCHoyv0usDosFoMe2v8wp5cTbcyoUv0yvNHu6pBYpgBjzV07kjGsU2Ik0OMaVppwUc6goZUkF3cPyfvRNLOQcMDsB7IOO8WvKp3lU845OCDKt0PJP5Ef36u/sE2rxnNx4Ub17dffzYIwLCef62U+VxbiO/TPQCfGWmtA==
+          publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkXp33omKhPEuecgxCSElrbcLCJzSDt4s6SOyW8RXikQEFHdOWS/nW3NCVBOJP/1tLGXkiALN2v9tVy5CFWcSInuKZzYvszgXqnA9YS6c32BY8krT7wof80RC6ZVME+xUF6olXjjgYrPoAtj34+z9th/Jy7xNcLT4R/8H+P+OZJ6CPkM2tbBggPLislzWskbzi2Jz7xlZbjdBo/431+oI7w5d2eOnrOqsflmu6u7nJbq00juAKRPJWKUgY9UrOXTyZiJNybtk1HEiMkrPhI21FCVljrCF2XpJfSuakGffNWw7lRKU9ZFWPQQg1v9knHgYnmpATjzQFg092Rr/X+qrIwIDAQAB
+          expireSeconds: 36000
+        oidcConfig:
+          serviceTokenUrl: http://localhost:8500/auth/realms/zenith/protocol/openid-connect/token
+          serviceTokens:
+            - name: workflow
+              clientId: aas
+              clientSecret: dbd40a56-3d02-4db5-bf9f-87818bec5866
+          generateTokens:
+            - urlPatterns: ["/prs/*"]
+              name: workflow
+    appServer:
+      type: TOMCAT
+      enabled: true # set to false if client-id MV auth is required
+
+    #The below section will work with APACHE/NGNIX ,TOMCAT to enable SSO with MV
+    #basicAuth:
+      #outbound: true
+      #urlPatterns: "/mobius/*"
+
+  iam:
+    ldap:
+      enabled: true
+      server: asg.com
+      port: 389
+      user: "CN=<USER_NAME>,OU=Testing Accounts,OU=User Accounts,DC=asg,DC=com"
+      password: "<USER_PASSWORD>"
+      groupDN: "DC=asg,DC=com"
+      userDN: "OU=User Accounts,DC=asg,DC=com"
+      searchType: "contains"
+      #Required for getting extra attributes like email and cn
+      userAttributes: "cn,sAMAccountName,mail,memberof"
+      userIdAttribute: "sAMAccountName"
+      connectionTimeout: 30000
+      secured: false
+
+logging:
+  level:
+    root: "ERROR"
+    com:
+      hazelcastSystem: "DEBUG"
+      hazelcastInternalcluster: "DEBUG"
+      zaxxerHikari: "DEBUG"
+      asgServices:
+        restadmin: "ERROR"
+        authorization: "ERROR"
+        dashboards: "ERROR"
+    org:
+      flywaydbCore: "DEBUG"
+      glassfishJersey: "ERROR"
+      reflections: "ERROR"
+      hibernateEngineJdbcEnvInternal: "DEBUG"
+      springframeworkJdbcDatasource: "DEBUG"

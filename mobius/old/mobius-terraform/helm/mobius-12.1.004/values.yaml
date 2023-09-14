@@ -1,0 +1,330 @@
+# Default values for mobius.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#replicaCount is the number of replicas required for this service
+replicaCount: 1
+#namespace is the place for the service to run
+namespace: dev
+
+# timeZone is the timezone for Mobius Server to use for generating archive versions.
+# default value is UTC.  To get a list of supported timezones, you can perform the 
+# following command on a centos linux system:  timedatectl list-timezones
+# i.e. timeZone: "America/New_York"
+timeZone: ""
+
+# Check Postgres DB ready in initContainers.
+initContainerCheckDbReady: false
+
+livenessProbe:
+#enabled is the flag to indicate whether liveness probe check is required or not
+  enabled: false
+#path is the http path that will be used to perform the liveness check, the port defined as the containerPort will be
+#used in the request.
+  path: "/vdrws/services/IVDRServiceMonitoring"
+#header is the header to be passed along with the http request.
+  header:
+    name: "Accept"
+    value: "application/json"
+#initialDelaySeconds is the number of seconds delayed for liveness probes to get initiated
+  initialDelaySeconds: 45
+#periodSeconds is the measure of frequency to perform the liveness probe
+  periodSeconds: 10
+#timeoutSeconds is the number of seconds after which the liveness probe times out
+  timeoutSeconds: 8
+  
+readinessProbe:
+#enabled is the flag to indicate whether readiness probe check is required or not
+  enabled: false
+#path is the http path that will be used to perform the readiness check, the port defined as the containerPort will be
+#used in the request.
+  path: "/vdrws/services/IVDRServiceMonitoring"
+# header is the header to be passed along with the http request.
+  header:
+    name: "Accept"
+    value: "application/json"
+#initialDelaySeconds is the number of seconds delayed for readiness probes to get initiated
+  initialDelaySeconds: 45
+#periodSeconds is the measure of frequency to perform the Readiness probe
+  periodSeconds: 10
+#timeoutSeconds is the number of seconds after which the Readiness probe times out
+  timeoutSeconds: 8
+
+
+
+image:
+#repository is the docker registory to pull docker images
+  repository: registry.asg.com/mobius-server
+#tag is the docker image tag(it may be latest or 9.1)
+  tag: 12.1.0
+#pullPolicy is the policy to pull images
+  pullPolicy: IfNotPresent
+#pullSecret is the authentication based image pull from registry
+  pullSecret: dockerlocal
+ 
+#nameOverride is the name of the service to publish with  
+nameOverride: ""
+#fullnameOverride is the full name of the service to publish with
+fullnameOverride: ""
+
+service:
+#name is the name of the port
+  type: ClusterIP
+#name is the name of the port
+  port: 8080
+  
+ports:
+#name is the name of the port
+     name: http
+#containerPort is the port where container should run     
+     containerPort: 8080
+#targetPort is the port where the service points to
+     targetPort: 8080
+#protocol is the name of the protocol
+     protocol: TCP 
+
+
+#tags_environment: "zenith-dev"
+#aws_region: us-east-1
+
+#resources is the CPU/Memory resource requests/limits	
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+#nodeSelector is the node labels for pod assignment
+nodeSelector: {}
+#tolerations is the toleration labels for pod assignment
+tolerations: []
+#affinity is the node affinity
+affinity: {}
+
+#######################################################################################
+##  Environmental variables for mobius server:
+#######################################################################################
+
+mobius:
+  #Uncomment to enable topic export to eventanalytics
+  
+  #topic:
+      #export:
+        #url: "jdbc:postgresql://postgres-postgresql:5432/eventanalytics"
+        #user: "postgres"
+        #password: "postgres"
+        #driver: "org.postgresql.Driver"
+  admin:
+    #Adding a group to the document server to be accessed from. Accepts comma separated values
+    group: "mobiusadmin"
+    user: "admin"
+  rds:
+    #provider is the DBMS System being used. "ORACLE" or "POSTGRESQL".
+    provider: "POSTGRESQL"
+    #endpoint is the hostname of the RDS Database
+    endpoint: "postgres-postgresql"
+    #port is the port used by the Database
+    port: "5432"
+    #protocol is the protocol to be used to connect to the Oracle Database (TCP or TCPS for non-secure and secure respectively).
+    protocol: "TCP"
+    #sid is the Oracle SID to use for the Oracle Database.  Only required if RDSPROVIDER is set to ORACLE.
+    sid: "ORCL"
+    #svcname is the Service Name to be used (for secure ORA_SSL and non-secure connections ORA_NO_SSL) Only required if RDSPROVIDER is set to ORACLE.
+    serviceName: "ORA_NO_SSL"
+    #credentials
+    user: "mobius_tenant1"
+    password: "mobius_123"
+    schema: "mobius_tenant1"
+    # secret name for fetching database information
+    # databaseConnectivitySecretName:
+    # Key for fetching "user" value from  the secret
+    # databaseUserSecretValue: user
+    # Key for fetching "password" value from  the secret
+    # databasePasswordSecretValue: password
+    # Key for fetching "endpoint" value from  the secret
+    # databaseEndpointSecretValue: endpoint
+    # Key for fetching "port" value from  the secret
+    # databasePortSecretValue: port
+    # Key for fetching "schema" value from  the secret
+    # databaseSchemaSecretValue: schema
+    #During container startup if values is YES, initialize or upgrade database.
+    initOrUpgrade: "YES"
+
+  persistentVolume:
+    #enabled is the flag to indicate whether persistence claim is required or not
+    enabled: false
+    claimName: mobius-pv-claim-dev
+    #accessMode is the access specified to claim from persistence volume
+    accessMode: ReadWriteOnce
+    #size is the storage claimed from persistence volume
+    size: 1000M
+
+  # archiveBlocklist contains directories and or files that will be restricted from being archived.
+  archiveBlocklist: "mobius.reg;application.yaml;odbc.ini"
+
+  mobiusDiagnostics:
+    persistentVolume:
+      #enabled is the flag to indicate whether persistence claim for mobius diagnostics report is required or not
+      #By setting the value as false, application logs will be lost when the pod is removed
+      enabled: true
+      # persistent volume claim name for mobius diagnostics report
+      claimName: tci-testing-pv-claim
+      #accessMode is the access specified to claim from persistence volume
+      accessMode: ReadWriteMany
+      #size is the storage claimed from persistence volume
+      size: 10Gi
+      # In auto scaling environment, the lifetime of the containers depends on the
+      # system load, if the system load is more then new containers will be created 
+      # and if the load is reduced then the containers will be deleted,
+      # even after the containers are removed , the logs are still available in the shared
+      # directory, there is a internal job that takes cate of removing the orphan logs.
+
+      # If the container is idle for 2 days then the logs folder will be removed
+      # If you want to handle the log deletion manually don't configure unusedLogPurgeInMinutes
+      unusedLogPurgeInMinutes: 2880
+      # After server start up the job will run only after 12 hours
+      initialDelayInMs: "43200000"
+      # Delay between each run , the default value is 1 hour
+      fixedDelayInMs: "3600000"
+
+  #fqdn is the Fully Qualified Public Domain Name for the host where the Docker container will be running on.
+  fqdn: "localhost"
+  #privateFqdn is the private fully qualified domain name for the machine that the Docker container is running in. This may be the same name as FQDN above.
+  privateFqdn: "localhost"
+  #containerType is the location of where container is run. Can be LOCAL or AWS
+  containerType: "LOCAL"
+
+  #createDocumentServer set to yes to create document server using configured database
+  createDocumentServer: "NO"
+
+  loglevel:
+    #vdrJavaLogLevel set the logger level for vdrws service (i.e ERROR,WARN,INFO,DEBUG)
+    java: "ERROR"
+    #ocrLogLevel set the logger level for ocr service (i.e ERROR,WARN,INFO,DEBUG)
+    ocr: "ERROR"
+    #vdrNativeLogLevel set the logger level for vdrnet native service (i.e ERROR,WARN,INFO,DEBUG)
+    native: "ERROR"
+
+  #SSO key default (upto 64 characters in length, allowed upper class Alpha and numbers only)
+  defaultSSOKey: "ADASDFASDFXGGEG25585"
+
+  #isSaas is the status to identify whether running in SaaS environment
+  isSaas: "NO"
+
+  #sharedFileTemplate is the path to store the generated DAF in SAAS environment. This corresponds to the archive model filename template column of the REPORT table. Points to the s3 bucket of the user or azure blob of the container depending on the cloud.
+  #sharedFileTemplate: "<AZBLOB>::/container-id/path/"
+
+  fts:
+     #enabled set to yes to turn on full text search
+     enabled: "NO"
+
+     persistentVolume:
+       enabled: false
+       claimName: mobius-pv-fts-claim-dev
+
+     #fts.engineType is the FTS server engine type. The default value is solr
+     engineType: "solr"
+     #fts.serverProtocol is the protocol required to be communicated to the fts server. The default value is HTTP.
+     serverProtocol: "HTTP"
+     #fts.host is the service name or host for FTS server. For LOCAL container type,  same as FQDN above
+     host: "localhost"
+     #useSolrCloud is the indication of whether the SOlr is deployed as cluster if value is Yes
+     useCloud: "NO"
+     #zookeeperPort is the port number used only if USESOLRCLOUD=Yes
+     zookeeperPort: "2181"
+     #solrPort is the port number used only if USESOLRCLOUD=No
+     port: "9443"
+     #collectionName is the name of the initial collection for full text search index. Index data will be stored under this collection name
+     indexName: "asgcloud"
+     pagecache:
+       type: "NONE"
+  clustering:
+     port: 5701
+     kubernetes:
+       enabled: false
+       namespace: dev
+       serviceName: mobius
+
+  # Memory limits define how much memory a Mobius process will take up inside
+  # the running container.  These values are in Megabytes.
+  memoryLimit:
+    soa: 2048
+    fts: 4096
+    getPages: 1024
+    rmi: 1024
+
+  #SAP configurations 
+  sap:
+    #NOTE: SAP Archivelink when enabled will look for the SAP JCO libraries that have to be downloaded from SAP (libsapjco3.so and sapjco3.jar) 
+    #these files will be copied to the stack during the deployment. 
+    #Please ensure the files are available in /mnt/efs/sap/
+    enabled: false
+    #Persistent storage for SAP libraries, will be used when sap.enabled is true
+    persistentVolume:
+      #If persistence is false, you can choose other ways to provide the SAP library in /mnt/efs/sap/ 
+      enabled: true
+      claimName: mobius-pv-sap-claim-dev
+spring:
+  # Provide kafka server and topic to enable kafka auditing. Configure the topic in asg.audit.kafka section
+  kafka:
+    bootstrap:
+      servers: broker:29092
+    security:
+      protocol: PLAINTEXT
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            metrics:
+              uri: http://localhost:9500
+              
+asg:
+  audit:
+    kafka:
+      topic: audit
+    fileSettings:
+      storagePathName: /mnt/efs
+      outputFileName: AuditServiceOutput.csv
+  security:
+    #openidConnectTwo:
+      #serviceTokenSettings:
+        #internalConfig:
+          #privateKey: 
+          #publicKey: 
+  database:
+    automatic-schema-update: "false"
+  printagent:
+    type: restserver    
+
+
+  metrics:
+    type: embedded
+    tracker:
+      enabled: false
+      cacheTime: 60000
+      databaseTime: 120000
+    scheduler:
+      enabled: false
+      jobTime: 180000
+      
+printagent:
+  enabled: false
+
+#Placeholder to add env variables . Add any required value in below format in
+#your values.yml file
+#extraEnv: { VARIABLENAME1: VARIABLEVALUE1 , VARIABLENAME2: VARIABLEVALUE2 }
+extraEnv: {
+# Uncomment below to enable mobius server use its own local audit service
+  #AuditUseLocalService: "Y"
+# Provide one or more audit event IDs along with their auditing status to be enabled or not.
+# For docker equivalent Event IDs, refer to User guide to enable local audit service in mobius server in docs.rocketsoftware.com
+  #<EVENT_ID>: true/false
+}
+

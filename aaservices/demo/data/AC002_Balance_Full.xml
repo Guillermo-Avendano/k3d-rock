@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences EXTERNAL_XML_VERSION="1.0">
+    <ABSDATA ABS_ROOT="ABS_INSTALL_DIR">
+        <Organization OrganizationID="1" name="None" Address="" description="" action="Add" />
+        <Application name="AC002_Balance" description="This application demonstrates banancing feature of Audit and Analytics Services" cycleType="Monthly" retentionPeriod="0" expressedIn="Cycles" cycleAdvancement="Programmatic" advanceBalancedOnly="no" lockOnAdvance="no" startDate="06-24-2019" action="Create">
+            <BalancingItem name="SimpleBalancingTask" description="This demo explains a simple Rule Procedure that reads data from a repot file and verifies if sum of ACTUAL MTD values matches to the value specified during run time in the rule." action="Create" conversion="no" type="6" PolicyName="" ReportID="">
+                <XMLProcedure main="yes" scripting="no">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;&#xD;
+                    &lt;procedure autoDownload="false" downloadIntermediate="false" name="/AC002_Balance/SimpleBalancingTask" policyname="ViewDirect Report" primarydsv="ARCHIVO_INPUT" rpname="AC002_Balance" scriptPath="null" type="dsrp" uuid="185bd17f-1622998f41e-d5beb01d438a0d4745d963720cd5c213" writeToDatabase="false" zipResults="false"&gt;&#xD;
+                    &lt;declarations&gt;&#xD;
+                    &lt;parameters&gt;&#xD;
+                    &lt;!-- POLITICA AS STRING --&gt;&#xD;
+                    &lt;parameter enabled="yes" name="POLITICA" type="STRING"/&gt;&#xD;
+                    &lt;!-- ARCHIVO AS STRING --&gt;&#xD;
+                    &lt;parameter enabled="yes" name="ARCHIVO" type="STRING"/&gt;&#xD;
+                    &lt;/parameters&gt;&#xD;
+                    &lt;fields&gt;&#xD;
+                    &lt;!-- ACT_TOTAL AS NUMERIC --&gt;&#xD;
+                    &lt;field keyfield="yes" level="1" name="ACT_TOTAL" type="NUMERIC"/&gt;&#xD;
+                    &lt;!-- ACT_DETAILS AS NUMERIC --&gt;&#xD;
+                    &lt;field level="1" name="ACT_DETAILS" type="NUMERIC"/&gt;&#xD;
+                    &lt;/fields&gt;&#xD;
+                    &lt;variables&gt;&#xD;
+                    &lt;!-- SUM_ACT_DETAILS AS NUMERIC --&gt;&#xD;
+                    &lt;variable enabled="yes" name="SUM_ACT_DETAILS" type="NUMERIC"/&gt;&#xD;
+                    &lt;!-- SUM_ACT_TOTAL AS NUMERIC --&gt;&#xD;
+                    &lt;variable enabled="yes" name="SUM_ACT_TOTAL" type="NUMERIC"/&gt;&#xD;
+                    &lt;/variables&gt;&#xD;
+                    &lt;data_sources&gt;&#xD;
+                    &lt;!-- ARCHIVO_INPUT AS ViewDirect Report --&gt;&#xD;
+                    &lt;data_source dsdname="VP Source" enabled="yes" is_auto_download="true" is_input="false" is_output="false" name="ARCHIVO_INPUT" type="DSV"&gt;&#xD;
+                    &lt;definition&gt;&#xD;&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;&#13;
+                    &lt;dataprovider name=""&gt;&#13;
+                    &lt;common&gt;&#13;
+                    &lt;fields&gt;&#13;
+                    &lt;field isenabled="1" iskey="0" isvisible="1" name="ACT_DETAILS" order="2" type="NUMERIC"/&gt;&#13;
+                    &lt;field isenabled="1" iskey="1" isvisible="1" name="ACT_TOTAL" order="1" type="NUMERIC"/&gt;&#13;
+                    &lt;/fields&gt;&#13;
+                    &lt;/common&gt;&#13;
+                    &lt;/dataprovider&gt;&#13;
+                    &lt;/definition&gt;&#xD;
+                    &lt;definitionphysical&gt;&#xD;&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;&#13;
+                    &lt;dataprovider is_auto_download="true" is_input="false" is_output="false" name="VP Source"&gt;&#13;
+                    &lt;specific&gt;&#13;
+                    &lt;policy_name&gt;C:\\DATA\\AC002_POLICY.PLC&lt;/policy_name&gt;&#13;
+                    &lt;policy_file&gt;C:\\DATA\\AC002_01_19_1993.rpt&lt;/policy_file&gt;&#13;
+                    &lt;fields&gt;&#13;
+                    &lt;field name="ACT_TOTAL" type="NUMERIC"/&gt;&#13;
+                    &lt;field name="ACT_DETAILS" type="NUMERIC"/&gt;&#13;
+                    &lt;/fields&gt;&#13;
+                    &lt;sorted&gt;false&lt;/sorted&gt;&#13;
+                    &lt;sorted&gt;false&lt;/sorted&gt;&#13;
+                    &lt;/specific&gt;&#13;
+                    &lt;/dataprovider&gt;&#13;
+                    &lt;/definitionphysical&gt;&#xD;
+                    &lt;redaction&gt;&#xD;&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+                    &lt;RedactionRules/&gt;
+                    &lt;/redaction&gt;&#xD;
+                    &lt;definitioninfo&gt;&#xD;
+                    &lt;dataprovider name="VP Source"&gt;&#xD;
+                    &lt;common&gt;&#xD;
+                    &lt;fields&gt;&#xD;
+                    &lt;field isenabled="1" iskey="0" isvisible="1" name="ACT_DETAILS" order="2" type="NUMERIC"/&gt;&#xD;
+                    &lt;field isenabled="1" iskey="1" isvisible="1" name="ACT_TOTAL" order="1" type="NUMERIC"/&gt;&#xD;
+                    &lt;/fields&gt;&#xD;
+                    &lt;/common&gt;&#xD;
+                    &lt;/dataprovider&gt;&#xD;
+                    &lt;/definitioninfo&gt;&#xD;
+                    &lt;/data_source&gt;&#xD;
+                    &lt;/data_sources&gt;&#xD;
+                    &lt;options&gt;&#xD;
+                    &lt;!-- DATE_FORMAT  =  M/D/YYYY --&gt;&#xD;
+                    &lt;option displayvalue="M/D/YYYY" name="DATE_FORMAT" value=""/&gt;&#xD;
+                    &lt;!-- NUMERIC_FORMAT  =  -#,###.## --&gt;&#xD;
+                    &lt;option displayvalue="-#,###.##" name="NUMERIC_FORMAT" value=""/&gt;&#xD;
+                    &lt;!-- FILE_ENCODING  =  UTF-8 --&gt;&#xD;
+                    &lt;option displayvalue="UTF-8" name="FILE_ENCODING" value="UTF-8"/&gt;&#xD;
+                    &lt;!-- GENLEVEL  =  APPLICATION --&gt;&#xD;
+                    &lt;option displayvalue="APPLICATION" name="GENLEVEL" value="APPLICATION"/&gt;&#xD;
+                    &lt;!-- NO_VALUE  =  ERROR --&gt;&#xD;
+                    &lt;option displayvalue="ERROR" name="NO_VALUE" value="ERROR"/&gt;&#xD;
+                    &lt;/options&gt;&#xD;
+                    &lt;/declarations&gt;&#xD;
+                    &lt;cases&gt;&#xD;
+                    &lt;!-- ON_START REPORT --&gt;&#xD;
+                    &lt;case id="100004" name="report" type="start"&gt;&#xD;
+                    &lt;block&gt;&#xD;
+                    &lt;!-- SUM_ACT_TOTAL = 0 --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13780" type="assignment"&gt;&#xD;
+                    &lt;var name="SUM_ACT_TOTAL"&gt;&#xD;0&lt;/var&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;!-- SUM_ACT_DETAILS = ACT_DETAILS --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13781" type="assignment"&gt;&#xD;
+                    &lt;var name="SUM_ACT_DETAILS"&gt;&#xD;ACT_DETAILS&lt;/var&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;!-- ARCHIVO_INPUT = ARCHIVO POLITICA --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13782" type="dsvinit"&gt;&#xD;
+                    &lt;target filenameoption="0" intervaltype="4" name="ARCHIVO_INPUT" novalexception="yes" policyname="POLITICA" relativeinterval="0" reportid="" versionmode="0" vp="yes"&gt;&#xD;ARCHIVO&lt;/target&gt;&#xD;
+                    &lt;esavitem/&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;/block&gt;&#xD;
+                    &lt;/case&gt;&#xD;
+                    &lt;!-- ON_START ACT_TOTAL --&gt;&#xD;
+                    &lt;case field="ACT_TOTAL" id="100009" name="field" type="start"&gt;&#xD;
+                    &lt;block/&gt;&#xD;
+                    &lt;/case&gt;&#xD;
+                    &lt;!-- ON_EACH RECORD --&gt;&#xD;
+                    &lt;case id="100006" name="record" type="each"&gt;&#xD;
+                    &lt;block&gt;&#xD;
+                    &lt;!-- SUM_ACT_TOTAL = SUM_ACT_TOTAL + ACT_TOTAL --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13870" type="assignment"&gt;&#xD;
+                    &lt;var name="SUM_ACT_TOTAL"&gt;&#xD;SUM_ACT_TOTAL + ACT_TOTAL&lt;/var&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;!-- SUM_ACT_DETAILS = SUM_ACT_DETAILS + ACT_DETAILS --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13783" type="assignment"&gt;&#xD;
+                    &lt;var name="SUM_ACT_DETAILS"&gt;&#xD;SUM_ACT_DETAILS + ACT_DETAILS&lt;/var&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;/block&gt;&#xD;
+                    &lt;/case&gt;&#xD;
+                    &lt;!-- ON_END ACT_TOTAL --&gt;&#xD;
+                    &lt;case field="ACT_TOTAL" id="100010" name="field" type="end"&gt;&#xD;
+                    &lt;block/&gt;&#xD;
+                    &lt;/case&gt;&#xD;
+                    &lt;!-- ON_END REPORT --&gt;&#xD;
+                    &lt;case id="100005" name="report" type="end"&gt;&#xD;
+                    &lt;block&gt;&#xD;
+                    &lt;!-- IF SUM_ACT_TOTAL = SUM_ACT_DETAILS --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13784" type="condition"&gt;&#xD;
+                    &lt;if&gt;&#xD;SUM_ACT_TOTAL = SUM_ACT_DETAILS&lt;/if&gt;&#xD;
+                    &lt;conditionitems&gt;&#xD;
+                    &lt;conditionitem andor="" comparison="=" lexpression="SUM_ACT_TOTAL" lparen="" not="" rexpression="SUM_ACT_DETAILS" rparen=""/&gt;&#xD;
+                    &lt;/conditionitems&gt;&#xD;
+                    &lt;then&gt;&#xD;
+                    &lt;block&gt;&#xD;
+                    &lt;!-- PRINTLOG  ( "BALANCE OK. La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL ) --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13785" type="printlog"&gt;&#xD;
+                    &lt;printlog&gt;&#xD;"BALANCE OK. La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL&lt;/printlog&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;!-- SENDMAIL  ( recipient="guillermo.avendano@asgxguille.com", cc= , bcc= , attachments= , subject="Reporte AC002 gastos mensuales - Correcto " + ARCHIVO, body="La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL ) --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13786" type="action"&gt;&#xD;
+                    &lt;provider name="SENDMAIL"/&gt;&#xD;
+                    &lt;parameters&gt;&#xD;
+                    &lt;param name="body"&gt;&#xD;"La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL&lt;/param&gt;&#xD;
+                    &lt;param name="subject"&gt;&#xD;"Reporte AC002 gastos mensuales - Correcto " + ARCHIVO&lt;/param&gt;&#xD;
+                    &lt;param name="recipient"&gt;&#xD;"guillermo.avendano@asgxguille.com"&lt;/param&gt;&#xD;
+                    &lt;/parameters&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;!-- RETURN SUCCESS , "BALANCE OK. La suma de los detalles " + SUM_ACT_DETAILS + ", coincide con el total en el reporte " + SUM_ACT_TOTAL , Approved --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13787" type="return"&gt;&#xD;
+                    &lt;return code="0" error_message="&quot;BALANCE OK. La suma de los detalles &quot; + SUM_ACT_DETAILS + &quot;, coincide con el total en el reporte &quot; + SUM_ACT_TOTAL" status="1"/&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;/block&gt;&#xD;
+                    &lt;/then&gt;&#xD;
+                    &lt;else&gt;&#xD;
+                    &lt;block&gt;&#xD;
+                    &lt;!-- PRINTLOG  ( "ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL ) --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13788" type="printlog"&gt;&#xD;
+                    &lt;printlog&gt;&#xD;"ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL&lt;/printlog&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;!-- // SENDMAIL  ( recipient="guillermo.avendano@asgxguille.com", cc= , bcc= , attachments= , subject="Reporte AC002 de Gastos Mensuales - ERROR " + ARCHIVO, body="ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL ) --&gt;&#xD;
+                    &lt;statement enabled="no" id="13789" type="action"&gt;&#xD;
+                    &lt;provider name="SENDMAIL"/&gt;&#xD;
+                    &lt;parameters&gt;&#xD;
+                    &lt;param name="body"&gt;&#xD;"ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL&lt;/param&gt;&#xD;
+                    &lt;param name="subject"&gt;&#xD;"Reporte AC002 de Gastos Mensuales - ERROR " + ARCHIVO&lt;/param&gt;&#xD;
+                    &lt;param name="recipient"&gt;&#xD;"guillermo.avendano@asgxguille.com"&lt;/param&gt;&#xD;
+                    &lt;/parameters&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;!-- RETURN WARNING , "ERROR - La suma de los detalles " + SUM_ACT_DETAILS + ", NO coincide con el total en el reporte " + SUM_ACT_TOTAL , Rejected --&gt;&#xD;
+                    &lt;statement enabled="yes" id="13790" type="return"&gt;&#xD;
+                    &lt;return code="4" error_message="&quot;ERROR - La suma de los detalles &quot; + SUM_ACT_DETAILS + &quot;, NO coincide con el total en el reporte &quot; + SUM_ACT_TOTAL" status="2"/&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;/block&gt;&#xD;
+                    &lt;/else&gt;&#xD;
+                    &lt;/statement&gt;&#xD;
+                    &lt;/block&gt;&#xD;
+                    &lt;/case&gt;&#xD;
+                    &lt;/cases&gt;&#xD;
+                    &lt;/procedure&gt;&#xD;</XMLProcedure>
+            </BalancingItem>
+            <ApplicationPrivileges user="admin">
+                <Privilege name="Advance Application Cycles" category="Application Management Permissions" action="Enable" />
+                <Privilege name="Backout Application Data" category="Application Management Permissions" action="Enable" />
+                <Privilege name="Create new cycle" category="Application Management Permissions" action="Enable" />
+                <Privilege name="Create/Edit/Delete Subfolders" category="Application Management Permissions" action="Enable" />
+                <Privilege name="Edit/Delete Applications" category="Application Management Permissions" action="Enable" />
+                <Privilege name="Lock cycle" category="Application Management Permissions" action="Enable" />
+                <Privilege name="Manage Application Privileges" category="Application Management Permissions" action="Enable" />
+                <Privilege name="Unlock cycle" category="Application Management Permissions" action="Enable" />
+                <Privilege name="View Application in Web Explorer" category="Application Management Permissions" action="Enable" />
+                <Privilege name="View Applications" category="Application Management Permissions" action="Enable" />
+                <Privilege name="View History" category="Application Management Permissions" action="Enable" />
+                <Privilege name="View Logs on ABSWEB" category="Application Management Permissions" action="Enable" />
+                <Privilege name="Convert Conversion Item to Balancing/Reconciliation" category="Item Conversion" action="Enable" />
+                <Privilege name="Create/Edit/Delete Conversion Item" category="Item Conversion" action="Enable" />
+                <Privilege name="Disable Redactions for Conversion Item" category="Item Conversion" action="Enable" />
+                <Privilege name="Download model" category="Item Conversion" action="Enable" />
+                <Privilege name="Edit/Deploy Conversion Rule Procedure" category="Item Conversion" action="Enable" />
+                <Privilege name="Enable Edit Redactions for Conversion Item" category="Item Conversion" action="Enable" />
+                <Privilege name="Run Conversion Rule Procedure" category="Item Conversion" action="Enable" />
+                <Privilege name="View Conversion Rule Procedure" category="Item Conversion" action="Enable" />
+                <Privilege name="View Run Results" category="Item Conversion" action="Enable" />
+                <Privilege name="Approve/Reject Runs" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Convert Reconciliation Item to Conversion Item" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Create/Edit/Delete Reconciliation Items" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Disable Redactions for Reconciliation Item" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Edit/Deploy Reconciliation Rule Procedure" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Enable Edit Redactions for Reconciliation Item" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Remotely Run Reconciliation Rule Procedures" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Run Reconciliation Item on ABSWEB" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Run Reconciliation Rule Procedures" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Run Reconciliation Rule Procedures for Approved Item" category="Item Reconciliation" action="Enable" />
+                <Privilege name="View Reconciliation Rule Procedures" category="Item Reconciliation" action="Enable" />
+                <Privilege name="View Run Results" category="Item Reconciliation" action="Enable" />
+                <Privilege name="Approve/Reject Runs" category="Report Balancing" action="Enable" />
+                <Privilege name="Convert Balancing Item to Conversion Item" category="Report Balancing" action="Enable" />
+                <Privilege name="Create/Edit/Delete Balancing Items" category="Report Balancing" action="Enable" />
+                <Privilege name="Disable Redactions for Balancing Item" category="Report Balancing" action="Enable" />
+                <Privilege name="Edit/Deploy Balancing Rule Procedures" category="Report Balancing" action="Enable" />
+                <Privilege name="Enable Edit Redactions for Balancing Item" category="Report Balancing" action="Enable" />
+                <Privilege name="Remotely Run Balancing Rule Procedures" category="Report Balancing" action="Enable" />
+                <Privilege name="Run Balancing Item on ABSWEB" category="Report Balancing" action="Enable" />
+                <Privilege name="Run Balancing Rule Procedures" category="Report Balancing" action="Enable" />
+                <Privilege name="Run Balancing Rule Procedures for Approved Item" category="Report Balancing" action="Enable" />
+                <Privilege name="View Balancing Rule Procedures" category="Report Balancing" action="Enable" />
+                <Privilege name="View Run Results" category="Report Balancing" action="Enable" />
+                <Privilege name="Approve/Reject Spreadsheets" category="Spreadsheet Control" action="Enable" />
+                <Privilege name="Create/Edit/Delete Spreadsheet Items" category="Spreadsheet Control" action="Enable" />
+                <Privilege name="Edit Spreadsheet Templates" category="Spreadsheet Control" action="Enable" />
+                <Privilege name="Open Spreadsheets unprotected" category="Spreadsheet Control" action="Enable" />
+                <Privilege name="Unlock Spreadsheets" category="Spreadsheet Control" action="Enable" />
+                <Privilege name="Update Approved Spreadsheet" category="Spreadsheet Control" action="Enable" />
+                <Privilege name="Update Spreadsheets" category="Spreadsheet Control" action="Enable" />
+                <Privilege name="View Run Results" category="Spreadsheet Control" action="Enable" />
+                <Privilege name="View Spreadsheet Templates" category="Spreadsheet Control" action="Enable" />
+            </ApplicationPrivileges>
+        </Application>      
+    </ABSDATA>
+</preferences>
+

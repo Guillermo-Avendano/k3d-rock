@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Values.networkPolicy.name }}
+  labels:
+    app.kubernetes.io/name: xq
+    helm.sh/chart: xq-2021-08-12
+    app.kubernetes.io/instance: xq
+    app.kubernetes.io/managed-by: mtl
+spec:
+  podSelector: {}
+  egress:
+  policyTypes:
+  - Egress
