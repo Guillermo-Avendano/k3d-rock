@@ -52,7 +52,7 @@ POSTGRES_VALUES_TEMPLATE=postgres-mobius.yaml
 ################################################################################
 # KEYCLOAK
 ################################################################################
-export KEYCLOAK_ENABLED=true    # true for Authentication or AAS Integration
+export KEYCLOAK_ENABLED=false    # true for Authentication or AAS Integration
 export KEYCLOAK_HELM_DEPLOY_NAME=keycloak
 export KEYCLOAK_URL="keycloak.local.net"
 
