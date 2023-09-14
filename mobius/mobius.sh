@@ -90,6 +90,11 @@ else
         wait_for_kafka_ready;
       fi
 
+      highlight_message "kubectl -n $NAMESPACE get pods"
+      kubectl -n $NAMESPACE get pods
+
+      highlight_message "kubectl -n $NAMESPACE get ingress"
+      kubectl -n $NAMESPACE get ingress
 
     elif [[ $option == "shremove" ]]; then
 

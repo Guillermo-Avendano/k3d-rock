@@ -2,21 +2,21 @@
 #!/bin/bash
 
 source "$kube_dir/env.sh"
-source "$kube_dir/mobius/keycloak/env.sh"
+source "$kube_dir/mobius/env.sh"
 source "$kube_dir/cluster/common.sh"
 
 install_keycloak(){
 
     # Values file from template
     KEYCLOAK_VALUES_TEMPLATE=$kube_dir/mobius/keycloak/templates/values/values-local.yaml
-    KEYCLOAK_VALUES=$kube_dir/mobius/keycloak/helm/values-local.yaml
+    KEYCLOAK_VALUES=$kube_dir/mobius/keycloak/templates/values-local.yaml
     cp $KEYCLOAK_VALUES_TEMPLATE $KEYCLOAK_VALUES
 
     replace_tag_in_file $KEYCLOAK_VALUES "<database_user>" $POSTGRESQL_USERNAME;
     replace_tag_in_file $KEYCLOAK_VALUES "<database_password>" $POSTGRESQL_PASSWORD;
     replace_tag_in_file $KEYCLOAK_VALUES "<database_name_keycloak>" $POSTGRESQL_DBNAME_KEYCLOAK;
     replace_tag_in_file $KEYCLOAK_VALUES "<database_host>" $POSTGRESQL_HOST;
-    replace_tag_in_file $KEYCLOAK_VALUES "<database_port>" $POSTGRESQL_HOST;
+    replace_tag_in_file $KEYCLOAK_VALUES "<database_port>" $POSTGRESQL_PORT;
     replace_tag_in_file $KEYCLOAK_VALUES "<KEYCLOAK_URL>" $KEYCLOAK_URL;
 
  

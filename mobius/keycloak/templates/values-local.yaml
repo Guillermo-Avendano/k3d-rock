@@ -49,7 +49,7 @@ ingress:
   apiVersion: ""
   ## @param ingress.hostname Default host for the ingress record (evaluated as template)
   ##
-  hostname: <KEYCLOAK_URL>
+  hostname: keycloak.local.net
   ## @param ingress.path Default path for the ingress record
   ##
   path: /
@@ -139,10 +139,10 @@ postgresql:
   
 
 externalDatabase:
-  host: "<database_host>"
-  port: <database_port>
-  user: "<database_user>"
-  database: <database_name_keycloak>
-  password: "<database_password>"
+  host: "postgresql.shared"
+  port: 5432
+  user: "mobius"
+  database: keycloak
+  password: "postgres"
   existingSecret: ""
   existingSecretPasswordKey: ""
