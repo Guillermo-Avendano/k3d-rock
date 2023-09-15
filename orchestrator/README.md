@@ -26,3 +26,9 @@ cd k3d-rock/orchestrator
 | ./orchestrator.sh  wake      | Wake up Enterprise Orchestrator (replicas=normal) |
 | ./orchestrator.sh  debug     | Generate detail of kubernetes objects in namespaces (./logs directory) |
 
+
+# URL: http://orchestrator.local.net (aeo/aeo)
+```bash
+# add orchestrator.local.net to /etc/hosts or C:/windows/system32/drivers/etc/hosts
+<your ip> orchestrator.local.net
+```

@@ -27,3 +27,8 @@ cd k3d-rock/mobius
 | ./mobius.sh  wake      | Wake up Mobius 12.2.0 (replicas=normal) |
 | ./mobius.sh  debug     | Generate detail of kubernetes objects in namespaces (./logs directory) |
 
+# URL: http://mobius12.local.net/mobius/admin (admin/admin)
+```bash
+# add mobius12.local.net to /etc/hosts or C:/windows/system32/drivers/etc/hosts
+<your ip> mobius12.local.net
+```

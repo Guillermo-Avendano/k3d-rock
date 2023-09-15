@@ -25,3 +25,8 @@ cd k3d-rock/aaservices
 | ./aaservices.sh  wake      | Wake up A&A Services (replicas=normal) |
 | ./aaservices.sh  debug     | Generate detail of kubernetes objects in namespaces (./logs directory) |
 
+# URL: http://aaservices.local.net (admin/admin)
+```bash
+# add aaservices.local.net to /etc/hosts or C:/windows/system32/drivers/etc/hosts
+<your ip> aaservices.local.net
+```
