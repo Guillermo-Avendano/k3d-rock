@@ -1,0 +1,22 @@
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: install-aas-samples
+spec:
+  template:
+    spec:
+     containers:
+      - name: install-aas-samples
+        image: aaservices:11.1.2
+        command: ["/bin/sh", "-c", "java -jar -Dspring.profiles.active=docker /home/mobius/Samples/Demo_All_Samples/Docker/aas-cli-11.1.2.jar -jobName XMLImport -user admin -password admin -file /home/mobius/Samples/Demo_All_Samples/Exported_Samples.xml  -loadtype BOTH -importfromolderthan9 true"]  
+        env:
+          - name: JAVA_OPTS
+          - name: DATABASE_URL
+            value: jdbc:postgresql://postgresql:5432/aas
+          - name: DATABASE_USERNAME
+            value: mobius
+          - name: DATABASE_PASSWORD
+            value: postgres
+          - name: AAS_LICENSE
+            value: 01ABSNET52464A464C4B1F5859519695B0938FA5434F46515E53539681955B454D62405362565664514712454D5E405361565643514764454D09405375565644514767454D5940534656567C514766454D7F40537056561C514741434ED4BBCE

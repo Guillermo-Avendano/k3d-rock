@@ -1,0 +1,22 @@
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: install-aas-samples
+spec:
+  template:
+    spec:
+     containers:
+      - name: install-aas-samples
+        image: aaservices:11.1.2
+        command: ["/bin/sh", "-c", "java -jar -Dspring.profiles.active=docker /home/mobius/Samples/Demo_All_Samples/Docker/aas-cli-11.1.2.jar -jobName XMLImport -user admin -password admin -file /home/mobius/Samples/Demo_All_Samples/Exported_Samples.xml  -loadtype BOTH -importfromolderthan9 true"]  
+        env:
+          - name: JAVA_OPTS
+          - name: DATABASE_URL
+            value: <database_url>
+          - name: DATABASE_USERNAME
+            value: <database_user>
+          - name: DATABASE_PASSWORD
+            value: <database_password>
+          - name: AAS_LICENSE
+            value: <aas_license>

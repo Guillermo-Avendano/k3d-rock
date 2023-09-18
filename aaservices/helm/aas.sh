@@ -58,6 +58,20 @@ install_aaservices(){
 
     info_message "Creating AAS Ingress"; 
     kubectl -n $NAMESPACE apply -f $AAS_INGRESS
+
+    # AAS Job sample file from template
+    AAS_JOB_SAMPLE_TEMPLATE=$kube_dir/aaservices/templates/job/job_install_samples.yaml
+    AAS_JOB_SAMPLE=$kube_dir/aaservices/templates/job_install_samples.yaml
+    cp $AAS_JOB_SAMPLE_TEMPLATE $AAS_JOB_SAMPLE
+
+    replace_tag_in_file $AAS_JOB_SAMPLE "<database_url>" $DATABASE_URL;
+    replace_tag_in_file $AAS_JOB_SAMPLE "<database_user>" $POSTGRESQL_USERNAME;
+    replace_tag_in_file $AAS_JOB_SAMPLE "<database_password>" $POSTGRESQL_PASSWORD;
+    replace_tag_in_file $AAS_JOB_SAMPLE "<aas_license>" $AAS_LICENSE;
+    
+    info_message "Loading AAS Samples..."; 
+    kubectl -n $NAMESPACE apply -f $AAS_JOB_SAMPLE
+
 }
 
 get_total_pods() {
