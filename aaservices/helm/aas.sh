@@ -69,8 +69,9 @@ install_aaservices(){
     replace_tag_in_file $AAS_JOB_SAMPLE "<database_password>" $POSTGRESQL_PASSWORD;
     replace_tag_in_file $AAS_JOB_SAMPLE "<aas_license>" $AAS_LICENSE;
     
-    info_message "Loading AAS Samples..."; 
-    kubectl -n $NAMESPACE apply -f $AAS_JOB_SAMPLE
+    # Needs more investigation
+    #info_message "Loading AAS Samples..."; 
+    #kubectl -n $NAMESPACE apply -f $AAS_JOB_SAMPLE
 
 }
 
