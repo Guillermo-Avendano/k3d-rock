@@ -39,16 +39,18 @@ install_mobiusview() {
        kubectl create namespace "$NAMESPACE"
     fi
 
-	MOBIUSVIEW_LICENSE_FILE=mobius-license.yaml;
+	#MOBIUSVIEW_LICENSE_FILE=mobius-license.yaml;
     
-	cp $kube_dir/mobius/mobiusview/secrets/templates/$MOBIUSVIEW_LICENSE_FILE $kube_dir/mobius/mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE;
+	#cp $kube_dir/mobius/mobiusview/secrets/templates/$MOBIUSVIEW_LICENSE_FILE $kube_dir/mobius/mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE;
 	
-	MOBIUS_LICENSE_BASE64=$(echo $MOBIUS_LICENSE | base64 -w 0)
+	#MOBIUS_LICENSE_BASE64=$(echo $MOBIUS_LICENSE | base64 -w 0)
 
-    replace_tag_in_file $kube_dir/mobius/mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE "<MOBIUS_LICENSE>" $MOBIUS_LICENSE_BASE64;
+    #replace_tag_in_file $kube_dir/mobius/mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE "<MOBIUS_LICENSE>" $MOBIUS_LICENSE_BASE64;
 	
 	info_message "Applying secrets";
-	kubectl apply -f $kube_dir/mobius//mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE --namespace $NAMESPACE
+	#kubectl apply -f $kube_dir/mobius//mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE --namespace $NAMESPACE
+
+	kubectl --namespace $NAMESPACE create secret generic mobius-license --from-literal=license=$MOBIUS_LICENSE
 	
 	  
     info_message "Creating mobiusview storage";    
