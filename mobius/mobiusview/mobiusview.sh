@@ -39,20 +39,19 @@ install_mobiusview() {
        kubectl create namespace "$NAMESPACE"
     fi
 
-	#MOBIUSVIEW_LICENSE_FILE=mobius-license.yaml;
-    
-	#cp $kube_dir/mobius/mobiusview/secrets/templates/$MOBIUSVIEW_LICENSE_FILE $kube_dir/mobius/mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE;
-	
-	#MOBIUS_LICENSE_BASE64=$(echo $MOBIUS_LICENSE | base64 -w 0)
-
-    #replace_tag_in_file $kube_dir/mobius/mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE "<MOBIUS_LICENSE>" $MOBIUS_LICENSE_BASE64;
-	
 	info_message "Applying secrets";
-	#kubectl apply -f $kube_dir/mobius//mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE --namespace $NAMESPACE
 
 	kubectl --namespace $NAMESPACE create secret generic mobius-license --from-literal=license=$MOBIUS_LICENSE
 	
 	  
+    # tls
+	#if [ ! -f "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL.key" ]; then
+	#   openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes -keyout "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL.key" -out "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL.crt" -subj "/CN=$MOBIUS_VIEW_URL" -addext "subjectAltName=DNS:$MOBIUS_VIEW_URL" -addext 'extendedKeyUsage=serverAuth,clientAuth'
+	#   openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes -keyout "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL2.key" -out "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL2.crt" -subj "/CN=$MOBIUS_VIEW_URL2" -addext "subjectAltName=DNS:$MOBIUS_VIEW_URL2" -addext 'extendedKeyUsage=serverAuth,clientAuth'
+
+	# kubectl create secret generic mi-secreto-tls --from-file=mi-certificado.crt=path/al/archivo/mi-certificado.crt --from-file=mi-clave.key=path/al/archivo/mi-clave.key
+
+
     info_message "Creating mobiusview storage";    
     kubectl apply -f $kube_dir/mobius//mobiusview/mobiusview_storage.yaml --namespace $NAMESPACE;
 	
@@ -115,15 +114,10 @@ remove_mobiusview() {
 	kubectl delete pv mobius-storage --namespace $NAMESPACE 
 	kubectl delete pv mobiusview-diagnose --namespace $NAMESPACE 
 	kubectl delete pv mobiusview-presentation --namespace $NAMESPACE 
+	kubectl delete secret mobius-license --namespace $NAMESPACE 
 	
 }
+
 test(){
 	MOBIUSVIEW_LICENSE_FILE=mobius-license.yaml;
-    
-	cp $kube_dir/mobius/mobiusview/secrets/templates/$MOBIUSVIEW_LICENSE_FILE $kube_dir/mobius/mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE;
-	
-	MOBIUS_LICENSE_BASE64=$(echo $MOBIUS_LICENSE | base64 -w 0)
-
-    replace_tag_in_file $kube_dir/mobius/mobiusview/secrets/$MOBIUSVIEW_LICENSE_FILE "<MOBIUS_LICENSE>" $MOBIUS_LICENSE_BASE64;
-	
 }

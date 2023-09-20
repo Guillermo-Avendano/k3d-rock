@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mobiusview-inputframework-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/proxy-body-size: "32m"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "session-cookie"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "false"
+    nginx.ingress.kubernetes.io/session-cookie-hash: sha1
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+spec:
+  ingressClassName: "nginx"
+  rules:
+  - host: mobius.local.net
+    http:
+      paths:
+        - path: /mobius(.*)$
+          pathType: Prefix
+          backend:
+            service:
+              name: mobiusview
+              port:
+                number: 80
+        - path: /inputframework(.*)$
+          pathType: Prefix
+          backend:
+            service:
+              name: inputframework-entrypoint
+              port:
+                number: 8080

@@ -4,6 +4,7 @@
 source ../env.sh
 source ./env.sh
 source ../cluster/common.sh
+source ../cluster/namespace.sh
 
 echo "---------"
 echo "Portainer"
@@ -14,6 +15,7 @@ if [[ $# -eq 0 ]]; then
   echo "==========="
   echo " - install : Installs Portainer"
   echo " - remove  : Remove Portainer"
+  echo " - debug   : Generate detail of kubernetes objects in namespace"
  
 else
   for option in "$@"; do
@@ -24,6 +26,9 @@ else
 
     elif [[ $option == "remove" ]]; then
        helm uninstall -n $NAMESPACE portainer
+
+    elif [[ $option == "debug" ]]; then
+       debug_namespace; 
 
     else    
       echo "($option) is not valid."
