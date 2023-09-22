@@ -28,7 +28,7 @@ spec:
               name: mobiusview
               port:
                 number: 80
-  - host: services-us-virginia-m-1.skytap.com
+  - host: mobius12.lapubuntu.net
     http:
       paths:
         - path: /mobius(.*)$
