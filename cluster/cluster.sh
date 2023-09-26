@@ -7,6 +7,12 @@ source "$kube_dir/cluster/common.sh"
 cluster_volumes () {
 
     ROOT_DIR=$kube_dir/pv_cluster
+
+    if [ ! -d $ROOT_DIR ]; then
+        mkdir -p $ROOT_DIR;
+        chmod -R 777 $ROOT_DIR;
+    fi 
+
     declare -A pv_folder
 
     export PV_PATH_aas_log_vol_claim=$kube_dir/pv_cluster/aas-log

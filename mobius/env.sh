@@ -28,7 +28,7 @@ IMAGE_VERSION_MOBIUSVIEW=12.2.0
 IMAGE_NAME_EVENTANALYTICS=eventanalytics
 IMAGE_VERSION_EVENTANALYTICS=1.3.18
 MOBIUS_VIEW_URL="mobius12.local.net"
-MOBIUS_VIEW_URL2="services-us-virginia-m-1.skytap.com"
+MOBIUS_VIEW_URL2="mobius12.lapubuntu.net"
 
 export KUBE_IMAGES=("mobius-server:$IMAGE_VERSION_MOBIUS" "mobius-view:$IMAGE_VERSION_MOBIUSVIEW" "eventanalytics:$IMAGE_VERSION_EVENTANALYTICS") # cluster/local_registry.sh
 
