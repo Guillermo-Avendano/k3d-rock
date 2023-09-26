@@ -41,7 +41,7 @@ list_images(){
             IFS=':' read -ra kv <<< "$image"
             image_name="${kv[0]}"
             image_tag="${kv[1]}"
-            curl -X GET -u $DOCKER_USER:$DOCKER_PASS https://registry.rocketsoftware.com/v2/$image_name/tags/list
+            curl -X GET -u $DOCKER_USERNAME:$DOCKER_PASSWORD https://registry.rocketsoftware.com/v2/$image_name/tags/list
             echo ""
         done     
 }

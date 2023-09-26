@@ -81,6 +81,10 @@ install_dos2unix(){
 install_helm_repositories(){
   helm repo add runix https://helm.runix.net
   helm repo add portainer https://portainer.github.io/k8s/
+  helm repo add bitnami https://charts.bitnami.com/bitnami
+  helm repo add elastic https://helm.elastic.co
+  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
   helm repo update
 }
 
