@@ -107,6 +107,7 @@ uninstall_ifw(){
          kubectl -n $NAMESPACE delete pv/ifw-volume     
          kubectl -n $NAMESPACE delete pv/ifw-inbox 
       fi  
+      
       highlight_message "Removing namespace $NAMESPACE"
       kubectl delete ns $NAMESPACE  
 

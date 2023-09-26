@@ -1,1 +1,1 @@
-kubectl delete pv $(kubectl get pv -n mobius -o custom-columns=:metadata.name)
+kubectl -n ifw delete pv $(kubectl get pv -n ifw -o custom-columns=:metadata.name)
