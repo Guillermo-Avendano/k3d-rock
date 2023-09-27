@@ -1,0 +1,12 @@
+sudo adduser mobius
+sudo usermod -aG wheel mobius
+
+sudo visudo
+
+FROM:
+## Allows people in group wheel to run all commands
+# %wheel ALL=(ALL) ALL
+
+TO:
+## Allows people in group wheel to run all commands
+%wheel ALL=(ALL) ALL

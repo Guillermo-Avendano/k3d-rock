@@ -1,5 +1,5 @@
 #!/bin/bash
-yum update -y
+sudo yum update -y
 
 sudo yum install -y dos2unix
 
