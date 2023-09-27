@@ -1,0 +1,7 @@
+# yum o apt-get
+sudo yum update -y
+sudo yum install -y  nfs-common
+
+mkdir /mnt/nfs_share
+sudo mount -t nfs <IP_DEL_SERVIDOR_NFS>:/ruta/al/directorio/NFS /mnt/nfs_share
+
