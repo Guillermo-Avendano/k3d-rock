@@ -50,6 +50,9 @@ install_ifw(){
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."
        kubectl create namespace "$NAMESPACE"
+       if [ "$KUBE_ISTIO_ENABLED" == "true" ]; then
+          kubectl label namespace $NAMESPACE istio-injection=enabled
+       fi  
     fi
 
     info_message "Creating IFW storage";  

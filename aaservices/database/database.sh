@@ -12,6 +12,9 @@ install_database() {
             
         if ! kubectl get namespace "$NAMESPACE" >/dev/null 2>&1; then
             kubectl create namespace "$NAMESPACE";
+            if [ "$KUBE_ISTIO_ENABLED" == "true" ]; then
+               kubectl label namespace $NAMESPACE istio-injection=enabled
+            fi  
         fi 
         
         POSTGRES_STORAGE=postgres-storage.yaml

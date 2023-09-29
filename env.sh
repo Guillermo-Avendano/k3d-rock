@@ -22,3 +22,5 @@ export KUBE_LOCALREGISTRY_HOST="localhost"                                     #
 export KUBE_LOCALREGISTRY_PORT="5000"                                          # cluster/local_registry.sh
 
 export NGINX_EXTERNAL_TLS_PORT=443
+
+export KUBE_ISTIO_ENABLED="false"

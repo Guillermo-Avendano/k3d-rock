@@ -14,6 +14,9 @@ install_elasticsearch() {
   
     if ! kubectl get namespace "$NAMESPACE" >/dev/null 2>&1; then
         kubectl create namespace "$NAMESPACE"
+        if [ "$KUBE_ISTIO_ENABLED" == "true" ]; then
+            kubectl label namespace $NAMESPACE istio-injection=enabled
+        fi  
     fi 
 
     kubectl apply -f  $kube_dir/mobius/elasticsearch/storage/local/$ELASTICSEARCH_STORAGE_FILE --namespace $NAMESPACE
