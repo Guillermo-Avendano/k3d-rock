@@ -98,19 +98,14 @@ wait_for_ifw_ready() {
 
 uninstall_ifw(){
    if helm list -A | grep $IFW_HELM_DEPLOY_NAME > /dev/null 2>&1; then 
-
+   
+      IFW_STORAGE_FILE=$kube_dir/inputframework/templates/ifw-storage.yaml
 
       highlight_message "Removing Helm Chart $IFW_HELM_DEPLOY_NAME from namespace $NAMESPACE"
       helm uninstall $IFW_HELM_DEPLOY_NAME --namespace $NAMESPACE
   
-      kubectl -n $NAMESPACE delete pvc/ifw-volume-claim 
-      kubectl -n $NAMESPACE delete pvc/ifw-inbox-claim
-
-      if [ "$IFW_PV_LOCAL_ENABLED" == "true" ]; then
-         kubectl -n $NAMESPACE delete pv/ifw-volume     
-         kubectl -n $NAMESPACE delete pv/ifw-inbox 
-      fi  
-      
+      kubectl -n $NAMESPACE delete -f $IFW_STORAGE_FILE 
+     
       highlight_message "Removing namespace $NAMESPACE"
       kubectl delete ns $NAMESPACE  
 

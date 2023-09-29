@@ -57,7 +57,7 @@ uninstall_database() {
     POSTGRES_STORAGE_FILE=postgres-storage.yaml
     helm uninstall postgresql --namespace $NAMESPACE;
     	
-    kubectl delete -f $kube_dir/database/storage/local/$POSTGRES_STORAGE_FILE --namespace $NAMESPACE;
+    kubectl delete -f $kube_dir/orchestrator/database/storage/local/$POSTGRES_STORAGE_FILE --namespace $NAMESPACE;
 }
 
 get_database_status() {
