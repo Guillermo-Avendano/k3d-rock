@@ -88,6 +88,15 @@ install_helm_repositories(){
   helm repo update
 }
 
+install_istio(){
+  curl -L https://istio.io/downloadIstio | sh -
+  istioctl x precheck
+  istioctl install --set profile=demo -y
+  
+  # $HOME/.profile
+  #export PATH="$PATH:/home/rocket/istio-1.19.0/bin"
+}
+
 install_dos2unix
 
 install_docker;
