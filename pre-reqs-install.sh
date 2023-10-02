@@ -97,7 +97,6 @@ install_istio(){
   istioctl x precheck
   istioctl install --set profile=demo -y
 
-
 }
 
 install_dos2unix
