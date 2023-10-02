@@ -37,10 +37,10 @@ export IFW_URL="ifw.local.net"
 export IFW_PV_LOCAL_ENABLED=true
 
 export PV_ifw_volume_claim="ifw-volume-claim"
-export PV_PATH_ifw_volume_claim=$kube_dir/pv_cluster/ifw-volume  # The name doesn't allow '_', but the variable is with '-'
+export PV_PATH_ifw_volume_claim=$KUBE_PV_ROOT/ifw-volume  # The name doesn't allow '_', but the variable is with '-'
 
 export PV_ifw_inbox_claim="ifw-inbox-claim"
-export PV_PATH_ifw_inbox_claim=$kube_dir/pv_cluster/ifw-inbox    # The name doesn't allow '_', but the variable is with '-'
+export PV_PATH_ifw_inbox_claim=$KUBE_PV_ROOT/ifw-inbox    # The name doesn't allow '_', but the variable is with '-'
 
 
 

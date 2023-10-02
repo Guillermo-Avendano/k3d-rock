@@ -83,8 +83,8 @@ KAFKA_BOOTSTRAP_URL=kafka.$NAMESPACE_SHARED:9092
 # PERSISTENT VOLUMES
 ################################################################################
 
-export PV_PATH_mobius_storage_claim=$kube_dir/pv_cluster/mobius-storage
-export PV_PATH_mobius_diagnose_claim=$kube_dir/pv_cluster/mobius-diagnose
+export PV_PATH_mobius_storage_claim=$KUBE_PV_ROOT/mobius-storage
+export PV_PATH_mobius_diagnose_claim=$KUBE_PV_ROOT/mobius-diagnose
 
-export PV_PATH_mobiusview_presentation_claim=$kube_dir/pv_cluster/mobiusview-presentation
-export PV_PATH_mobiusview_diagnose_claim=$kube_dir/pv_cluster/mobiusview-diagnose
+export PV_PATH_mobiusview_presentation_claim=$KUBE_PV_ROOT/mobiusview-presentation
+export PV_PATH_mobiusview_diagnose_claim=$KUBE_PV_ROOT/mobiusview-diagnose

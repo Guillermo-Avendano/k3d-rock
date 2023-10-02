@@ -54,9 +54,9 @@ export AAS_URL="aaservices.local.net"
 
 export AAS_PV_ENABLED=true
 export PV_aas_log_vol_claim="aas-log-vol-claim" # The name doesn't allow '_', but the variable is with '-'
-export PV_PATH_aas_log_vol_claim=$kube_dir/pv_cluster/aas-log
+export PV_PATH_aas_log_vol_claim=$KUBE_PV_ROOT/aas-log
 
 export PV_aas_shared_claim="aas-shared-claim"   # The name doesn't allow '_', but the variable is with '-'
-export PV_PATH_aas_shared_claim=$kube_dir/pv_cluster/aas-shared
+export PV_PATH_aas_shared_claim=$KUBE_PV_ROOT/aas-shared
 
 

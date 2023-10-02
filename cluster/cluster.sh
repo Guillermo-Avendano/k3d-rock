@@ -6,37 +6,35 @@ source "$kube_dir/cluster/common.sh"
 
 cluster_volumes () {
 
-    ROOT_DIR=$kube_dir/pv_cluster
-
-    if [ ! -d $ROOT_DIR ]; then
-        mkdir -p $ROOT_DIR;
-        chmod -R 777 $ROOT_DIR;
+    if [ ! -d $KUBE_PV_ROOT ]; then
+        mkdir -p $KUBE_PV_ROOT;
+        chmod -R 777 $KUBE_PV_ROOT;
     fi 
 
     declare -A pv_folder
 
-    export PV_PATH_aas_log_vol_claim=$kube_dir/pv_cluster/aas-log
+    export PV_PATH_aas_log_vol_claim=$KUBE_PV_ROOT/aas-log
     pv_folder['PV_PATH_aas_log_vol_claim']=$PV_PATH_aas_log_vol_claim
 
-    export PV_PATH_aas_shared_claim=$kube_dir/pv_cluster/aas-shared
+    export PV_PATH_aas_shared_claim=$KUBE_PV_ROOT/aas-shared
     pv_folder['PV_PATH_aas_shared_claim']=$PV_PATH_aas_shared_claim
 
-    export PV_PATH_ifw_volume_claim=$kube_dir/pv_cluster/ifw-volume
+    export PV_PATH_ifw_volume_claim=$KUBE_PV_ROOT/ifw-volume
     pv_folder['PV_PATH_ifw_volume_claim']=$PV_PATH_ifw_volume_claim
 
-    export PV_PATH_ifw_inbox_claim=$kube_dir/pv_cluster/ifw-inbox
+    export PV_PATH_ifw_inbox_claim=$KUBE_PV_ROOT/ifw-inbox
     pv_folder['PV_PATH_ifw_inbox_claim']=$PV_PATH_ifw_inbox_claim
     
-    export PV_PATH_mobius_storage_claim=$kube_dir/pv_cluster/mobius-storage
+    export PV_PATH_mobius_storage_claim=$KUBE_PV_ROOT/mobius-storage
     pv_folder['PV_PATH_mobius_storage_claim']=$PV_PATH_mobius_storage_claim
 
-    export PV_PATH_mobius_diagnose_claim=$kube_dir/pv_cluster/mobius-diagnose
+    export PV_PATH_mobius_diagnose_claim=$KUBE_PV_ROOT/mobius-diagnose
     pv_folder['PV_PATH_mobius_diagnose_claim']=$PV_PATH_mobius_diagnose_claim
 
-    export PV_PATH_mobiusview_presentation_claim=$kube_dir/pv_cluster/mobiusview-presentation
+    export PV_PATH_mobiusview_presentation_claim=$KUBE_PV_ROOT/mobiusview-presentation
     pv_folder['PV_PATH_mobiusview_presentation_claim']=$PV_PATH_mobiusview_presentation_claim
 
-    export PV_PATH_mobiusview_diagnose_claim=$kube_dir/pv_cluster/mobiusview-diagnose
+    export PV_PATH_mobiusview_diagnose_claim=$KUBE_PV_ROOT/mobiusview-diagnose
     pv_folder['PV_PATH_mobiusview_diagnoseview_claim']=$PV_PATH_mobiusview_diagnose_claim
 
     VOLUME_MAPPING=""
@@ -133,8 +131,8 @@ remove_cluster() {
         k3d registry delete $registry_name
     fi  
 
-    if [ -d $kube_dir/pv_cluster ]; then
-       rm -rf $kube_dir/pv_cluster
+    if [ -d $KUBE_PV_ROOT ]; then
+       rm -rf $KUBE_PV_ROOT
     fi 
 
 }
