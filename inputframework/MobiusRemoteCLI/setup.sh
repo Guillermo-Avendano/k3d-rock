@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export USR=1000
-export GRP=1000
+export USR=2002
+export GRP=4004
 
 cd /volume/ip
 mkdir -p MobiusRemoteCLI
