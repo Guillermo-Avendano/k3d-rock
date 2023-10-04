@@ -6,13 +6,12 @@ data:
         cli:
           repos:
           - repositoryName: "Mobius"
-            repositoryUrl: "http://mobiusview:80/mobius"
+            repositoryUrl: "http://{{ .Values.mobiusRemoteCLI.hostPort }}/mobius"
             userName: "ADMIN"
           user:
             basicauth:
               userName: "admin"
-              password: "ASG_ENC(OA5gY2gyVDx1QYQsyd6Mmw==)"
-
+              password: "ASG_ENC(i9motYxCmo6RLqOiHifcDw==)"
 kind: ConfigMap
 metadata:
   name: application-yaml-config-map
