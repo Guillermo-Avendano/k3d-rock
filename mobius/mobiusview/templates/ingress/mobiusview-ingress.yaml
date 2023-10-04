@@ -17,6 +17,13 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
 spec:
   ingressClassName: "nginx"
+  tls:
+  - hosts:
+    - <MOBIUS_VIEW_URL>
+    secretName: <MOBIUS_VIEW_URL_SECRET>  
+  - hosts:
+    - <MOBIUS_VIEW_URL2>
+    secretName: <MOBIUS_VIEW_URL2_SECRET>
   rules:
   - host: <MOBIUS_VIEW_URL>
     http:

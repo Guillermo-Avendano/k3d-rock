@@ -4,6 +4,7 @@ set -Eeuo pipefail
 source ../env.sh
 source ./env.sh
 source ../cluster/common.sh
+source ../cluster/certificates.sh
 
 install_mobiusview() {
 	
@@ -27,13 +28,26 @@ install_mobiusview() {
 	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<NAMESPACE>" $NAMESPACE;
 	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<KAFKA_BOOTSTRAP_URL>" $KAFKA_BOOTSTRAP_URL;
 
+    ################################ INGRESSES
+
+   
+
+
+	gen_certificate $MOBIUS_VIEW_URL
+	gen_certificate $MOBIUS_VIEW_URL
+
 	MOBIUSVIEW_INGRESS_FILE=mobiusview-ingress.yaml;
     cp $kube_dir/mobius/mobiusview/templates/ingress/$MOBIUSVIEW_INGRESS_FILE $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE;
 
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL>" $MOBIUS_VIEW_URL;
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2>" $MOBIUS_VIEW_URL2;
 
+    MOBIUS_VIEW_URL_SECRET=`echo $MOBIUS_VIEW_URL | sed -r 's/\./-/g'`
+	MOBIUS_VIEW_URL2_SECRET=`echo $MOBIUS_VIEW_URL2 | sed -r 's/\./-/g'`
 
+    replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL_SECRET>" $MOBIUS_VIEW_URL_SECRET-secret-tls;
+	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2_SECRET>" $MOBIUS_VIEW_URL2_SECRET-secret-tls;
+	
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."
        kubectl create namespace "$NAMESPACE"
@@ -43,6 +57,11 @@ install_mobiusview() {
     fi
 
 	info_message "Applying secrets";
+	
+	cert_directory="$kube_dir/cluster/cert"
+	
+	kubectl --namespace $NAMESPACE apply -f "$cert_directory/$MOBIUS_VIEW_URL-secrets.yaml"
+	kubectl --namespace $NAMESPACE apply -f "$cert_directory/$MOBIUS_VIEW_URL2-secrets.yaml"
 
 	kubectl --namespace $NAMESPACE create secret generic mobius-license --from-literal=license=$MOBIUS_LICENSE
 	
