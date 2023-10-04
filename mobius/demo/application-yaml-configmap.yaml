@@ -6,7 +6,7 @@ data:
         cli:
           repos:
           - repositoryName: "Mobius"
-            repositoryUrl: "http://{{ .Values.mobiusRemoteCLI.hostPort }}/mobius"
+            repositoryUrl: "http://mobiusview:80/mobius"
             userName: "ADMIN"
           user:
             basicauth:
