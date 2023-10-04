@@ -1,13 +1,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: job-mobius-demo-sleep-12-2-1-all
+  name: job-mobius-demo-12-2-1-sleep
 spec:
   template:
     spec:
       restartPolicy: Never
       containers:
-      - name: job-mobius-demo-sleep-12-2-1-all
+      - name: job-mobius-demo-12-2-1-sleep
         image: "guillermoavendano/mobiusdatasampler:12.2.1"
         command: ["/bin/bash", "-ec", "sleep 99999999"]
         env:

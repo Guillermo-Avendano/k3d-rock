@@ -14,7 +14,7 @@ spec:
           - name: MV_USR
             value: "2002"
           - name: MV_GRP
-            value: "4004"
+            value: "0"
         volumeMounts:
           - mountPath: /mnt/efs
             name:  mobius-content-classes

@@ -11,7 +11,8 @@ data:
           user:
             basicauth:
               userName: "admin"
-              password: "ASG_ENC(i9motYxCmo6RLqOiHifcDw==)"
+              password: "ASG_ENC(OA5gY2gyVDx1QYQsyd6Mmw==)"
+
 kind: ConfigMap
 metadata:
   name: application-yaml-config-map
