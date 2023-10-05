@@ -66,7 +66,7 @@ push_images(){
  
     local registry_target=${KUBE_LOCALREGISTRY_HOST}:${KUBE_LOCALREGISTRY_PORT}
 
-    docker login $registry_target
+    docker login --username ${DOCKER_USERNAME} --password "test" $registry_target
 
     for image in "${KUBE_IMAGES[@]}" 
         do
