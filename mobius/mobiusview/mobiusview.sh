@@ -4,7 +4,6 @@ set -Eeuo pipefail
 source ../env.sh
 source ./env.sh
 source ../cluster/common.sh
-source ../cluster/certificates.sh
 
 install_mobiusview() {
 	
@@ -30,11 +29,8 @@ install_mobiusview() {
 
     ################################ INGRESSES
 
-   
-
-
 	gen_certificate $MOBIUS_VIEW_URL
-	gen_certificate $MOBIUS_VIEW_URL
+	gen_certificate $MOBIUS_VIEW_URL2
 
 	MOBIUSVIEW_INGRESS_FILE=mobiusview-ingress.yaml;
     cp $kube_dir/mobius/mobiusview/templates/ingress/$MOBIUSVIEW_INGRESS_FILE $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE;
