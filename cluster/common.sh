@@ -90,6 +90,7 @@ gen_certificate(){
       echo "No arguments supplied"
    else
       varhost=$1
+      $varhost_secret=$2
    fi
 
    cert_directory="$kube_dir/cluster/cert"
@@ -102,8 +103,6 @@ gen_certificate(){
       mykey="$(cat $cert_directory/$varhost.key | base64)"
       mycrt=$(echo $mycrt | tr -d ' ')
       mykey=$(echo $mykey | tr -d ' ')
-
-      varhost_secret=`echo "$varhost" | sed -r 's#\.#-#g'`
 
       SECRET_FILE=$cert_directory/$varhost-secrets.yaml
       

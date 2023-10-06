@@ -28,18 +28,17 @@ install_mobiusview() {
 	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<KAFKA_BOOTSTRAP_URL>" $KAFKA_BOOTSTRAP_URL;
 
     ################################ INGRESSES
+    MOBIUS_VIEW_URL_SECRET=`echo "$MOBIUS_VIEW_URL" | sed -r 's#\.#-#g'`
+	MOBIUS_VIEW_URL2_SECRET=`echo "$MOBIUS_VIEW_URL2" | sed -r 's#\.#-#g'`
 
-	gen_certificate $MOBIUS_VIEW_URL
-	gen_certificate $MOBIUS_VIEW_URL2
+	gen_certificate $MOBIUS_VIEW_URL $MOBIUS_VIEW_URL_SECRET
+	gen_certificate $MOBIUS_VIEW_URL2 $MOBIUS_VIEW_URL2_SECRET
 
 	MOBIUSVIEW_INGRESS_FILE=mobiusview-ingress.yaml;
     cp $kube_dir/mobius/mobiusview/templates/ingress/$MOBIUSVIEW_INGRESS_FILE $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE;
 
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL>" $MOBIUS_VIEW_URL;
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2>" $MOBIUS_VIEW_URL2;
-
-    MOBIUS_VIEW_URL_SECRET=`echo $MOBIUS_VIEW_URL | sed -r 's#\.#-#g'`
-	MOBIUS_VIEW_URL2_SECRET=`echo $MOBIUS_VIEW_URL2 | sed -r 's#\.#-#g'`
 
     replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL_SECRET>" $MOBIUS_VIEW_URL_SECRET-secret-tls;
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2_SECRET>" $MOBIUS_VIEW_URL2_SECRET-secret-tls;
