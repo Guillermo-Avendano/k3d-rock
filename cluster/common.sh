@@ -90,7 +90,7 @@ gen_certificate(){
       echo "No arguments supplied"
    else
       varhost=$1
-      $varhost_secret=$2
+      varhost_secret=$2
    fi
 
    cert_directory="$kube_dir/cluster/cert"
