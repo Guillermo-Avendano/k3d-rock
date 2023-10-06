@@ -38,8 +38,8 @@ install_mobiusview() {
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL>" $MOBIUS_VIEW_URL;
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2>" $MOBIUS_VIEW_URL2;
 
-    MOBIUS_VIEW_URL_SECRET=`echo $MOBIUS_VIEW_URL | sed -r 's/\./-/g'`
-	MOBIUS_VIEW_URL2_SECRET=`echo $MOBIUS_VIEW_URL2 | sed -r 's/\./-/g'`
+    MOBIUS_VIEW_URL_SECRET=`echo $MOBIUS_VIEW_URL | sed -r 's#\.#-#g'`
+	MOBIUS_VIEW_URL2_SECRET=`echo $MOBIUS_VIEW_URL2 | sed -r 's#\.#-#g'`
 
     replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL_SECRET>" $MOBIUS_VIEW_URL_SECRET-secret-tls;
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2_SECRET>" $MOBIUS_VIEW_URL2_SECRET-secret-tls;
