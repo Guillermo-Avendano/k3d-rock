@@ -6,6 +6,22 @@ kube_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
     exit 1
 }
 
+for var in "${!IFW_@}"; do
+    unset "$var"
+done
+
+for var in "${!MOBIUS_@}"; do
+    unset "$var"
+done
+
+for var in "${!IMAGE_@}"; do
+    unset "$var"
+done
+
+for var in "${!AAS_@}"; do
+    unset "$var"
+done
+
 file_env=$kube_dir/.env  
 
 # Verify if the file
