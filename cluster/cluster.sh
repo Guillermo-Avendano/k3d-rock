@@ -27,14 +27,14 @@ cluster_volumes () {
 
     VOLUME_MAPPING=""
     for local_pv in ${!pv_folder[@]}; do
-    if [ ! -d ${pv_folder[${local_pv}]} ]; then
+        if [ ! -d ${pv_folder[${local_pv}]} ]; then
 
-        mkdir -p ${pv_folder[${local_pv}]};
-        chmod -R 777 ${pv_folder[${local_pv}]};
-    fi 
-    VOL_MAP=`eval echo ${pv_folder[${local_pv}]}`
-    VOLUME_MAPPING+="-v $VOL_MAP:$VOL_MAP "
-    echo Creating: $local_pv ${pv_folder[${local_pv}]}
+            mkdir -p ${pv_folder[${local_pv}]};
+            chmod -R 777 ${pv_folder[${local_pv}]};
+        fi 
+        VOL_MAP=`eval echo ${pv_folder[${local_pv}]}`
+        VOLUME_MAPPING+="-v $VOL_MAP:$VOL_MAP "
+        echo Creating: $local_pv ${pv_folder[${local_pv}]}
     done
 
     export KUBE_ARGS=$VOLUME_MAPPING
