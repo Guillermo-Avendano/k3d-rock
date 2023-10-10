@@ -8,8 +8,7 @@
 ```bash
 cd k3d-rock/aaservices
 ```
-## Copy .env.sample file as .env 
-  Add the license and Rocket Community user for downloading images 
+
 ## Summary of commands
 
 | Command | Description |

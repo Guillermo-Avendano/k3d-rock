@@ -40,6 +40,9 @@ find . -name "*.sh" -exec dos2unix {} \;
 chmod -R u+x *.sh
 ```
 
+## Copy .env.sample file as .env 
+  Add license/s, Rocket Community user for downloading images, change URLs if needed, adapt versions
+
 ### Refresh environment variables
 
 ```bash

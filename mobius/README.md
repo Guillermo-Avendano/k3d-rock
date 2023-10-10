@@ -9,9 +9,6 @@
 cd k3d-rock/mobius
 ```
 
-## Copy .env.sample file as .env 
-  Add the license and Rocket Community user for downloading images
-
 ## Summary of commands
 
 | Command | Description |
