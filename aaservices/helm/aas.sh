@@ -24,19 +24,19 @@ install_aaservices(){
     replace_tag_in_file $AAS_VALUES "<database_url>" $DATABASE_URL;
     replace_tag_in_file $AAS_VALUES "<aas_license>" $AAS_LICENSE;
     replace_tag_in_file $AAS_VALUES "<aas_pv_enabled>" $AAS_PV_ENABLED
-    replace_tag_in_file $AAS_VALUES "<PV_aas_log_vol_claim>" $PV_aas_log_vol_claim; 
-    replace_tag_in_file $AAS_VALUES "<PV_aas_shared_claim>" $PV_aas_shared_claim; 
+    replace_tag_in_file $AAS_VALUES "<AAS_PVC_LOG>" $AAS_PVC_LOG; 
+    replace_tag_in_file $AAS_VALUES "<AAS_PVC_SHARED>" $AAS_PVC_SHARED; 
 
     # AAS Shared folder
     AAS_STORAGE_FILE_TEMPLATE=$kube_dir/aaservices/templates/storage/aas-storage.yaml
     AAS_STORAGE_FILE=$kube_dir/aaservices/templates/aas-storage.yaml
     cp $AAS_STORAGE_FILE_TEMPLATE $AAS_STORAGE_FILE;
     
-    replace_tag_in_file $AAS_STORAGE_FILE "<PV_aas_log_vol_claim>" $PV_aas_log_vol_claim; 
-    replace_tag_in_file $AAS_STORAGE_FILE "<PV_PATH_aas_log_vol_claim>" $PV_PATH_aas_log_vol_claim;     
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PVC_LOG>" $AAS_PVC_LOG; 
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_LOG>" $AAS_PV_LOG;     
 
-    replace_tag_in_file $AAS_STORAGE_FILE "<PV_aas_shared_claim>" $PV_aas_shared_claim; 
-    replace_tag_in_file $AAS_STORAGE_FILE "<PV_PATH_aas_shared_claim>" $PV_PATH_aas_shared_claim;   
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PVC_SHARED>" $AAS_PVC_SHARED; 
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_SHARED>" $AAS_PV_SHARED;   
 
     # AAS Ingress file from template
     AAS_INGRESS_TEMPLATE=$kube_dir/aaservices/templates/ingress/aas-ingress.yaml
@@ -110,11 +110,9 @@ wait_for_aaservices_ready() {
 
 uninstall_aaservices(){
    if helm list -A | grep $AAS_HELM_DEPLOY_NAME > /dev/null 2>&1; then 
+      AAS_STORAGE_FILE=$kube_dir/aaservices/templates/aas-storage.yaml
       helm uninstall $AAS_HELM_DEPLOY_NAME --namespace $NAMESPACE
-      kubectl -n $NAMESPACE delete pvc/aas-log-vol-claim 
-      kubectl -n $NAMESPACE delete pv/aas-log-vol
-      kubectl -n $NAMESPACE delete pvc/aas-shared-claim 
-      kubectl -n $NAMESPACE delete pv/aas-shared      
+      kubectl -n $NAMESPACE delete -f  $AAS_STORAGE_FILE     
    fi 
 
 }

@@ -18,10 +18,13 @@ install_ifw(){
 
     replace_tag_in_file $IFW_VALUES "<IFW_MOBIUS_REMOTE_HOST_PORT>" $IFW_MOBIUS_REMOTE_HOST_PORT
 
-    replace_tag_in_file $IFW_VALUES "<PV_ifw_volume_claim>" $PV_ifw_volume_claim; 
-    replace_tag_in_file $IFW_VALUES "<PV_ifw_inbox_claim>" $PV_ifw_inbox_claim; 
+    replace_tag_in_file $IFW_VALUES "<IFW_PVC_VOLUME>" $IFW_PVC_VOLUME; 
+    replace_tag_in_file $IFW_VALUES "<IFW_PVC_INBOX>" $IFW_PVC_INBOX; 
 
     replace_tag_in_file $IFW_VALUES "<IFW_URL>" $IFW_URL ; 
+
+    replace_tag_in_file $IFW_VALUES "<IFW_ADMIN_USR>" $IFW_ADMIN_USR ; 
+    replace_tag_in_file $IFW_VALUES "<IFW_ADMIN_PWD>" $IFW_ADMIN_PWD ; 
 
     # MobiusRemoteCLI
     IFW_MOBIUS_REMOTECLI_JOB_TEMPLATE=$kube_dir/inputframework/templates/job/job_install_MobiusRemoteCLI.yaml
@@ -41,11 +44,11 @@ install_ifw(){
     IFW_STORAGE_FILE=$kube_dir/inputframework/templates/ifw-storage.yaml
     cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
     
-    replace_tag_in_file $IFW_STORAGE_FILE "<PV_ifw_volume_claim>" $PV_ifw_volume_claim; 
-    replace_tag_in_file $IFW_STORAGE_FILE "<PV_PATH_ifw_volume_claim>" $PV_PATH_ifw_volume_claim; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_VOLUME>" $IFW_PVC_VOLUME; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_VOLUME>" $IFW_PV_VOLUME; 
 
-    replace_tag_in_file $IFW_STORAGE_FILE "<PV_ifw_inbox_claim>" $PV_ifw_inbox_claim; 
-    replace_tag_in_file $IFW_STORAGE_FILE "<PV_PATH_ifw_inbox_claim>" $PV_PATH_ifw_inbox_claim; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_INBOX>" $IFW_PVC_INBOX; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_INBOX>" $IFW_PV_INBOX; 
    
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."

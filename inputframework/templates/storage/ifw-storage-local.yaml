@@ -9,12 +9,12 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "<PV_PATH_ifw_volume_claim>"
+    path: "<IFW_PV_VOLUME>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: <PV_ifw_volume_claim>
+  name: <IFW_PVC_VOLUME>
 spec:
   storageClassName: manual
   accessModes:
@@ -34,12 +34,12 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "<PV_PATH_ifw_inbox_claim>"
+    path: "<IFW_PV_INBOX>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: <PV_ifw_inbox_claim>
+  name: <IFW_PVC_INBOX>
 spec:
   storageClassName: manual
   accessModes:

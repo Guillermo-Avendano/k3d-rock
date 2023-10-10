@@ -55,10 +55,10 @@ ports:
      
 initRepository:
   NOINIT: ""  
-  IPADMIN: "SYSADMIN"  
-  IPADMINPASS: "ASG"
-  VOLUMECLAIM: "<PV_ifw_volume_claim>"
-  INBOXCLAIM: "<PV_ifw_inbox_claim>"
+  IPADMIN: "<IFW_ADMIN_USR>"
+  IPADMINPASS: "<IFW_ADMIN_PWD>"
+  VOLUMECLAIM: "<IFW_PVC_VOLUME>"
+  INBOXCLAIM: "<IFW_PVC_INBOX>"
 
 ingress:
   name: "inputframework-ingress"

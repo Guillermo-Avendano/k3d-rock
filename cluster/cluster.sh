@@ -13,29 +13,17 @@ cluster_volumes () {
 
     declare -A pv_folder
 
-    export PV_PATH_aas_log_vol_claim=$KUBE_PV_ROOT/aas-log
-    pv_folder['PV_PATH_aas_log_vol_claim']=$PV_PATH_aas_log_vol_claim
+    pv_folder['AAS_PV_LOG']=$AAS_PV_LOG
+    pv_folder['AAS_PV_SHARED']=$AAS_PV_SHARED
 
-    export PV_PATH_aas_shared_claim=$KUBE_PV_ROOT/aas-shared
-    pv_folder['PV_PATH_aas_shared_claim']=$PV_PATH_aas_shared_claim
+    pv_folder['IFW_PV_VOLUME']=$IFW_PV_VOLUME
+    pv_folder['IFW_PV_INBOX']=$IFW_PV_INBOX
 
-    export PV_PATH_ifw_volume_claim=$KUBE_PV_ROOT/ifw-volume
-    pv_folder['PV_PATH_ifw_volume_claim']=$PV_PATH_ifw_volume_claim
+    pv_folder['MOBIUS_PV_STORAGE']=$MOBIUS_PV_STORAGE
+    pv_folder['MOBIUS_PV_DIAGNOSE']=$MOBIUS_PV_DIAGNOSE
 
-    export PV_PATH_ifw_inbox_claim=$KUBE_PV_ROOT/ifw-inbox
-    pv_folder['PV_PATH_ifw_inbox_claim']=$PV_PATH_ifw_inbox_claim
-    
-    export PV_PATH_mobius_storage_claim=$KUBE_PV_ROOT/mobius-storage
-    pv_folder['PV_PATH_mobius_storage_claim']=$PV_PATH_mobius_storage_claim
-
-    export PV_PATH_mobius_diagnose_claim=$KUBE_PV_ROOT/mobius-diagnose
-    pv_folder['PV_PATH_mobius_diagnose_claim']=$PV_PATH_mobius_diagnose_claim
-
-    export PV_PATH_mobiusview_presentation_claim=$KUBE_PV_ROOT/mobiusview-presentation
-    pv_folder['PV_PATH_mobiusview_presentation_claim']=$PV_PATH_mobiusview_presentation_claim
-
-    export PV_PATH_mobiusview_diagnose_claim=$KUBE_PV_ROOT/mobiusview-diagnose
-    pv_folder['PV_PATH_mobiusview_diagnoseview_claim']=$PV_PATH_mobiusview_diagnose_claim
+    pv_folder['MOBIUSVIEW_PV_PRESENTATION']=$MOBIUSVIEW_PV_PRESENTATION
+    pv_folder['MOBIUSVIEW_PV_DIAGNOSE']=$MOBIUSVIEW_PV_DIAGNOSE
 
     VOLUME_MAPPING=""
     for local_pv in ${!pv_folder[@]}; do

@@ -12,7 +12,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "<PV_PATH_mobiusview_presentation_claim>"
+    path: "<MOBIUSVIEW_PV_PRESENTATION>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -43,7 +43,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "<PV_PATH_mobiusview_diagnose_claim>"
+    path: "<MOBIUSVIEW_PV_DIAGNOSE>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

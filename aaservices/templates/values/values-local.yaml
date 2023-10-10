@@ -69,20 +69,20 @@ datasource:
 
 # Added by Guillermo
 additionalVolumes:
-- name: <PV_aas_shared_claim>
+- name: <AAS_PVC_SHARED>
   persistentVolumeClaim:
-    claimName: <PV_aas_shared_claim>
+    claimName: <AAS_PVC_SHARED>
 
 # Added by Guillermo
 additionalVolumeMounts:
 - mountPath: /home/mobius/aas_shared
-  name: <PV_aas_shared_claim>
+  name: <AAS_PVC_SHARED>
 
 storage:
   persistence:
     aaslogs:
       enabled: <aas_pv_enabled>
-      claimName: <PV_aas_log_vol_claim>
+      claimName: <AAS_PVC_LOG>
     
   # Create secret  Example
   # kubectl create secret generic mobius-secret --from-file=certificatekey=<PATH TO Certificate .cer>
