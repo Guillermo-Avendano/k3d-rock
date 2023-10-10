@@ -1,6 +1,5 @@
 #!/bin/bash
-
-source ../env.sh   # main env.sh
+source ../env.sh   
 
 ################################################################################
 # ORCHESTRATOR CONFIGUTATION

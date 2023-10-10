@@ -22,6 +22,9 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  selector: 
+    matchLabels: 
+      type: ifw-volume      
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -47,3 +50,6 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  selector: 
+    matchLabels: 
+      type: ifw-inbox     

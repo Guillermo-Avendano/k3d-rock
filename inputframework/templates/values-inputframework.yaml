@@ -55,7 +55,7 @@ ports:
      
 initRepository:
   NOINIT: ""  
-  IPADMIN: "SYSADMIN"  
+  IPADMIN: "SYSADMIN"
   IPADMINPASS: "ASG"
   VOLUMECLAIM: "ifw-volume-claim"
   INBOXCLAIM: "ifw-inbox-claim"
