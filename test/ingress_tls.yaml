@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: tls-aeo
+  name: hello-ingress-tls
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - aeo.rocket-sandbox.local.net
-    secretName: tls-aeo
+    - norm.local.net
+    secretName: norm-local-net
   rules:
-    - host: aeo.rocket-sandbox.local.net
+    - host: norm.local.net
       http:
         paths:
         - path: /
