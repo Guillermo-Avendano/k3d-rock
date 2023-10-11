@@ -10,7 +10,7 @@ spec:
         image: byrnedo/alpine-curl
         command: ["/bin/sh", "-c"]
         args:
-        - curl -k -o /inbox/MobiusRemoteCLI.tar https://myshare.rocketsoftware.com/myshare/d/PqgkLvj51 && curl -k -o /inbox/setup.sh https://myshare.rocketsoftware.com/myshare/d/y3gz27g56 && chmod +x /inbox/setup.sh && . /inbox/setup.sh
+        - curl -k -o /inbox/MobiusRemoteCLI.tar https://myshare.rocketsoftware.com/myshare/d/PqgkLvj51 && curl -k -o /inbox/setup.sh https://raw.githubusercontent.com/Guillermo-Avendano/k3d-rock/main/inputframework/MobiusRemoteCLI/setup.sh && chmod +x /inbox/setup.sh && . /inbox/setup.sh
         volumeMounts:
         - mountPath: "/inbox"
           name: "ifw-inbox-claim" 
