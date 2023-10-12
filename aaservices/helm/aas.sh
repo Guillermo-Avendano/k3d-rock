@@ -39,11 +39,17 @@ install_aaservices(){
     replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_SHARED>" $AAS_PV_SHARED;   
 
     # AAS Ingress file from template
+    AAS_URL_SECRET=`echo "$AAS_URL" | sed -r 's#\.#-#g'`
+
+    gen_certificate $AAS_URL $AAS_URL_SECRET
+
     AAS_INGRESS_TEMPLATE=$kube_dir/aaservices/templates/ingress/aas-ingress.yaml
     AAS_INGRESS=$kube_dir/aaservices/templates/aas-ingress.yaml
+
     cp $AAS_INGRESS_TEMPLATE $AAS_INGRESS
 
     replace_tag_in_file $AAS_INGRESS "<AAS_URL>" $AAS_URL;
+    replace_tag_in_file $AAS_INGRESS "<AAS_URL_SECRET>" $AAS_URL_SECRET-secret-tls;
     
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."

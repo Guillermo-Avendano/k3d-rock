@@ -4,8 +4,12 @@ metadata:
   name: aas-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /aaservices/$2
-    kubernetes.io/ingress.class: nginx
 spec:
+  ingressClassName: "nginx"
+  tls:
+  - hosts:
+    - <AAS_URL>
+    secretName: <AAS_URL_SECRET>
   rules:
   - host: <AAS_URL>  
     http:
