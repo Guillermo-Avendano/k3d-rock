@@ -62,5 +62,8 @@ replace_tag_in_file ./ingress_tls.yaml "<tls-name>" $varhost_secret
 kubectl create ns demo
 kubectl -n demo apply -f ./hello-app-deployment-v1.yaml
 kubectl -n demo apply -f ./hello-svc-v1.yaml
+
+# file generated in gen_certificate()
 kubectl -n demo apply -f ./$varhost-secrets.yaml
+
 kubectl -n demo apply -f ./ingress_tls.yaml
