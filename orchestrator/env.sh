@@ -18,11 +18,11 @@ PRODUCT_FOLDER="orchestrator"
 # IMAGES
 ################################################################################
 IMAGE_SCHEDULER_NAME=aeo/scheduler
-IMAGE_SCHEDULER_VERSION=4.3.2.106
+IMAGE_SCHEDULER_VERSION=${IMAGE_SCHEDULER_VERSION:-4.3.2.108}
 IMAGE_CLIENTMGR_NAME=aeo/clientmgr
-IMAGE_CLIENTMGR_VERSION=4.3.2.106
+IMAGE_CLIENTMGR_VERSION=${IMAGE_CLIENTMGR_VERSION:-4.3.2.108}
 IMAGE_AGENT_NAME=aeo/agent
-IMAGE_AGENT_VERSION=4.3.2.106
+IMAGE_AGENT_VERSION=${IMAGE_AGENT_VERSION:-4.3.2.108}
 
 KUBE_IMAGE_PULL="YES"                             
 
@@ -48,6 +48,6 @@ POSTGRESQL_PORT=5432
 export POSTGRES_VALUES_TEMPLATE=postgres-aeo.yaml
 
 #########################################
-export AEO_URL="orchestrator.local.net"
+export AEO_URL=${AEO_URL:-orchestrator.local.net}
 
 
