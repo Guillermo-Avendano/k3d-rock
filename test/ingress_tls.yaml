@@ -8,10 +8,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - norm.local.net
-    secretName: norm-local-net
+    - azul.local.net
+    secretName: azul-local-net-secret-tls
   rules:
-    - host: norm.local.net
+    - host: azul.local.net
       http:
         paths:
         - path: /

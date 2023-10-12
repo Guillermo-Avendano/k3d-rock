@@ -50,6 +50,8 @@ else
     varhost_secret=`echo "$varhost" | sed -r 's#\.#-#g'`
 fi
 
+varhost_secret="$varhost_secret-secret-tls"
+
 gen_certificate $varhost $varhost_secret
 
 cp ./ingress_tls_template.yaml ./ingress_tls.yaml
@@ -60,4 +62,5 @@ replace_tag_in_file ./ingress_tls.yaml "<tls-name>" $varhost_secret
 kubectl create ns demo
 kubectl -n demo apply -f ./hello-app-deployment-v1.yaml
 kubectl -n demo apply -f ./hello-svc-v1.yaml
+kubectl -n demo apply -f ./$varhost-secrets.yaml
 kubectl -n demo apply -f ./ingress_tls.yaml

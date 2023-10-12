@@ -17,6 +17,13 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
 spec:
   ingressClassName: "nginx"
+  tls:
+  - hosts:
+    - mobius12.local.net
+    secretName: mobius12-local-net-secret-tls  
+  - hosts:
+    - mobius12.rocket.net
+    secretName: mobius12-rocket-net-secret-tls
   rules:
   - host: mobius12.local.net
     http:
@@ -28,7 +35,7 @@ spec:
               name: mobiusview
               port:
                 number: 80
-  - host: mobius12.lapubuntu.net
+  - host: mobius12.rocket.net
     http:
       paths:
         - path: /mobius(.*)$
