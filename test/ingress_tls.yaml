@@ -8,10 +8,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - azul.local.net
-    secretName: azul-local-net-secret-tls
+    - boca.local.net
+    secretName: boca-local-net-secret-tls
   rules:
-    - host: azul.local.net
+    - host: boca.local.net
       http:
         paths:
         - path: /

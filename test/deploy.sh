@@ -38,7 +38,30 @@ gen_certificate(){
       replace_tag_in_file $SECRET_FILE "#CRT#" $mycrt;
       replace_tag_in_file $SECRET_FILE "#KEY#" $mykey;
       replace_tag_in_file $SECRET_FILE "#NAME#" $varhost_secret;
+      
+      kubectl create secret tls "$varhost_secret" --key "$cert_directory/$varhost.key" --cert "$cert_directory/$varhost.crt" --dry-run="client" -o="yaml" >> "$SECRET_FILE-1.yaml"
+   fi  
 
+}
+
+gen_certificate1(){
+   if [[ $# -eq 0 ]] ; then
+      echo "No arguments supplied"
+   else
+      varhost=$1
+      varhost_secret=$2
+   fi
+
+   cert_directory="./"
+   
+   cert_file="$cert_directory/$varhost-secrets.yaml"
+    
+   if [ ! -f $cert_file ]; then
+      openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes -keyout "$cert_directory/$varhost.key" -out "$cert_directory/$varhost.crt" -subj "/CN=$varhost" -addext "subjectAltName=DNS:$varhost" -addext 'extendedKeyUsage=serverAuth,clientAuth'
+
+      SECRET_FILE=$cert_directory/$varhost-secrets.yaml
+           
+      kubectl create secret tls "$varhost_secret" --key "$cert_directory/$varhost.key" --cert "$cert_directory/$varhost.crt" --dry-run="client" -o="yaml" >> "$SECRET_FILE"
    fi  
 
 }
@@ -52,7 +75,7 @@ fi
 
 varhost_secret="$varhost_secret-secret-tls"
 
-gen_certificate $varhost $varhost_secret
+gen_certificate1 $varhost $varhost_secret
 
 cp ./ingress_tls_template.yaml ./ingress_tls.yaml
 
