@@ -22,7 +22,7 @@ IFW_MOBIUS_REMOTE_CLI_SETUP_URL=${IFW_MOBIUS_REMOTE_CLI_SETUP_URL:-https://mysha
 export KUBE_NS_LIST=( "$NAMESPACE" )
 
 # MobiusRemoteCLI configuration
-export IFW_MOBIUS_REMOTE_HOST_PORT=mobiusview.mobius:80
+export IFW_MOBIUS_REMOTE_HOST_PORT=${IFW_MOBIUS_REMOTE_HOST_PORT:-mobiusview.mobius:80}
 
 #########################################
 export IFW_URL=${IFW_URL:-ifw.local.net}
