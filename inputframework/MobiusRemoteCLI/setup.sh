@@ -6,8 +6,8 @@ export GRP=4004
 cd /volume/ip
 mkdir -p MobiusRemoteCLI
 mkdir -p audit
-chown $USR:$GRP audit/
-chown $USR:$GRP MobiusRemoteCLI/
+chown -R $USR:$GRP audit/
+chown -R $USR:$GRP MobiusRemoteCLI/
 chmod 777 templates/
 cd MobiusRemoteCLI
 
@@ -21,7 +21,7 @@ echo "java -cp \"/volume/ip/MobiusRemoteCLI/BOOT-INF/classes:/volume/ip/MobiusRe
 
 
 tar xvf /inbox/MobiusRemoteCLI.tar
-chown $USR:$GRP BOOT-INF/
+chown -R $USR:$GRP BOOT-INF/
 chown $USR:$GRP *.sh
 chown $USR:$GRP *.jar
 chmod 777 *.sh
