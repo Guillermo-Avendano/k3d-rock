@@ -6,3 +6,6 @@
 
 /volume/ip/MobiusRemoteCLI/acreate.sh -s Mobius -u ADMIN -f /inbox/vader111.RDW -r VADERXEROX -c VADER_XEROX -v 2
 
+
+/volume/ip/MobiusRemoteCLI/MobiusRemoteCLIsmall.sh vdrdbxml -s Mobius -u ADMIN -f /inbox/VADER_DJDE/test_policy.PLC.xml -o /inbox/test_policy.PLC.out -v 2
+

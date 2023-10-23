@@ -55,7 +55,11 @@ spec:
             - mountPath: /home/mobius/asg/mobius/mobius-cli/
               name: application-yaml-config-map
             - mountPath: /home/mobius/asg/security/
-              name: secret-sec-config-map              
+              name: secret-sec-config-map
+            - mountPath: /root/asg/mobius/mobius-cli/
+              name: application-yaml-config-map
+            - mountPath: /root/asg/security/
+              name: secret-sec-config-map                           
       volumes:
          - name: "inputframework-volume"
            persistentVolumeClaim:
