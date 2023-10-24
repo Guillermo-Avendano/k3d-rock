@@ -12,7 +12,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "/mnt/c/Rocket.Git/k3d-rock/pv_cluster/mobiusview-presentation"
+    path: "/home/rocket/k3d-rock/pv_cluster/mobiusview-presentation"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -43,7 +43,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "/mnt/c/Rocket.Git/k3d-rock/pv_cluster/mobiusview-diagnose"
+    path: "/home/rocket/k3d-rock/pv_cluster/mobiusview-diagnose"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
