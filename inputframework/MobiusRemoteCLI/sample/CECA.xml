@@ -11,7 +11,9 @@ DataType: XEROX;
 JDL: &apos;VACADI&apos;;
 JDE: &apos;JDCADI&apos;;
 InputResPath: &apos;/mnt/efs/externalresources/VADER_DJDE&apos;;
-PageViewMode: TextOnly;
+PageBreaks: MachineCC;
+LineBreaks: RDW;
+PageViewMode: TextWithLayout;
 
 field
 FILE_NAME: level=1, number, negativesymbol(&apos;MINUS&apos;),digitgroup(&apos;COMMAS&apos;),symbolorder(&apos;SD&apos;), metadata(&apos;FILE_NAME&apos;);
