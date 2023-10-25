@@ -85,7 +85,7 @@ ask_binary_question() {
     echo "$answer"
 }
 
-gen_certificate(){
+gen_certificate-ori(){
    if [[ $# -eq 0 ]] ; then
       echo "No arguments supplied"
    else
@@ -113,5 +113,27 @@ gen_certificate(){
       replace_tag_in_file $SECRET_FILE "#NAME#" $varhost_secret;
 
    fi  
+
+}
+
+gen_certificate(){
+   if [[ $# -eq 0 ]] ; then
+      echo "No arguments supplied"
+   else
+      varhost=$1
+      varhost_secret=$2
+   fi
+
+   cert_directory="$kube_dir/cluster/cert"
+   
+   cert_file="$cert_directory/$varhost-secrets.yaml"
+    
+   if [ ! -f $cert_file ]; then
+      openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes -keyout "$cert_directory/$varhost.key" -out "$cert_directory/$varhost.crt" -subj "/CN=$varhost" -addext "subjectAltName=DNS:$varhost" -addext 'extendedKeyUsage=serverAuth,clientAuth'
+ 
+      SECRET_FILE=$cert_directory/$varhost-secrets.yaml
+           
+      kubectl create secret tls "$varhost_secret" --key "$cert_directory/$varhost.key" --cert "$cert_directory/$varhost.crt" --dry-run="client" -o="yaml" >> "$SECRET_FILE"
+    fi  
 
 }

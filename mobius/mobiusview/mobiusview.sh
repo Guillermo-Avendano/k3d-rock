@@ -56,19 +56,13 @@ install_mobiusview() {
 	cert_directory="$kube_dir/cluster/cert"
 	
 	kubectl --namespace $NAMESPACE apply -f "$cert_directory/$MOBIUS_VIEW_URL-secrets.yaml"
+    info_message "Certificate for $MOBIUS_VIEW_URL: $cert_directory/$MOBIUS_VIEW_URL.crt";
+
 	kubectl --namespace $NAMESPACE apply -f "$cert_directory/$MOBIUS_VIEW_URL2-secrets.yaml"
+	info_message "Certificate for $MOBIUS_VIEW_URL2: $cert_directory/$MOBIUS_VIEW_URL2.crt";
 
 	kubectl --namespace $NAMESPACE create secret generic mobius-license --from-literal=license=$MOBIUS_LICENSE
 	
-	  
-    # tls
-	#if [ ! -f "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL.key" ]; then
-	#   openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes -keyout "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL.key" -out "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL.crt" -subj "/CN=$MOBIUS_VIEW_URL" -addext "subjectAltName=DNS:$MOBIUS_VIEW_URL" -addext 'extendedKeyUsage=serverAuth,clientAuth'
-	#   openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes -keyout "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL2.key" -out "$kube_dir/mobius/mobiusview/$MOBIUS_VIEW_URL2.crt" -subj "/CN=$MOBIUS_VIEW_URL2" -addext "subjectAltName=DNS:$MOBIUS_VIEW_URL2" -addext 'extendedKeyUsage=serverAuth,clientAuth'
-
-	# kubectl create secret generic mi-secreto-tls --from-file=mi-certificado.crt=path/al/archivo/mi-certificado.crt --from-file=mi-clave.key=path/al/archivo/mi-clave.key
-
-
     info_message "Creating mobiusview storage";    
     kubectl apply -f $kube_dir/mobius//mobiusview/mobiusview_storage.yaml --namespace $NAMESPACE;
 	
