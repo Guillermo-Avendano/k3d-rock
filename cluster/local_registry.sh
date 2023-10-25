@@ -36,12 +36,15 @@ tag_images(){
 
 list_images(){
     info_message "images from $KUBE_SOURCE_REGISTRY"
+    read -s -p "Password: " DOCKER_PASSWORD
+    echo ""
+
     for image in "${KUBE_IMAGES[@]}" 
         do
             IFS=':' read -ra kv <<< "$image"
             image_name="${kv[0]}"
             image_tag="${kv[1]}"
-            curl -X GET -u $DOCKER_USERNAME:$DOCKER_PASSWORD https://registry.rocketsoftware.com/v2/$image_name/tags/list
+            curl -X GET -su "$DOCKER_USERNAME:$DOCKER_PASSWORD" https://registry.rocketsoftware.com/v2/$image_name/tags/list
             echo ""
         done     
 }
