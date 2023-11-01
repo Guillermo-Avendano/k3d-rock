@@ -24,16 +24,8 @@ install_ifw(){
     replace_tag_in_file $IFW_VALUES "<IFW_URL>" $IFW_URL ; 
 
     replace_tag_in_file $IFW_VALUES "<IFW_ADMIN_USR>" $IFW_ADMIN_USR ; 
-    replace_tag_in_file $IFW_VALUES "<IFW_ADMIN_PWD>" $IFW_ADMIN_PWD ; 
-
-    # MobiusRemoteCLI
-    IFW_MOBIUS_REMOTECLI_JOB_TEMPLATE=$kube_dir/inputframework/templates/job/job_install_MobiusRemoteCLI.yaml
-    IFW_MOBIUS_REMOTECLI_JOB=$kube_dir/inputframework/templates/job_install_MobiusRemoteCLI.yaml
-    cp $IFW_MOBIUS_REMOTECLI_JOB_TEMPLATE $IFW_MOBIUS_REMOTECLI_JOB
-
-    replace_tag_in_file $IFW_MOBIUS_REMOTECLI_JOB "<IFW_MOBIUS_REMOTE_CLI_URL>" $IFW_MOBIUS_REMOTE_CLI_URL; 
-    replace_tag_in_file $IFW_MOBIUS_REMOTECLI_JOB "<IFW_MOBIUS_REMOTE_CLI_SETUP_URL>" $IFW_MOBIUS_REMOTE_CLI_SETUP_URL; 
-
+    replace_tag_in_file $IFW_VALUES "<IFW_ADMIN_PWD>" $IFW_ADMIN_PWD ;
+  
     # Storage
     
     IFW_STORAGE_FILE=$kube_dir/inputframework/templates/ifw-storage.yaml
@@ -68,9 +60,6 @@ install_ifw(){
     
     info_message "Deploying Input Framework Services Helm chart";   
     helm upgrade -f $IFW_VALUES $IFW_HELM_DEPLOY_NAME $kube_dir/inputframework/helm/inputframework --namespace $NAMESPACE --create-namespace --install --wait;
-
-    info_message "Installing MobiusRemoteCLI..."; 
-    kubectl -n $NAMESPACE apply -f $IFW_MOBIUS_REMOTECLI_JOB
 
 }
 

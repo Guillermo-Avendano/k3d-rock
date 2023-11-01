@@ -8,7 +8,7 @@ replicaCount: 1
 namespace: ifw
 
 image:
-  repository: asgthorstenk/inputframework_tef 
+  repository: guillermoavendano/inputframework 
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: 4.8
