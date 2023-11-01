@@ -5,3 +5,9 @@ sudo yum install -y  nfs-common
 mkdir /mnt/nfs_share
 sudo mount -t nfs <IP_DEL_SERVIDOR_NFS>:/ruta/al/directorio/NFS /mnt/nfs_share
 
+
+------------------------
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+    --set nfs.server=10.0.0.2 \
+    --set nfs.path=/var/nfs/general

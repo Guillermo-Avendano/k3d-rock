@@ -60,6 +60,9 @@ export KUBE_PV_ROOT=$kube_dir/pv_cluster
 
 export KUBE_ISTIO_ENABLED="false"
 
+export KUBE_NFS_ENABLED=${KUBE_NFS_ENABLED:-false}
+
+
 ################################################################################
 # PERSISTENT VOLUMES
 ################################################################################

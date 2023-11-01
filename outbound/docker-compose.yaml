@@ -1,0 +1,10 @@
+version: "3.0"
+
+services:
+  
+  mssql2017:
+    image: docker.io/i386/centos:6
+    container_name: outbound61
+    hostname: outbound61
+    volumes:
+    - ./opt:/opt/rocket

@@ -35,20 +35,21 @@ install_ifw(){
     replace_tag_in_file $IFW_MOBIUS_REMOTECLI_JOB "<IFW_MOBIUS_REMOTE_CLI_SETUP_URL>" $IFW_MOBIUS_REMOTE_CLI_SETUP_URL; 
 
     # Storage
-    if [ "$IFW_PV_LOCAL_ENABLED" == "true" ]; then
-        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-local.yaml
-    else
-        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage.yaml
-    fi
     
     IFW_STORAGE_FILE=$kube_dir/inputframework/templates/ifw-storage.yaml
-    cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
-    
-    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_VOLUME>" $IFW_PVC_VOLUME; 
-    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_VOLUME>" $IFW_PV_VOLUME; 
 
-    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_INBOX>" $IFW_PVC_INBOX; 
-    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_INBOX>" $IFW_PV_INBOX; 
+    if [ "$KUBE_NFS_ENABLED" == "true" ]; then
+        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-nfs2.yaml
+        cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
+    else
+        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-local.yaml
+        cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
+        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_VOLUME>" $IFW_PVC_VOLUME; 
+        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_VOLUME>" $IFW_PV_VOLUME; 
+
+        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_INBOX>" $IFW_PVC_INBOX; 
+        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_INBOX>" $IFW_PV_INBOX; 
+    fi
    
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."

@@ -62,7 +62,7 @@ initRepository:
 
 ingress:
   name: "inputframework-ingress"
-  hostname: ifw.lapubuntu.net
+  hostname: ifw.local.net
   enabled: true
   className: "nginx"
   annotations: {}

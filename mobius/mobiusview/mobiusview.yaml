@@ -8,7 +8,7 @@ namespace: mobius
 image:
   # Placeholders will replaced in runtime based on .env file
   repository: localhost:5000/mobius-view
-  tag: 12.2.1
+  tag: 12.3.0-snapshot-alpha
   pullPolicy: IfNotPresent
 
 deploy:

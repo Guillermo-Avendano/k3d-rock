@@ -27,7 +27,5 @@ export IFW_MOBIUS_REMOTE_HOST_PORT=${IFW_MOBIUS_REMOTE_HOST_PORT:-mobiusview.mob
 #########################################
 export IFW_URL=${IFW_URL:-ifw.local.net}
 
-export IFW_PV_LOCAL_ENABLED=true
-
 export IFW_PVC_VOLUME="ifw-volume-claim"
 export IFW_PVC_INBOX="ifw-inbox-claim"
