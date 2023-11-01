@@ -39,17 +39,21 @@ install_ifw(){
     IFW_STORAGE_FILE=$kube_dir/inputframework/templates/ifw-storage.yaml
 
     if [ "$KUBE_NFS_ENABLED" == "true" ]; then
-        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-nfs2.yaml
+        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-nfs.yaml
         cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
+
+        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_PATH>" $IFW_NFS_PATH; 
+        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_SERVER>" $IFW_NFS_SERVER;      
     else
         IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-local.yaml
         cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
-        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_VOLUME>" $IFW_PVC_VOLUME; 
-        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_VOLUME>" $IFW_PV_VOLUME; 
 
         replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_INBOX>" $IFW_PVC_INBOX; 
         replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_INBOX>" $IFW_PV_INBOX; 
     fi
+    
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_VOLUME>" $IFW_PVC_VOLUME; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_VOLUME>" $IFW_PV_VOLUME;
    
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."

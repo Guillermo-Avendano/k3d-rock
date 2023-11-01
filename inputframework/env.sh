@@ -29,3 +29,6 @@ export IFW_URL=${IFW_URL:-ifw.local.net}
 
 export IFW_PVC_VOLUME="ifw-volume-claim"
 export IFW_PVC_INBOX="ifw-inbox-claim"
+
+export IFW_NFS_SERVER=${IFW_NFS_SERVER:-10.0.0.2}
+export IFW_NFS_PATH=${IFW_NFS_PATH:-/var/nfs/general}

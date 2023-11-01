@@ -4,6 +4,7 @@ sudo yum install -y  nfs-common
 
 mkdir /mnt/nfs_share
 sudo mount -t nfs <IP_DEL_SERVIDOR_NFS>:/ruta/al/directorio/NFS /mnt/nfs_share
+sudo mount -t nfs 10.0.0.2:/var/nfs/general /var/nfs_client
 
 
 ------------------------
@@ -11,3 +12,6 @@ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/
 helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
     --set nfs.server=10.0.0.2 \
     --set nfs.path=/var/nfs/general
+
+helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version v4.4.0

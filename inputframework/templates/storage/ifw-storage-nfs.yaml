@@ -1,28 +1,66 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ifw-volume
+  labels:
+    type: ifw-volume 
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain  
+  hostPath:
+    path: "<IFW_PV_VOLUME>"
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: if-volume-claim
+  name: <IFW_PVC_VOLUME>
 spec:
-  storageClassName: nfs-client
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1000M   
+      storage: 1Gi
+  selector: 
+    matchLabels: 
+      type: ifw-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ifw-inbox
+  labels:
+    type: ifw-inbox 
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany  
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: <IFW_NFS_PATH>
+    server: <IFW_NFS_SERVER>
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ifw-inbox-claim
-  annotations:
-    nfs.io/storage-path: "meta.helm.sh/release-name=nfs-subdir-external-provisioner,meta.helm.sh/release-namespace=default"
 spec:
-  storageClassName: nfs-client
+  storageClassName: nfs
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1000M   
-  nfs:
-    path: /var/nfs/general
-    server: 10.0.0.2      
+      storage: 1Gi
+  selector: 
+    matchLabels: 
+      type: ifw-inbox     
