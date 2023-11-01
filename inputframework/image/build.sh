@@ -1,5 +1,5 @@
 #!/bin/bash
-chmod u+x *.sh
+chmod +x *.sh
 
 docker build --network host -t guillermoavendano/inputframework:4.8 .
 
