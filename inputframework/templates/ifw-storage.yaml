@@ -5,22 +5,21 @@ metadata:
   labels:
     type: ifw-volume 
 spec:
-  storageClassName: ""
+  storageClassName: manual
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    path: /var/nfs/general
-    server: 10.0.0.2
+  persistentVolumeReclaimPolicy: Retain  
+  hostPath:
+    path: "/home/rocket/k3d-rock/pv_cluster/ifw-volume"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ifw-volume-claim
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
@@ -37,22 +36,21 @@ metadata:
   labels:
     type: ifw-inbox 
 spec:
-  storageClassName: ""
+  storageClassName: manual
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    path: /var/nfs/general
-    server: 10.0.0.2
+  persistentVolumeReclaimPolicy: Retain  
+  hostPath:
+    path: "/home/rocket/k3d-rock/pv_cluster/ifw-inbox"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ifw-inbox-claim
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
