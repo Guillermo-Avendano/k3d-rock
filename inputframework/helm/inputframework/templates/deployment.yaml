@@ -27,6 +27,10 @@ spec:
       serviceAccountName: {{ include "inputframework.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: init-busybox
+          image: busybox
+          command: ["sh", "-c", "if [ -d /opt/MobiusRemoteCLI]; then chown -R 2002:4004 /opt/MobiusRemoteCLI && chmod +x /opt/MobiusRemoteCLI/*.sh; fi"]
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
