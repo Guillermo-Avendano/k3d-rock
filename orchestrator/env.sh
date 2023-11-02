@@ -2,12 +2,6 @@
 
 source ../env.sh   # main env.sh
 
-xargsflag="-d"
-if [ $(uname -s) == "Darwin" ]; then
- xargsflag="-I"
-fi
-export $(grep -v '^#' .env | xargs ${xargsflag} '\n')
-
 ################################################################################
 # ORCHESTRATOR CONFIGUTATION
 ################################################################################
@@ -18,11 +12,11 @@ PRODUCT_FOLDER="orchestrator"
 # IMAGES
 ################################################################################
 IMAGE_SCHEDULER_NAME=aeo/scheduler
-IMAGE_SCHEDULER_VERSION=${IMAGE_SCHEDULER_VERSION:-4.3.2.108}
+IMAGE_SCHEDULER_VERSION=${IMAGE_SCHEDULER_VERSION:-4.4.1.14}
 IMAGE_CLIENTMGR_NAME=aeo/clientmgr
-IMAGE_CLIENTMGR_VERSION=${IMAGE_CLIENTMGR_VERSION:-4.3.2.108}
+IMAGE_CLIENTMGR_VERSION=${IMAGE_CLIENTMGR_VERSION:-4.4.1.14}
 IMAGE_AGENT_NAME=aeo/agent
-IMAGE_AGENT_VERSION=${IMAGE_AGENT_VERSION:-4.3.2.108}
+IMAGE_AGENT_VERSION=${IMAGE_AGENT_VERSION:-4.4.1.14}
 
 KUBE_IMAGE_PULL="YES"                             
 
