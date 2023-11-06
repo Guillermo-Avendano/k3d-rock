@@ -13,6 +13,9 @@ install_mobius() {
 	
 	replace_tag_in_file $kube_dir/mobius/mobiusserver/$MOBIUS_STORAGE_FILE "<MOBIUS_PV_STORAGE>" $MOBIUS_PV_STORAGE;
 	replace_tag_in_file $kube_dir/mobius/mobiusserver/$MOBIUS_STORAGE_FILE "<MOBIUS_PV_DIAGNOSE>" $MOBIUS_PV_DIAGNOSE;
+	replace_tag_in_file $kube_dir/mobius/mobiusserver/$MOBIUS_STORAGE_FILE "<KUBE_STORAGE_CLASS>" $KUBE_STORAGE_CLASS
+	replace_tag_in_file $kube_dir/mobius/mobiusserver/$MOBIUS_STORAGE_FILE "<KUBE_STORAGE_READ_WRITE>" $KUBE_STORAGE_READ_WRITE
+
 	
 	MOBIUS_VALUES_FILE=mobiusserver.yaml;
     cp $kube_dir/mobius/mobiusserver/templates/$MOBIUS_VALUES_FILE $kube_dir/mobius/mobiusserver/$MOBIUS_VALUES_FILE;

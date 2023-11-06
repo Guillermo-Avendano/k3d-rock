@@ -12,6 +12,8 @@ install_mobiusview() {
 	
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_STORAGE_FILE "<MOBIUSVIEW_PV_PRESENTATION>" $MOBIUSVIEW_PV_PRESENTATION;
 	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_STORAGE_FILE "<MOBIUSVIEW_PV_DIAGNOSE>" $MOBIUSVIEW_PV_DIAGNOSE;
+	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_STORAGE_FILE "<KUBE_STORAGE_CLASS>" $KUBE_STORAGE_CLASS
+	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_STORAGE_FILE "<KUBE_STORAGE_READ_WRITE>" $KUBE_STORAGE_READ_WRITE
 	
 	MOBIUSVIEW_VALUES_FILE=mobiusview.yaml;
     cp $kube_dir/mobius/mobiusview/templates/$MOBIUSVIEW_VALUES_FILE $kube_dir/mobius/mobiusview/$MOBIUSVIEW_VALUES_FILE;
