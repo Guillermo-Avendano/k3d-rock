@@ -3,11 +3,11 @@ kind: PersistentVolume
 metadata:
   name: aas-log-vol
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   hostPath:
     path: "<AAS_PV_LOG>"
 ---
@@ -16,9 +16,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: <AAS_PVC_LOG>
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
       storage: 1Gi
@@ -28,11 +28,11 @@ kind: PersistentVolume
 metadata:
   name: aas-shared
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   hostPath:
     path: "<AAS_PV_SHARED>"
 ---
@@ -41,9 +41,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: <AAS_PVC_SHARED>
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
       storage: 1Gi

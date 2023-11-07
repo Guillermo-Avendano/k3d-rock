@@ -36,7 +36,11 @@ install_aaservices(){
     replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_LOG>" $AAS_PV_LOG;     
 
     replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PVC_SHARED>" $AAS_PVC_SHARED; 
-    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_SHARED>" $AAS_PV_SHARED;   
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_SHARED>" $AAS_PV_SHARED;  
+
+    replace_tag_in_file $AAS_STORAGE_FILE "<KUBE_STORAGE_CLASS>" $KUBE_STORAGE_CLASS
+    replace_tag_in_file $AAS_STORAGE_FILE "<KUBE_STORAGE_READ_WRITE>" $KUBE_STORAGE_READ_WRITE
+ 
 
     # AAS Ingress file from template
     AAS_URL_SECRET=`echo "$AAS_URL" | sed -r 's#\.#-#g'`

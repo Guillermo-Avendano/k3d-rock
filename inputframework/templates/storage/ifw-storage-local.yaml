@@ -5,11 +5,11 @@ metadata:
   labels:
     type: ifw-volume 
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   persistentVolumeReclaimPolicy: Retain  
   hostPath:
     path: "<IFW_PV_VOLUME>"
@@ -19,9 +19,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: <IFW_PVC_VOLUME>
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
       storage: 1Gi
@@ -36,11 +36,11 @@ metadata:
   labels:
     type: ifw-inbox 
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   persistentVolumeReclaimPolicy: Retain  
   hostPath:
     path: "<IFW_PV_INBOX>"
@@ -50,9 +50,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: <IFW_PVC_INBOX>
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
       storage: 1Gi
