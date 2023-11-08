@@ -7,11 +7,7 @@ source ../cluster/common.sh
 
 install_mobius() {
 	
-	if [ "$KUBE_PV_ROOT_MAP_ALL" == "true" ]; then
-	    MOBIUS_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusserver/templates/storage/mobius_storage.yaml;
-	else
-	    MOBIUS_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusserver/templates/storage/mobius_storage-local.yaml;
-	fi	  
+	MOBIUS_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusserver/templates/storage/mobius_storage-local.yaml;
 	MOBIUS_STORAGE_FILE=$kube_dir/mobius/mobiusserver/deploy/mobius_storage.yaml;
 
     cp $MOBIUS_STORAGE_FILE_TEMPLATE $MOBIUS_STORAGE_FILE;

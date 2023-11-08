@@ -8,12 +8,7 @@ source ../cluster/common.sh
 install_mobiusview() {
 
     ################################ STORAGE #################################
-	if [ "$KUBE_PV_ROOT_MAP_ALL" == "true" ]; then
-	    MOBIUSVIEW_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/storage/mobiusview_storage.yaml;
-	else
-	    MOBIUSVIEW_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/storage/mobiusview_storage-local.yaml;
-	fi	
-
+	MOBIUSVIEW_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/storage/mobiusview_storage-local.yaml;
 	MOBIUSVIEW_STORAGE_FILE=$kube_dir/mobius/mobiusview/deploy/mobiusview_storage.yaml;
     cp $MOBIUSVIEW_STORAGE_FILE_TEMPLATE $MOBIUSVIEW_STORAGE_FILE;
 	

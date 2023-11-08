@@ -8,12 +8,7 @@ source "$kube_dir/cluster/common.sh"
 install_aaservices(){
 
     ################################ STORAGE #################################
-	  if [ "$KUBE_PV_ROOT_MAP_ALL" == "true" ]; then
-	    AAS_STORAGE_FILE_TEMPLATE=$kube_dir/aaservices/templates/storage/aas-storage.yaml
-	  else
-	    AAS_STORAGE_FILE_TEMPLATE=$kube_dir/aaservices/templates/storage/aas-storage-local.yaml
-	  fi	
-    
+	  AAS_STORAGE_FILE_TEMPLATE=$kube_dir/aaservices/templates/storage/aas-storage-local.yaml
     AAS_STORAGE_FILE=$kube_dir/aaservices/deploy/aas-storage.yaml
     cp $AAS_STORAGE_FILE_TEMPLATE $AAS_STORAGE_FILE;
     
