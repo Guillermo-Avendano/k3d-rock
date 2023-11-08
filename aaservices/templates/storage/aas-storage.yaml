@@ -8,8 +8,6 @@ spec:
     storage: 1Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
-  hostPath:
-    path: "<AAS_PV_LOG>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -33,8 +31,6 @@ spec:
     storage: 1Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
-  hostPath:
-    path: "<AAS_PV_SHARED>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

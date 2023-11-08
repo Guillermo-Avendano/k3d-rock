@@ -11,6 +11,8 @@ spec:
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
   persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "<MOBIUSVIEW_PV_PRESENTATION>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -40,6 +42,8 @@ spec:
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
   persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "<MOBIUSVIEW_PV_DIAGNOSE>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

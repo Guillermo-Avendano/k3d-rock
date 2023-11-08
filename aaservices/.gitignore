@@ -2,3 +2,4 @@
 *.tar
 *.bak
 .env
+deploy/

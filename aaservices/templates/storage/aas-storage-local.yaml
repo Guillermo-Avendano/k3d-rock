@@ -1,58 +1,49 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mobiusview-presentation
-  labels:
-    type: mobiusview-presentation
+  name: aas-log-vol
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
-  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "<AAS_PV_LOG>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mobiusview-presentation-claim
+  name: <AAS_PVC_LOG>
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
-  selector: 
-    matchLabels: 
-      type: mobiusview-presentation    
----      
+      storage: 1Gi
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mobiusview-diagnose
-  labels:
-    type: mobiusview-diagnose
+  name: aas-shared
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
-  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "<AAS_PV_SHARED>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mobiusview-diagnose-claim
+  name: <AAS_PVC_SHARED>
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
-  selector: 
-    matchLabels: 
-      type: mobiusview-diagnose    
- 
+      storage: 1Gi
