@@ -48,7 +48,7 @@ install_mobiusview() {
 	gen_certificate $MOBIUS_VIEW_URL2 $MOBIUS_VIEW_URL2_SECRET
 
 	MOBIUSVIEW_INGRESS_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/ingress/mobiusview-ingress.yaml;
-	MOBIUSVIEW_INGRESS_FILE=$kube_dir/mobius/mobiusview/deploy/mobiusview-ingress.yaml;;
+	MOBIUSVIEW_INGRESS_FILE=$kube_dir/mobius/mobiusview/deploy/mobiusview-ingress.yaml;
     cp $MOBIUSVIEW_INGRESS_FILE_TEMPLATE $MOBIUSVIEW_INGRESS_FILE;
 
 	replace_tag_in_file $MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL>" $MOBIUS_VIEW_URL;
