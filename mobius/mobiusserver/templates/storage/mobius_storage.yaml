@@ -1,17 +1,4 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mobius-storage
-  labels:
-    type: mobius-storage
-spec:
-  storageClassName: <KUBE_STORAGE_CLASS>
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - <KUBE_STORAGE_READ_WRITE>
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mobius-storage-claim
@@ -21,24 +8,8 @@ spec:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
-  selector: 
-    matchLabels: 
-      type: mobius-storage    
+      storage: 1000M   
 ---      
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mobius-diagnose
-  labels:
-    type: mobius-diagnose
-spec:
-  storageClassName: <KUBE_STORAGE_CLASS>
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - <KUBE_STORAGE_READ_WRITE>
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -49,10 +20,7 @@ spec:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
-  selector: 
-    matchLabels: 
-      type: mobius-diagnose   
+      storage: 1000M  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

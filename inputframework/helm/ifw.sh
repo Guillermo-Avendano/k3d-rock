@@ -11,18 +11,18 @@ install_ifw(){
 	  if [ "$KUBE_PV_ROOT_MAP_ALL" == "true" ]; then
 	    IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage.yaml;
 	  else
-      if [ "$KUBE_NFS_ENABLED" == "true" ]; then
-        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-nfs.yaml
-	    else
+      #if [ "$KUBE_NFS_ENABLED" == "true" ]; then
+      #  IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-nfs.yaml
+	    #else
         IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-local.yaml
-      fi
+      #fi
 	  fi
 
     IFW_STORAGE_FILE=$kube_dir/inputframework/deploy/ifw-storage.yaml
     cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
 
-    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_PATH>" $IFW_NFS_PATH; 
-    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_SERVER>" $IFW_NFS_SERVER;      
+    #replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_PATH>" $IFW_NFS_PATH; 
+    #replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_SERVER>" $IFW_NFS_SERVER;      
 
     replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_INBOX>" $IFW_PVC_INBOX; 
     replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_INBOX>" $IFW_PV_INBOX; 

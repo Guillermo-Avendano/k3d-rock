@@ -1,17 +1,4 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: ifw-volume
-  labels:
-    type: ifw-volume 
-spec:
-  storageClassName: <KUBE_STORAGE_CLASS>
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - <KUBE_STORAGE_READ_WRITE>
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: <IFW_PVC_VOLUME>
@@ -21,23 +8,7 @@ spec:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1Gi
-  selector: 
-    matchLabels: 
-      type: ifw-volume      
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: ifw-inbox
-  labels:
-    type: ifw-inbox 
-spec:
-  storageClassName: <KUBE_STORAGE_CLASS>
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - <KUBE_STORAGE_READ_WRITE>
+      storage: 1Gi     
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -49,7 +20,4 @@ spec:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1Gi
-  selector: 
-    matchLabels: 
-      type: ifw-inbox     
+      storage: 1Gi  
