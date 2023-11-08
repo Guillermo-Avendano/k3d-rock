@@ -9,7 +9,7 @@ install_ifw(){
 
     ################################ STORAGE #################################
 	  if [ "$KUBE_PV_ROOT_MAP_ALL" == "true" ]; then
-	    IFW_STORAGE_FILE_TEMPLATE=/inputframework/templates/storage/ifw-storage.yaml;
+	    IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage.yaml;
 	  else
       if [ "$KUBE_NFS_ENABLED" == "true" ]; then
         IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-nfs.yaml
