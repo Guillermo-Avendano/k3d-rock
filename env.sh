@@ -57,7 +57,7 @@ export KUBE_LOCALREGISTRY_PORT="5000"                                          #
 export NGINX_EXTERNAL_TLS_PORT=443
 
 export KUBE_PV_ROOT=$kube_dir/pv_cluster
-export KUBE_PV_ROOT_MAP_ALL=true
+export KUBE_PV_ROOT_MAP_ALL=false
 
 export KUBE_ISTIO_ENABLED="false"
 
