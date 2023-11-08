@@ -8,10 +8,7 @@ spec:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
-  selector: 
-    matchLabels: 
-      type: mobiusview-presentation    
+      storage: 1000M   
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,8 +20,5 @@ spec:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
-  selector: 
-    matchLabels: 
-      type: mobiusview-diagnose    
+      storage: 1000M 
  
