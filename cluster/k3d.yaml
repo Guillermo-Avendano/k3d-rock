@@ -1,0 +1,20 @@
+apiVersion: k3d.io/v1alpha2
+kind: Simple
+name: mi-cluster-k3d
+servers: 1
+agents: 2
+volumes:
+  - volume:
+      hostPath: /home/rocket/ftproot
+      containerPath: /home/rocket/ftproot
+      mode: "rw"
+registries:
+  - registry: "registry.localhost:5000"
+ports:
+  - 6444:6444  # Agregar el puerto 6444
+  - 30776:30776@loadbalancer
+  - 30779:30779@loadbalancer
+  - 80:80@loadbalancer
+  - 443:443@loadbalancer
+k3sArgs:
+  - "--disable=traefik@server:0"
