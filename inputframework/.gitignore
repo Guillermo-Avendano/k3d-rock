@@ -1,0 +1,5 @@
+*.zip
+*.tar
+*.bak
+.env
+deploy/

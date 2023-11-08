@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mobiusview-presentation
+  name: ifw-volume
   labels:
-    type: mobiusview-presentation
+    type: ifw-volume 
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
@@ -14,24 +14,24 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mobiusview-presentation-claim
+  name: <IFW_PVC_VOLUME>
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
+      storage: 1Gi
   selector: 
     matchLabels: 
-      type: mobiusview-presentation    
----      
+      type: ifw-volume      
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mobiusview-diagnose
+  name: ifw-inbox
   labels:
-    type: mobiusview-diagnose
+    type: ifw-inbox 
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
@@ -42,15 +42,14 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mobiusview-diagnose-claim
+  name: <IFW_PVC_INBOX>
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
+      storage: 1Gi
   selector: 
     matchLabels: 
-      type: mobiusview-diagnose    
- 
+      type: ifw-inbox     

@@ -10,7 +10,6 @@ spec:
     storage: 1Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
-  persistentVolumeReclaimPolicy: Retain
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -39,7 +38,6 @@ spec:
     storage: 1Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
-  persistentVolumeReclaimPolicy: Retain
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

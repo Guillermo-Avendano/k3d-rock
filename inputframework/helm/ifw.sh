@@ -7,7 +7,33 @@ source "$kube_dir/cluster/common.sh"
 
 install_ifw(){
 
-    # Values file from template
+    ################################ STORAGE #################################
+	  if [ "$KUBE_PV_ROOT_MAP_ALL" == "true" ]; then
+	    IFW_STORAGE_FILE_TEMPLATE=/inputframework/templates/storage/ifw-storage.yaml;
+	  else
+      if [ "$KUBE_NFS_ENABLED" == "true" ]; then
+        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-nfs.yaml
+	    else
+        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-local.yaml
+      fi
+	  fi
+
+    IFW_STORAGE_FILE=$kube_dir/inputframework/deploy/ifw-storage.yaml
+    cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
+
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_PATH>" $IFW_NFS_PATH; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_SERVER>" $IFW_NFS_SERVER;      
+
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_INBOX>" $IFW_PVC_INBOX; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_INBOX>" $IFW_PV_INBOX; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<KUBE_STORAGE_CLASS>" $KUBE_STORAGE_CLASS
+	  replace_tag_in_file $IFW_STORAGE_FILE "<KUBE_STORAGE_READ_WRITE>" $KUBE_STORAGE_READ_WRITE
+ 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_VOLUME>" $IFW_PVC_VOLUME; 
+    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_VOLUME>" $IFW_PV_VOLUME;
+
+    ################################ VALUES #################################
+
     IFW_VALUES_TEMPLATE=$kube_dir/inputframework/templates/values/values-inputframework.yaml
     IFW_VALUES=$kube_dir/inputframework/templates/values-inputframework.yaml
     cp $IFW_VALUES_TEMPLATE $IFW_VALUES
@@ -26,29 +52,6 @@ install_ifw(){
     replace_tag_in_file $IFW_VALUES "<IFW_ADMIN_USR>" $IFW_ADMIN_USR ; 
     replace_tag_in_file $IFW_VALUES "<IFW_ADMIN_PWD>" $IFW_ADMIN_PWD ;
   
-    # Storage
-    
-    IFW_STORAGE_FILE=$kube_dir/inputframework/templates/ifw-storage.yaml
-
-    if [ "$KUBE_NFS_ENABLED" == "true" ]; then
-        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-nfs.yaml
-        cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
-
-        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_PATH>" $IFW_NFS_PATH; 
-        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_NFS_SERVER>" $IFW_NFS_SERVER;      
-    else
-        IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-local.yaml
-        cp $IFW_STORAGE_FILE_TEMPLATE $IFW_STORAGE_FILE;
-
-        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_INBOX>" $IFW_PVC_INBOX; 
-        replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_INBOX>" $IFW_PV_INBOX; 
-        replace_tag_in_file $IFW_STORAGE_FILE "<KUBE_STORAGE_CLASS>" $KUBE_STORAGE_CLASS
-	      replace_tag_in_file $IFW_STORAGE_FILE "<KUBE_STORAGE_READ_WRITE>" $KUBE_STORAGE_READ_WRITE
-
-    fi
-    
-    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PVC_VOLUME>" $IFW_PVC_VOLUME; 
-    replace_tag_in_file $IFW_STORAGE_FILE "<IFW_PV_VOLUME>" $IFW_PV_VOLUME;
    
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."
@@ -99,7 +102,7 @@ wait_for_ifw_ready() {
 uninstall_ifw(){
    if helm list -A | grep $IFW_HELM_DEPLOY_NAME > /dev/null 2>&1; then 
    
-      IFW_STORAGE_FILE=$kube_dir/inputframework/templates/ifw-storage.yaml
+      IFW_STORAGE_FILE=$kube_dir/inputframework/deploy/ifw-storage.yaml
 
       highlight_message "Removing Helm Chart $IFW_HELM_DEPLOY_NAME from namespace $NAMESPACE"
       helm uninstall $IFW_HELM_DEPLOY_NAME --namespace $NAMESPACE
