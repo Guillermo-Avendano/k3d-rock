@@ -27,23 +27,16 @@ cluster_volumes () {
 
     VOLUME_MAPPING=""
 
-    if [ "$KUBE_PV_ROOT_MAP_ALL" == "true" ]; then
-       if [ ! -d $KUBE_PV_ROOT ]; then
-          KUBE_PV_ROOT=$HOME/pv-cluster-root
-       fi   
-       VOLUME_MAPPING="--volume $KUBE_PV_ROOT:/var/lib/rancher/k3s/storage@all"
-    else 
-        for local_pv in ${!pv_folder[@]}; do
-            if [ ! -d ${pv_folder[${local_pv}]} ]; then
+    for local_pv in ${!pv_folder[@]}; do
+        if [ ! -d ${pv_folder[${local_pv}]} ]; then
 
-                mkdir -p ${pv_folder[${local_pv}]};
-                chmod -R 777 ${pv_folder[${local_pv}]};
-            fi 
-            VOL_MAP=`eval echo ${pv_folder[${local_pv}]}`
-            VOLUME_MAPPING+="-v $VOL_MAP:$VOL_MAP "
-            echo Creating: $local_pv ${pv_folder[${local_pv}]}
-        done
-    fi
+            mkdir -p ${pv_folder[${local_pv}]};
+            chmod -R 777 ${pv_folder[${local_pv}]};
+        fi 
+        VOL_MAP=`eval echo ${pv_folder[${local_pv}]}`
+        VOLUME_MAPPING+="-v $VOL_MAP:$VOL_MAP "
+        echo Creating: $local_pv ${pv_folder[${local_pv}]}
+    done
 
     export KUBE_ARGS=$VOLUME_MAPPING
 
