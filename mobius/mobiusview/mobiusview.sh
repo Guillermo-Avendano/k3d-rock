@@ -11,7 +11,7 @@ install_mobiusview() {
 	MOBIUSVIEW_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/storage/mobiusview_storage-local.yaml;
 	MOBIUSVIEW_STORAGE_FILE=$kube_dir/mobius/mobiusview/deploy/mobiusview_storage.yaml;
 
-	if [ ! -d "$kube_dir/mobius/mobiusview/deploy"]; then
+	if [ ! -d "$kube_dir/mobius/mobiusview/deploy" ]; then
         mkdir -p $kube_dir/mobius/mobiusview/deploy;
     fi 
 

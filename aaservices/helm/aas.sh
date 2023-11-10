@@ -11,7 +11,7 @@ install_aaservices(){
 	  AAS_STORAGE_FILE_TEMPLATE=$kube_dir/aaservices/templates/storage/aas-storage-local.yaml
     AAS_STORAGE_FILE=$kube_dir/aaservices/deploy/aas-storage.yaml
 
-	  if [ ! -d "$kube_dir/aaservices/deploy"]; then
+	  if [ ! -d "$kube_dir/aaservices/deploy" ]; then
         mkdir -p $kube_dir/aaservices/deploy;
     fi 
 

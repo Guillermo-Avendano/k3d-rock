@@ -11,7 +11,7 @@ install_ifw(){
     IFW_STORAGE_FILE_TEMPLATE=$kube_dir/inputframework/templates/storage/ifw-storage-local.yaml
     IFW_STORAGE_FILE=$kube_dir/inputframework/deploy/ifw-storage.yaml
 
-	  if [ ! -d "$kube_dir/inputframework/deploy"]; then
+	  if [ ! -d "$kube_dir/inputframework/deploy" ]; then
         mkdir -p $kube_dir/inputframework/deploy;
     fi 
 
