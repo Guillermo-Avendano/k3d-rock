@@ -79,6 +79,7 @@ install_mobiusview() {
 	
 	info_message "Creating mobiusview ingress";    
     kubectl apply -f $MOBIUSVIEW_INGRESS_FILE --namespace $NAMESPACE;
+
 }
 
 wait_for_mobiusview_ready() {

@@ -96,6 +96,11 @@ else
       highlight_message "kubectl -n $NAMESPACE get ingress"
       kubectl -n $NAMESPACE get ingress
 
+      # Agrega el label "app: mobius" a los pods que no tienen ese label en el namespace
+	    kubectl get pods --namespace=${NAMESPACE} -o json | jq '.items[] | select(.metadata.labels.app != "mobius") | .metadata.labels += {"app": "mobius"}' | kubectl apply -f -
+    	# Agrega el label "app: mobius" a los servicios que no tienen ese label en el namespace
+	    kubectl get services --namespace=${NAMESPACE} -o json | jq '.items[] | select(.metadata.labels.app != "mobius") | .metadata.labels += {"app": "mobius"}' | kubectl apply -f -    
+
     elif [[ $option == "shremove" ]]; then
 
       export NAMESPACE=$NAMESPACE_SHARED;
@@ -150,7 +155,11 @@ else
 
       highlight_message "kubectl -n $NAMESPACE get ingress"
       kubectl -n $NAMESPACE get ingress
-      
+
+      # Agrega el label "app: mobius" a los pods que no tienen ese label en el namespace
+	    kubectl get pods --namespace=${NAMESPACE} -o json | jq '.items[] | select(.metadata.labels.app != "mobius") | .metadata.labels += {"app": "mobius"}' | kubectl apply -f -
+    	# Agrega el label "app: mobius" a los servicios que no tienen ese label en el namespace
+	    kubectl get services --namespace=${NAMESPACE} -o json | jq '.items[] | select(.metadata.labels.app != "mobius") | .metadata.labels += {"app": "mobius"}' | kubectl apply -f -    
 
     elif [[ $option == "remove" ]]; then
 

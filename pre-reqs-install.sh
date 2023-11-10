@@ -22,6 +22,7 @@ install_helm() {
     echo "Installing helm..."
     export DESIRED_VERSION=v3.8.2
     curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    sudo sudo apt-get install jq
 }
 
 install_terraform() {
@@ -96,6 +97,8 @@ install_istio(){
 
   istioctl x precheck
   istioctl install --set profile=demo -y
+
+  sudo yum install jq
 
 }
 
