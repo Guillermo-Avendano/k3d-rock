@@ -10,6 +10,10 @@ install_mobius() {
 	MOBIUS_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusserver/templates/storage/mobius_storage-local.yaml;
 	MOBIUS_STORAGE_FILE=$kube_dir/mobius/mobiusserver/deploy/mobius_storage.yaml;
 
+	if [ ! -d "$kube_dir/mobius/mobiusserver/deploy"]; then
+        mkdir -p $kube_dir/mobius/mobiusserver/deploy;
+    fi 
+
     cp $MOBIUS_STORAGE_FILE_TEMPLATE $MOBIUS_STORAGE_FILE;
 	
 	replace_tag_in_file $MOBIUS_STORAGE_FILE "<MOBIUS_PV_STORAGE>" $MOBIUS_PV_STORAGE;

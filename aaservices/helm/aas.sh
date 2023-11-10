@@ -10,6 +10,11 @@ install_aaservices(){
     ################################ STORAGE #################################
 	  AAS_STORAGE_FILE_TEMPLATE=$kube_dir/aaservices/templates/storage/aas-storage-local.yaml
     AAS_STORAGE_FILE=$kube_dir/aaservices/deploy/aas-storage.yaml
+
+	  if [ ! -d "$kube_dir/aaservices/deploy"]; then
+        mkdir -p $kube_dir/aaservices/deploy;
+    fi 
+
     cp $AAS_STORAGE_FILE_TEMPLATE $AAS_STORAGE_FILE;
     
     replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PVC_LOG>" $AAS_PVC_LOG; 
