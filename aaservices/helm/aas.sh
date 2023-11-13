@@ -7,9 +7,29 @@ source "$kube_dir/cluster/common.sh"
 
 install_aaservices(){
 
+    ################################ STORAGE #################################
+	  AAS_STORAGE_FILE_TEMPLATE=$kube_dir/aaservices/templates/storage/aas-storage-local.yaml
+    AAS_STORAGE_FILE=$kube_dir/aaservices/deploy/aas-storage.yaml
+
+	  if [ ! -d "$kube_dir/aaservices/deploy" ]; then
+        mkdir -p $kube_dir/aaservices/deploy;
+    fi 
+
+    cp $AAS_STORAGE_FILE_TEMPLATE $AAS_STORAGE_FILE;
+    
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PVC_LOG>" $AAS_PVC_LOG; 
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_LOG>" $AAS_PV_LOG;     
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PVC_SHARED>" $AAS_PVC_SHARED; 
+    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_SHARED>" $AAS_PV_SHARED;  
+    replace_tag_in_file $AAS_STORAGE_FILE "<KUBE_STORAGE_CLASS>" $KUBE_STORAGE_CLASS
+    replace_tag_in_file $AAS_STORAGE_FILE "<KUBE_STORAGE_READ_WRITE>" $KUBE_STORAGE_READ_WRITE
+ 
+    ################################ VALUES #################################
+
     # Values file from template
-    AAS_VALUES_TEMPLATE=$kube_dir/aaservices/templates/values/values-local.yaml
-    AAS_VALUES=$kube_dir/aaservices/helm/values-local.yaml
+    AAS_VALUES_TEMPLATE=$kube_dir/aaservices/templates/values/aas-local.yaml
+    AAS_VALUES=$kube_dir/aaservices/deploy/aas-values.yaml
+
     cp $AAS_VALUES_TEMPLATE $AAS_VALUES
 
     DATABASE_URL="jdbc:postgresql://$POSTGRESQL_HOST:$POSTGRESQL_PORT/$POSTGRESQL_DBNAME"
@@ -27,24 +47,15 @@ install_aaservices(){
     replace_tag_in_file $AAS_VALUES "<AAS_PVC_LOG>" $AAS_PVC_LOG; 
     replace_tag_in_file $AAS_VALUES "<AAS_PVC_SHARED>" $AAS_PVC_SHARED; 
 
-    # AAS Shared folder
-    AAS_STORAGE_FILE_TEMPLATE=$kube_dir/aaservices/templates/storage/aas-storage.yaml
-    AAS_STORAGE_FILE=$kube_dir/aaservices/templates/aas-storage.yaml
-    cp $AAS_STORAGE_FILE_TEMPLATE $AAS_STORAGE_FILE;
     
-    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PVC_LOG>" $AAS_PVC_LOG; 
-    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_LOG>" $AAS_PV_LOG;     
-
-    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PVC_SHARED>" $AAS_PVC_SHARED; 
-    replace_tag_in_file $AAS_STORAGE_FILE "<AAS_PV_SHARED>" $AAS_PV_SHARED;   
-
+    ################################ INGRESS #################################
     # AAS Ingress file from template
     AAS_URL_SECRET=`echo "$AAS_URL" | sed -r 's#\.#-#g'`
 
     gen_certificate $AAS_URL $AAS_URL_SECRET
 
     AAS_INGRESS_TEMPLATE=$kube_dir/aaservices/templates/ingress/aas-ingress.yaml
-    AAS_INGRESS=$kube_dir/aaservices/templates/aas-ingress.yaml
+    AAS_INGRESS=$kube_dir/aaservices/deploy/aas-ingress.yaml
 
     cp $AAS_INGRESS_TEMPLATE $AAS_INGRESS
 
@@ -70,7 +81,8 @@ install_aaservices(){
 
     # AAS Job sample file from template
     AAS_JOB_SAMPLE_TEMPLATE=$kube_dir/aaservices/templates/job/job_install_samples.yaml
-    AAS_JOB_SAMPLE=$kube_dir/aaservices/templates/job_install_samples.yaml
+    AAS_JOB_SAMPLE=$kube_dir/aaservices/deploy/job_install_samples.yaml
+
     cp $AAS_JOB_SAMPLE_TEMPLATE $AAS_JOB_SAMPLE
 
     replace_tag_in_file $AAS_JOB_SAMPLE "<database_url>" $DATABASE_URL;
@@ -81,7 +93,6 @@ install_aaservices(){
     # Needs more investigation
     #info_message "Loading AAS Samples..."; 
     #kubectl -n $NAMESPACE apply -f $AAS_JOB_SAMPLE
-
 }
 
 get_total_pods() {
@@ -116,7 +127,7 @@ wait_for_aaservices_ready() {
 
 uninstall_aaservices(){
    if helm list -A | grep $AAS_HELM_DEPLOY_NAME > /dev/null 2>&1; then 
-      AAS_STORAGE_FILE=$kube_dir/aaservices/templates/aas-storage.yaml
+      AAS_STORAGE_FILE=$kube_dir/aaservices/deploy/aas-storage.yaml
       helm uninstall $AAS_HELM_DEPLOY_NAME --namespace $NAMESPACE
       kubectl -n $NAMESPACE delete -f  $AAS_STORAGE_FILE     
    fi 

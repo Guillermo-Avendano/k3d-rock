@@ -62,6 +62,10 @@ export KUBE_ISTIO_ENABLED="false"
 
 export KUBE_NFS_ENABLED=${KUBE_NFS_ENABLED:-false}
 
+export KUBE_STORAGE_CLASS=local-path
+export KUBE_STORAGE_READ_WRITE=ReadWriteOnce
+
+
 
 ################################################################################
 # PERSISTENT VOLUMES

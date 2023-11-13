@@ -26,6 +26,7 @@ cluster_volumes () {
     pv_folder['MOBIUSVIEW_PV_DIAGNOSE']=$MOBIUSVIEW_PV_DIAGNOSE
 
     VOLUME_MAPPING=""
+
     for local_pv in ${!pv_folder[@]}; do
         if [ ! -d ${pv_folder[${local_pv}]} ]; then
 

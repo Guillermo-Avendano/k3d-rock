@@ -6,42 +6,55 @@ source ./env.sh
 source ../cluster/common.sh
 
 install_mobiusview() {
-	
-	MOBIUSVIEW_STORAGE_FILE=mobiusview_storage.yaml;
-    cp $kube_dir/mobius//mobiusview/storage/local/templates/$MOBIUSVIEW_STORAGE_FILE $kube_dir/mobius/mobiusview/$MOBIUSVIEW_STORAGE_FILE;
-	
-	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_STORAGE_FILE "<MOBIUSVIEW_PV_PRESENTATION>" $MOBIUSVIEW_PV_PRESENTATION;
-	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_STORAGE_FILE "<MOBIUSVIEW_PV_DIAGNOSE>" $MOBIUSVIEW_PV_DIAGNOSE;
-	
-	MOBIUSVIEW_VALUES_FILE=mobiusview.yaml;
-    cp $kube_dir/mobius/mobiusview/templates/$MOBIUSVIEW_VALUES_FILE $kube_dir/mobius/mobiusview/$MOBIUSVIEW_VALUES_FILE;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<KUBE_LOCALREGISTRY_HOST>" $KUBE_LOCALREGISTRY_HOST;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<KUBE_LOCALREGISTRY_PORT>" $KUBE_LOCALREGISTRY_PORT;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<IMAGE_NAME_MOBIUSVIEW>" $IMAGE_NAME_MOBIUSVIEW;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<IMAGE_VERSION_MOBIUSVIEW>" $IMAGE_VERSION_MOBIUSVIEW;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_USERNAME>" $POSTGRESQL_USERNAME;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_PASSWORD>" $POSTGRESQL_PASSWORD;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_HOST>" $POSTGRESQL_HOST;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_PORT>" $POSTGRESQL_PORT;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_DBNAME_MOBIUSVIEW>" $POSTGRESQL_DBNAME_MOBIUSVIEW;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<NAMESPACE>" $NAMESPACE;
-	replace_tag_in_file $kube_dir/mobius//mobiusview/$MOBIUSVIEW_VALUES_FILE "<KAFKA_BOOTSTRAP_URL>" $KAFKA_BOOTSTRAP_URL;
 
-    ################################ INGRESSES
+    ################################ STORAGE #################################
+	MOBIUSVIEW_STORAGE_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/storage/mobiusview_storage-local.yaml;
+	MOBIUSVIEW_STORAGE_FILE=$kube_dir/mobius/mobiusview/deploy/mobiusview_storage.yaml;
+
+	if [ ! -d "$kube_dir/mobius/mobiusview/deploy" ]; then
+        mkdir -p $kube_dir/mobius/mobiusview/deploy;
+    fi 
+
+    cp $MOBIUSVIEW_STORAGE_FILE_TEMPLATE $MOBIUSVIEW_STORAGE_FILE;
+	
+	replace_tag_in_file $MOBIUSVIEW_STORAGE_FILE "<MOBIUSVIEW_PV_PRESENTATION>" $MOBIUSVIEW_PV_PRESENTATION;
+	replace_tag_in_file $MOBIUSVIEW_STORAGE_FILE "<MOBIUSVIEW_PV_DIAGNOSE>" $MOBIUSVIEW_PV_DIAGNOSE;
+	replace_tag_in_file $MOBIUSVIEW_STORAGE_FILE "<KUBE_STORAGE_CLASS>" $KUBE_STORAGE_CLASS
+	replace_tag_in_file $MOBIUSVIEW_STORAGE_FILE "<KUBE_STORAGE_READ_WRITE>" $KUBE_STORAGE_READ_WRITE
+	
+	################################ VALUES #################################
+	MOBIUSVIEW_VALUES_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/values/mobiusview.yaml;
+	MOBIUSVIEW_VALUES_FILE=$kube_dir/mobius/mobiusview/deploy/mobiusview.yaml;
+
+    cp /$MOBIUSVIEW_VALUES_FILE_TEMPLATE $MOBIUSVIEW_VALUES_FILE;
+
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<KUBE_LOCALREGISTRY_HOST>" $KUBE_LOCALREGISTRY_HOST;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<KUBE_LOCALREGISTRY_PORT>" $KUBE_LOCALREGISTRY_PORT;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<IMAGE_NAME_MOBIUSVIEW>" $IMAGE_NAME_MOBIUSVIEW;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<IMAGE_VERSION_MOBIUSVIEW>" $IMAGE_VERSION_MOBIUSVIEW;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_USERNAME>" $POSTGRESQL_USERNAME;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_PASSWORD>" $POSTGRESQL_PASSWORD;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_HOST>" $POSTGRESQL_HOST;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_PORT>" $POSTGRESQL_PORT;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<POSTGRESQL_DBNAME_MOBIUSVIEW>" $POSTGRESQL_DBNAME_MOBIUSVIEW;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<NAMESPACE>" $NAMESPACE;
+	replace_tag_in_file $MOBIUSVIEW_VALUES_FILE "<KAFKA_BOOTSTRAP_URL>" $KAFKA_BOOTSTRAP_URL;
+
+    ################################ INGRESSES #################################
     MOBIUS_VIEW_URL_SECRET=`echo "$MOBIUS_VIEW_URL" | sed -r 's#\.#-#g'`
 	MOBIUS_VIEW_URL2_SECRET=`echo "$MOBIUS_VIEW_URL2" | sed -r 's#\.#-#g'`
 
 	gen_certificate $MOBIUS_VIEW_URL $MOBIUS_VIEW_URL_SECRET
 	gen_certificate $MOBIUS_VIEW_URL2 $MOBIUS_VIEW_URL2_SECRET
 
-	MOBIUSVIEW_INGRESS_FILE=mobiusview-ingress.yaml;
-    cp $kube_dir/mobius/mobiusview/templates/ingress/$MOBIUSVIEW_INGRESS_FILE $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE;
+	MOBIUSVIEW_INGRESS_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/ingress/mobiusview-ingress.yaml;
+	MOBIUSVIEW_INGRESS_FILE=$kube_dir/mobius/mobiusview/deploy/mobiusview-ingress.yaml;
+    cp $MOBIUSVIEW_INGRESS_FILE_TEMPLATE $MOBIUSVIEW_INGRESS_FILE;
 
-	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL>" $MOBIUS_VIEW_URL;
-	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2>" $MOBIUS_VIEW_URL2;
-
-    replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL_SECRET>" $MOBIUS_VIEW_URL_SECRET-secret-tls;
-	replace_tag_in_file $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2_SECRET>" $MOBIUS_VIEW_URL2_SECRET-secret-tls;
+	replace_tag_in_file $MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL>" $MOBIUS_VIEW_URL;
+	replace_tag_in_file $MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2>" $MOBIUS_VIEW_URL2;
+    replace_tag_in_file $MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL_SECRET>" $MOBIUS_VIEW_URL_SECRET-secret-tls;
+	replace_tag_in_file $MOBIUSVIEW_INGRESS_FILE "<MOBIUS_VIEW_URL2_SECRET>" $MOBIUS_VIEW_URL2_SECRET-secret-tls;
 	
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."
@@ -64,13 +77,14 @@ install_mobiusview() {
 	kubectl --namespace $NAMESPACE create secret generic mobius-license --from-literal=license=$MOBIUS_LICENSE
 	
     info_message "Creating mobiusview storage";    
-    kubectl apply -f $kube_dir/mobius//mobiusview/mobiusview_storage.yaml --namespace $NAMESPACE;
+    kubectl apply -f $MOBIUSVIEW_STORAGE_FILE --namespace $NAMESPACE;
 	
 	info_message "Deploy mobiusview"; 
-	helm upgrade mobiusview -n $NAMESPACE $kube_dir/mobius/mobiusview/helm/mobiusview.tgz --create-namespace -f $kube_dir/mobius/mobiusview/mobiusview.yaml --install	
+	helm upgrade mobiusview -n $NAMESPACE $kube_dir/mobius/mobiusview/helm/mobiusview.tgz --create-namespace -f $MOBIUSVIEW_VALUES_FILE --install	
 	
 	info_message "Creating mobiusview ingress";    
-    kubectl apply -f $kube_dir/mobius/mobiusview/$MOBIUSVIEW_INGRESS_FILE --namespace $NAMESPACE;
+    kubectl apply -f $MOBIUSVIEW_INGRESS_FILE --namespace $NAMESPACE;
+
 }
 
 wait_for_mobiusview_ready() {

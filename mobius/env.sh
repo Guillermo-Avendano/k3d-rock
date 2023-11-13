@@ -6,7 +6,7 @@
 NAMESPACE=mobius
 NAMESPACE_SHARED=shared
 
-PRODUCT="Mobius 12.2.0"
+PRODUCT="Mobius 12.3.0"
 
 export KUBE_NS_LIST=( "$NAMESPACE" "$NAMESPACE_SHARED" )
 
@@ -30,7 +30,7 @@ export KUBE_IMAGES=("mobius-server:$IMAGE_VERSION_MOBIUS" "mobius-view:$IMAGE_VE
 # DATABASES
 ################################################################################
 EXTERNAL_DATABASE=false
-POSTGRESQL_VERSION=14.5.0
+POSTGRESQL_VERSION=15.4.0
 POSTGRESQL_USERNAME=mobius
 POSTGRESQL_PASSWORD=postgres
 POSTGRESQL_DBNAME_MOBIUSVIEW=mobiusview

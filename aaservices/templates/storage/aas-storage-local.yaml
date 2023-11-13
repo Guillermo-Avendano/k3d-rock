@@ -1,23 +1,20 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: ifw-volume
-  labels:
-    type: ifw-volume 
+  name: aas-log-vol
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
-  persistentVolumeReclaimPolicy: Retain  
   hostPath:
-    path: "<IFW_PV_VOLUME>"
+    path: "<AAS_PV_LOG>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: <IFW_PVC_VOLUME>
+  name: <AAS_PVC_LOG>
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
@@ -25,30 +22,24 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  selector: 
-    matchLabels: 
-      type: ifw-volume      
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: ifw-inbox
-  labels:
-    type: ifw-inbox 
+  name: aas-shared
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
-  persistentVolumeReclaimPolicy: Retain  
   hostPath:
-    path: "<IFW_PV_INBOX>"
+    path: "<AAS_PV_SHARED>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: <IFW_PVC_INBOX>
+  name: <AAS_PVC_SHARED>
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
@@ -56,6 +47,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  selector: 
-    matchLabels: 
-      type: ifw-inbox     

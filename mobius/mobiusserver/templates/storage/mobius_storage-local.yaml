@@ -5,23 +5,23 @@ metadata:
   labels:
     type: mobius-storage
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "/home/rocket/k3d-rock/pv_cluster/mobius-storage"
+    path: "<MOBIUS_PV_STORAGE>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mobius-storage-claim
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
       storage: 1000M
@@ -36,23 +36,23 @@ metadata:
   labels:
     type: mobius-diagnose
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "/home/rocket/k3d-rock/pv_cluster/mobius-diagnose"
+    path: "<MOBIUS_PV_DIAGNOSE>"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mobius-diagnose-claim
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
       storage: 1000M
@@ -65,9 +65,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: mobius-fts-pv-claim
 spec:
-  storageClassName: manual
+  storageClassName: <KUBE_STORAGE_CLASS>
   accessModes:
-    - ReadWriteMany
+    - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
       storage: 1000M

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <IFW_PVC_VOLUME>
+spec:
+  storageClassName: <KUBE_STORAGE_CLASS>
+  accessModes:
+    - <KUBE_STORAGE_READ_WRITE>
+  resources:
+    requests:
+      storage: 1Gi     
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <IFW_PVC_INBOX>
+spec:
+  storageClassName: <KUBE_STORAGE_CLASS>
+  accessModes:
+    - <KUBE_STORAGE_READ_WRITE>
+  resources:
+    requests:
+      storage: 1Gi  
