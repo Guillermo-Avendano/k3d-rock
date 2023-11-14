@@ -1,0 +1,53 @@
+Para verificar la resolución de DNS en un clúster de Kubernetes, puedes seguir estos pasos:
+
+Revisa la Configuración de DNS del Clúster:
+
+Verifica la configuración de DNS en tu clúster. Puedes obtener información sobre el servicio DNS ejecutando el siguiente comando:
+bash
+Copy code
+kubectl get svc -n kube-system
+Busca el servicio que proporciona DNS en tu clúster. Comúnmente, el servicio se llama coredns o kube-dns. Anota la IP del servicio.
+Accede a un Pod en el Mismo Namespace:
+
+Puedes ejecutar un pod en el mismo namespace que el servicio que estás intentando resolver y luego intentar resolver el nombre del servicio desde ese pod. Por ejemplo:
+bash
+Copy code
+kubectl run -i --tty --rm debug --image=alpine --namespace=NAMESPACE -- sh
+Donde NAMESPACE es el namespace del servicio que estás investigando. Una vez dentro del pod, puedes intentar resolver el nombre del servicio:
+bash
+Copy code
+nslookup NOMBRE_DEL_SERVICIO
+Reemplaza NOMBRE_DEL_SERVICIO con el nombre real de tu servicio.
+Usa dig o nslookup:
+
+Puedes utilizar herramientas como dig o nslookup directamente desde tu máquina local para verificar la resolución de DNS. Por ejemplo:
+bash
+Copy code
+dig @CLUSTER_DNS_IP NOMBRE_DEL_SERVICIO.NAMESPACE.svc.cluster.local
+Reemplaza CLUSTER_DNS_IP, NOMBRE_DEL_SERVICIO, y NAMESPACE según tu configuración.
+Verifica Configuraciones en CoreDNS:
+
+Si estás utilizando CoreDNS, puedes revisar su configuración para asegurarte de que esté correctamente configurado. Puedes obtener la configuración ejecutando el siguiente comando:
+bash
+Copy code
+kubectl get configmap coredns -n kube-system -o yaml
+Revisa Logs de CoreDNS:
+
+Puedes revisar los logs de CoreDNS para buscar posibles problemas. Usa el siguiente comando:
+bash
+Copy code
+kubectl logs -l k8s-app=kube-dns -n kube-system
+O si estás utilizando CoreDNS:
+bash
+Copy code
+kubectl logs -l k8s-app=kube-dns -n kube-system
+Verifica Configuración de Pods y Servicios:
+
+Asegúrate de que la configuración de tus pods y servicios esté correctamente especificada en los archivos YAML. Verifica los nombres de los servicios y los espacios de nombres.
+Prueba con DNS Interno y Externo:
+
+Intenta resolver nombres de servicios internos y externos para descartar problemas específicos con tu servicio. Por ejemplo:
+bash
+Copy code
+nslookup google.com
+Recuerda reemplazar las variables como NOMBRE_DEL_SERVICIO, NAMESPACE, y CLUSTER_DNS_IP con los valores correctos de tu entorno. Estos pasos te ayudarán a verificar la resolución de DNS en tu clúster de Kubernetes.
