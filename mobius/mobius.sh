@@ -28,6 +28,7 @@ if [[ $# -eq 0 ]]; then
   echo " - shinstall : Install shared resources (db, elastic, kafka)"
   echo " - shremove  : Remove shared resources (db, elastic, kafka)"
   echo " - install   : Install $PRODUCT (pre-reqs: 1.'imgpull', 2.'shinstall')"
+  echo " - update    : Update Mobius & MobiusView delopyments (pre-reqs: 1.'imgpull', 2.'shinstall', 3.'install')"
   echo " - remove    : Remove $PRODUCT"
   echo " - sleep     : Sleep $PRODUCT (replicas=0)"
   echo " - wake      : Wake up $PRODUCT (replicas=normal)"
@@ -96,11 +97,6 @@ else
       highlight_message "kubectl -n $NAMESPACE get ingress"
       kubectl -n $NAMESPACE get ingress
 
-      # Agrega el label "app: mobius" a los pods que no tienen ese label en el namespace
-	    #kubectl get pods --namespace=${NAMESPACE} -o json | jq '.items[] | select(.metadata.labels.app != "mobius") | .metadata.labels += {"app": "mobius"}' | kubectl apply -f -
-    	# Agrega el label "app: mobius" a los servicios que no tienen ese label en el namespace
-	    #kubectl get services --namespace=${NAMESPACE} -o json | jq '.items[] | select(.metadata.labels.app != "mobius") | .metadata.labels += {"app": "mobius"}' | kubectl apply -f -    
-
     elif [[ $option == "shremove" ]]; then
 
       export NAMESPACE=$NAMESPACE_SHARED;
@@ -156,10 +152,19 @@ else
       highlight_message "kubectl -n $NAMESPACE get ingress"
       kubectl -n $NAMESPACE get ingress
 
-      # Agrega el label "app: mobius" a los pods que no tienen ese label en el namespace
-	    #kubectl get pods --namespace=${NAMESPACE} -o json | jq '.items[] | select(.metadata.labels.app != "mobius") | .metadata.labels += {"app": "mobius"}' | kubectl apply -f -
-    	# Agrega el label "app: mobius" a los servicios que no tienen ese label en el namespace
-	    #kubectl get services --namespace=${NAMESPACE} -o json | jq '.items[] | select(.metadata.labels.app != "mobius") | .metadata.labels += {"app": "mobius"}' | kubectl apply -f -    
+    elif [[ $option == "update" ]]; then
+
+      update_mobius
+      wait_for_mobius_ready
+
+      update_mobiusview
+      wait_for_mobiusview_ready
+    
+      highlight_message "kubectl -n $NAMESPACE get pods"
+      kubectl -n $NAMESPACE get pods
+
+      highlight_message "kubectl -n $NAMESPACE get ingress"
+      kubectl -n $NAMESPACE get ingress
 
     elif [[ $option == "remove" ]]; then
 

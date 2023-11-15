@@ -22,6 +22,7 @@ if [[ $# -eq 0 ]]; then
   echo " - dbinstall : Install database"
   echo " - dbremove  : Remove database"
   echo " - install   : Install Enterprise Orchestrator"
+  echo " - update    : Update Enterprise Orchestrator"
   echo " - remove    : Remore Enterprise Orchestrator"
   echo " - sleep     : Sleep Enterprise Orchestrator (replicas=0)"
   echo " - wake      : Wake up Enterprise Orchestrator (replicas=normal)"
@@ -56,6 +57,14 @@ else
 
       highlight_message "Deploying Orchestrator services";
       install_aeo;
+      info_progress_header "Waiting for Orchestrator services to be ready ...";
+      wait_for_aeo_ready;
+      info_message "Orchestrator services are ready now.";
+
+    elif [[ $option == "update" ]]; then
+
+      highlight_message "Updating Orchestrator services";
+      update_aeo;
       info_progress_header "Waiting for Orchestrator services to be ready ...";
       wait_for_aeo_ready;
       info_message "Orchestrator services are ready now.";

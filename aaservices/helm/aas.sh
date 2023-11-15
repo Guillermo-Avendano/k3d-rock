@@ -95,6 +95,63 @@ install_aaservices(){
     #kubectl -n $NAMESPACE apply -f $AAS_JOB_SAMPLE
 }
 
+update_aaservices(){
+
+    ################################ VALUES #################################
+
+    # Values file from template
+    AAS_VALUES_TEMPLATE=$kube_dir/aaservices/templates/values/aas-local.yaml
+    AAS_VALUES=$kube_dir/aaservices/deploy/aas-values.yaml
+
+    cp $AAS_VALUES_TEMPLATE $AAS_VALUES
+
+    DATABASE_URL="jdbc:postgresql://$POSTGRESQL_HOST:$POSTGRESQL_PORT/$POSTGRESQL_DBNAME"
+
+    replace_tag_in_file $AAS_VALUES "<aas_image_name>" $AAS_IMAGE_NAME;
+    replace_tag_in_file $AAS_VALUES "<aas_image_version>" $AAS_IMAGE_VERSION;
+
+    replace_tag_in_file $AAS_VALUES "<database_user>" $POSTGRESQL_USERNAME;
+    replace_tag_in_file $AAS_VALUES "<database_password>" $POSTGRESQL_PASSWORD;
+    replace_tag_in_file $AAS_VALUES "<database_name>" $POSTGRESQL_DBNAME;
+    replace_tag_in_file $AAS_VALUES "<database_host>" $POSTGRESQL_HOST;
+    replace_tag_in_file $AAS_VALUES "<database_url>" $DATABASE_URL;
+    replace_tag_in_file $AAS_VALUES "<aas_license>" $AAS_LICENSE;
+    replace_tag_in_file $AAS_VALUES "<aas_pv_enabled>" $AAS_PV_ENABLED
+    replace_tag_in_file $AAS_VALUES "<AAS_PVC_LOG>" $AAS_PVC_LOG; 
+    replace_tag_in_file $AAS_VALUES "<AAS_PVC_SHARED>" $AAS_PVC_SHARED; 
+
+    
+    ################################ INGRESS #################################
+    # AAS Ingress file from template
+    AAS_URL_SECRET=`echo "$AAS_URL" | sed -r 's#\.#-#g'`
+
+    gen_certificate $AAS_URL $AAS_URL_SECRET
+
+    AAS_INGRESS_TEMPLATE=$kube_dir/aaservices/templates/ingress/aas-ingress.yaml
+    AAS_INGRESS=$kube_dir/aaservices/deploy/aas-ingress.yaml
+
+    cp $AAS_INGRESS_TEMPLATE $AAS_INGRESS
+
+    replace_tag_in_file $AAS_INGRESS "<AAS_URL>" $AAS_URL;
+    replace_tag_in_file $AAS_INGRESS "<AAS_URL_SECRET>" $AAS_URL_SECRET-secret-tls;
+    
+    if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
+       info_message "Creating namespace $NAMESPACE..."
+       kubectl create namespace "$NAMESPACE"
+       if [ "$KUBE_ISTIO_ENABLED" == "true" ]; then
+          kubectl label namespace $NAMESPACE istio-injection=enabled
+       fi  
+    fi
+
+    info_message "Updating Audit and Analytics Services Helm chart";   
+    helm upgrade -f $AAS_VALUES $AAS_HELM_DEPLOY_NAME $kube_dir/aaservices/helm/aas-11.1.2.tgz --namespace $NAMESPACE --create-namespace --install --wait;
+
+    info_message "Updating AAS Ingress"; 
+    kubectl -n $NAMESPACE apply -f $AAS_INGRESS
+
+}
+
+
 get_total_pods() {
   kubectl get pod -n "$NAMESPACE" --no-headers | wc -l | awk '{print $1}'
 }
