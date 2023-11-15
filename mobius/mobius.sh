@@ -28,7 +28,7 @@ if [[ $# -eq 0 ]]; then
   echo " - shinstall : Install shared resources (db, elastic, kafka)"
   echo " - shremove  : Remove shared resources (db, elastic, kafka)"
   echo " - install   : Install $PRODUCT (pre-reqs: 1.'imgpull', 2.'shinstall')"
-  echo " - update    : Update Mobius & MobiusView delopyments (pre-reqs: 1.'imgpull', 2.'shinstall', 3.'install')"
+  echo " - update    : Update Mobius & MobiusView delopyments (helm upgrade)"
   echo " - remove    : Remove $PRODUCT"
   echo " - sleep     : Sleep $PRODUCT (replicas=0)"
   echo " - wake      : Wake up $PRODUCT (replicas=normal)"
