@@ -44,6 +44,11 @@ install_aeo(){
     helm upgrade -f $AEO_VALUES aeo-$NAMESPACE helm/aeo-4.3.1 --namespace $NAMESPACE --create-namespace --install --wait;
 }
 
+update_aeo(){
+  # Mientras AEO utilice VOLUMES no mapeados a directorios externos al cluster es igual a install_aeo()
+  install_aeo;
+}
+
 get_total_pods() {
   kubectl get pod -n "$NAMESPACE" --no-headers | wc -l | awk '{print $1}'
 }
