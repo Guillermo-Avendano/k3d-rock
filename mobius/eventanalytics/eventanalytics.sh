@@ -31,7 +31,7 @@ install_eventanalytics() {
     fi
 	
 	info_message "Deploy eventanalytics"; 
-    helm upgrade eventanalytics -n $NAMESPACE $kube_dir/mobius/eventanalytics/helm/eventanalytics.tgz --create-namespace -f $kube_dir/mobius/eventanalytics/$EVENTANALYTICS_VALUES_FILE --install	
+    helm upgrade eventanalytics -n $NAMESPACE $kube_dir/mobius/eventanalytics/helm/eventanalytics-1.3.20.tgz --create-namespace -f $kube_dir/mobius/eventanalytics/$EVENTANALYTICS_VALUES_FILE --install	
 }
 
 get_eventanalytics_status() {

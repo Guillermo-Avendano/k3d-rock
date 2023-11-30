@@ -142,7 +142,7 @@ update_mobiusview() {
 	info_message "Certificate for $MOBIUS_VIEW_URL2: $cert_directory/$MOBIUS_VIEW_URL2.crt";
 	
 	info_message "Updating mobiusview"; 
-	helm upgrade mobiusview -n $NAMESPACE $kube_dir/mobius/mobiusview/helm/mobiusview.tgz --create-namespace -f $MOBIUSVIEW_VALUES_FILE --install	
+	helm upgrade mobiusview -n $NAMESPACE $kube_dir/mobius/mobiusview/helm/mobiusview-12.3.0.tgz --create-namespace -f $MOBIUSVIEW_VALUES_FILE --install	
 	
 	info_message "Updating mobiusview ingress";    
     kubectl apply -f $MOBIUSVIEW_INGRESS_FILE --namespace $NAMESPACE;
