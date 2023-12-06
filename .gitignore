@@ -11,3 +11,4 @@ images/
 pv_cluster/
 cluster/zenith.local-mycluster_config.yaml
 cluster/mobius-mycluster_config.yaml
+mobius/monitor_acreate/reporte1/mobiuscli.log
