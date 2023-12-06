@@ -21,6 +21,8 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
   if [ ! -e "$LOG_DIR/$PREFIX.log" ]; then
      touch $LOG_DIR/$PREFIX.log
   fi
+  
+  echo "" $FILENAME >> $LOG_DIR/$PREFIX.log
   echo "Parametros:" $FILENAME >> $LOG_DIR/$PREFIX.log
   cat "$SCRIPT_DIR/.env" >> $LOG_DIR/$PREFIX.log
   echo ""  >> $LOG_DIR/$PREFIX.log
