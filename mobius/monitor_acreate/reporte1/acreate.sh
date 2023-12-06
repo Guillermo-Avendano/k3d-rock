@@ -72,18 +72,28 @@ if [ -z "$FILENAME" ]; then
   exit 1
 fi
 
+# Obtener timestamp antes de ejecutar el comando
+start_timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+
 FILENAME_SHORT=$(basename "$FILENAME")
-echo "-------------"
-echo $TM
+
+echo "-------------" >> $LOG_DIR/$PREFIX.log
 echo "Procesando..." $FILENAME >> $LOG_DIR/$PREFIX.log
-echo "-------------"
+echo $start_timestamp >> $LOG_DIR/$PREFIX.log
+
 
 # Ejecutar acreate.sh con redirección de salida a un archivo de log
 
 PATH=/opt/asg/java/bin:$PATH
 java -D"log4j.configurationFile=${MOBIUS_REMOTE_CLI_PATH}/BOOT-INF/classes/log4j2.yaml" -jar ${MOBIUS_REMOTE_CLI_PATH}/acreate-cli.jar acreate -s Mobius -u ADMIN -f "$FILENAME" -r $CONTENT_CLASS -c $ARCHIVE_POLICY -v 2 > "$LOG_DIR/$TM.$PREFIX.$FILENAME_SHORT.log" 2>&1
 
+# Obtener timestamp después de ejecutar el comando
+end_timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
+# Calcular el tiempo transcurrido
+start_seconds=$(date -d "$start_timestamp" +"%s")
+end_seconds=$(date -d "$end_timestamp" +"%s")
+elapsed_seconds=$((end_seconds - start_seconds))
 # Verificar si el comando fue exitoso
 
 if [ $? -ne 0 ] || grep -iq "abort" "$LOG_DIR/$TM.$PREFIX.$FILENAME_SHORT.log"; then
@@ -96,6 +106,9 @@ else
   mv -f "$FILENAME" "$PROCESADOS_OK/$FILENAME_SHORT"
 
 fi
+echo $start_timestamp >> $LOG_DIR/$PREFIX.log
+echo "tiempo en segundos: $elapsed_seconds"
+echo "-------------" >> $LOG_DIR/$PREFIX.log
 
 # Eliminar el archivo de bloqueo
 rm "$LOCK_FILE"
