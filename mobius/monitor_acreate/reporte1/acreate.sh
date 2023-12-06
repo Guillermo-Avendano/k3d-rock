@@ -21,7 +21,7 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
   if [ ! -e "$LOG_DIR/$PREFIX.log" ]; then
      touch $LOG_DIR/$PREFIX.log
   fi
-  echo "-------------" >> $LOG_DIR/$PREFIX.log
+  echo "Parametros:" $FILENAME >> $LOG_DIR/$PREFIX.log
   cat "$SCRIPT_DIR/.env" >> $LOG_DIR/$PREFIX.log
   echo ""  >> $LOG_DIR/$PREFIX.log
 else
@@ -81,7 +81,7 @@ fi
 start_timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
 FILENAME_SHORT=$(basename "$FILENAME")
-
+echo "" $FILENAME >> $LOG_DIR/$PREFIX.log
 echo "Procesando..." $FILENAME >> $LOG_DIR/$PREFIX.log
 echo $start_timestamp >> $LOG_DIR/$PREFIX.log
 
