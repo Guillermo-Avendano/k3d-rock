@@ -111,7 +111,7 @@ else
   mv -f "$FILENAME" "$PROCESADOS_OK/$FILENAME_SHORT"
 
 fi
-echo $start_timestamp >> $LOG_DIR/$PREFIX.log
+echo $end_timestamp >> $LOG_DIR/$PREFIX.log
 echo "Tiempo en segundos: $elapsed_seconds" >> $LOG_DIR/$PREFIX.log
 echo "-------------" >> $LOG_DIR/$PREFIX.log
 
