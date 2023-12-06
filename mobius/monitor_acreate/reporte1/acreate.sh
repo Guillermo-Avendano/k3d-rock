@@ -21,9 +21,9 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
   if [ ! -e "$LOG_DIR/$PREFIX.log" ]; then
      touch $LOG_DIR/$PREFIX.log
   fi
-  echo "---------------------------------" >> $LOG_DIR/$PREFIX.log
+  echo "################" >> $LOG_DIR/$PREFIX.log
   cat "$SCRIPT_DIR/.env" >> $LOG_DIR/$PREFIX.log
-  echo "---------------------------------"  >> $LOG_DIR/$PREFIX.log
+  echo ""  >> $LOG_DIR/$PREFIX.log
 else
   echo "Error: No se encontró el archivo .env en el directorio $SCRIPT_DIR" >> $LOG_DIR/$PREFIX.log
   exit 1
@@ -45,6 +45,8 @@ if [ ! -d "$PROCESADOS_ERR" ]; then
 	 fi
    mkdir -p $PROCESADOS_ERR;
 fi 
+
+
 
 # Obtener el nombre del directorio actual
 CURRENT_DIR=$(basename "$SCRIPT_DIR")
@@ -82,6 +84,7 @@ FILENAME_SHORT=$(basename "$FILENAME")
 
 echo "-------------" >> $LOG_DIR/$PREFIX.log
 echo "Procesando..." $FILENAME >> $LOG_DIR/$PREFIX.log
+echo $start_timestamp >> $LOG_DIR/$PREFIX.log
 
 # Ejecutar acreate.sh con redirección de salida a un archivo de log
 
