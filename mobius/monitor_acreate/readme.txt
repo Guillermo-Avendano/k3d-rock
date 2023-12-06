@@ -9,3 +9,8 @@ popd
 pushd /mnt/c/Rocket/DataSampler
 . ./MobiusRemoteCLI.sh vdrdbxml -s Mobius -u ADMIN -f /mnt/c/Rocket.Git/k3d-rock/mobius/monitor_acreate/Jobs_index.xml -o /mnt/c/Rocket.Git/k3d-rock/mobius/monitor_acreate/Jobs_index.out -v 2
 popd
+
+pushd /mnt/c/Rocket/DataSampler
+. ./MobiusRemoteCLI.sh vdrdbxml -s Mobius -u ADMIN -f /mnt/c/Rocket.Git/k3d-rock/mobius/monitor_acreate/getall.xml -o /mnt/c/Rocket.Git/k3d-rock/mobius/monitor_acreate/getall.out.xml -v 2
+popd
+

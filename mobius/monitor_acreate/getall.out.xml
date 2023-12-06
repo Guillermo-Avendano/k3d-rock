@@ -1,10 +1,137 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VDRNET_DB_MASS_UPDATE VDRNET_VERSION="12.3">
 
+<RECIPIENT action="add/modify">
+   <RECIPIENT_ID>ADMIN</RECIPIENT_ID>
+   <NAME></NAME>
+   <TITLE></TITLE>
+   <ADDRESS_LINE_1></ADDRESS_LINE_1>
+   <ADDRESS_LINE_2></ADDRESS_LINE_2>
+   <ADDRESS_LINE_3></ADDRESS_LINE_3>
+   <ADDRESS_LINE_4></ADDRESS_LINE_4>
+   <PASSWORD></PASSWORD>
+   <GLOBAL_REPORT_ACCESS>Y</GLOBAL_REPORT_ACCESS>
+   <GLOBAL_TOPIC_ACCESS>Y</GLOBAL_TOPIC_ACCESS>
+   <DEFINE_RECIPIENTS>Y</DEFINE_RECIPIENTS>
+   <DEFINE_REPORTS>Y</DEFINE_REPORTS>
+   <DEFINE_POLICIES>Y</DEFINE_POLICIES>
+   <CREATE_ARCHIVES>Y</CREATE_ARCHIVES>
+   <DELETE_ARCHIVES>Y</DELETE_ARCHIVES>
+   <DISTRIBUTION_ACCESS>Y</DISTRIBUTION_ACCESS>
+   <VIEW_ANNOTATIONS>Y</VIEW_ANNOTATIONS>
+   <CREATE_ANNOTATIONS>Y</CREATE_ANNOTATIONS>
+   <MODIFY_ANNOTATIONS>Y</MODIFY_ANNOTATIONS>
+   <DELETE_ANNOTATIONS>Y</DELETE_ANNOTATIONS>
+   <CREATE_OVERLAYS>Y</CREATE_OVERLAYS>
+   <MODIFY_OVERLAYS>Y</MODIFY_OVERLAYS>
+   <DELETE_OVERLAYS>Y</DELETE_OVERLAYS>
+   <MANIPULATE_DOCUMENT_TOPIC_ITEM_VALUES>Y</MANIPULATE_DOCUMENT_TOPIC_ITEM_VALUES>
+   <MANIPULATE_PROCESS_TOPIC_ITEM_VALUES>Y</MANIPULATE_PROCESS_TOPIC_ITEM_VALUES>
+   <ADD_RETENTION_TOPIC_ITEM_VALUES>Y</ADD_RETENTION_TOPIC_ITEM_VALUES>
+   <MODIFY_RETENTION_TOPIC_ITEM_VALUES>Y</MODIFY_RETENTION_TOPIC_ITEM_VALUES>
+   <DELETE_RETENTION_TOPIC_ITEM_VALUES>Y</DELETE_RETENTION_TOPIC_ITEM_VALUES>
+   <MANIPULATE_TOPIC_ITEM_VALUES_FOR_HELD_DOCUMENTS>Y</MANIPULATE_TOPIC_ITEM_VALUES_FOR_HELD_DOCUMENTS>
+   <AUDITING_MANDATORY>N</AUDITING_MANDATORY>
+   <VIEW_NON_REDACTED_DOCUMENTS>Y</VIEW_NON_REDACTED_DOCUMENTS>
+   <OPERATE_RECORDS_MANAGER>Y</OPERATE_RECORDS_MANAGER>
+   <EMAIL_ADDRESS></EMAIL_ADDRESS>
+   <RECIPIENT_DISTRIBUTION_SEQUENCE>1</RECIPIENT_DISTRIBUTION_SEQUENCE>
+</RECIPIENT>
+<RECIPIENT action="add/modify">
+   <RECIPIENT_ID>admin</RECIPIENT_ID>
+   <NAME></NAME>
+   <TITLE></TITLE>
+   <ADDRESS_LINE_1></ADDRESS_LINE_1>
+   <ADDRESS_LINE_2></ADDRESS_LINE_2>
+   <ADDRESS_LINE_3></ADDRESS_LINE_3>
+   <ADDRESS_LINE_4></ADDRESS_LINE_4>
+   <PASSWORD encrypt="n">juXGL42Q</PASSWORD>
+   <GLOBAL_REPORT_ACCESS>Y</GLOBAL_REPORT_ACCESS>
+   <GLOBAL_TOPIC_ACCESS>Y</GLOBAL_TOPIC_ACCESS>
+   <DEFINE_RECIPIENTS>Y</DEFINE_RECIPIENTS>
+   <DEFINE_REPORTS>Y</DEFINE_REPORTS>
+   <DEFINE_POLICIES>Y</DEFINE_POLICIES>
+   <CREATE_ARCHIVES>Y</CREATE_ARCHIVES>
+   <DELETE_ARCHIVES>Y</DELETE_ARCHIVES>
+   <DISTRIBUTION_ACCESS>Y</DISTRIBUTION_ACCESS>
+   <VIEW_ANNOTATIONS>Y</VIEW_ANNOTATIONS>
+   <CREATE_ANNOTATIONS>Y</CREATE_ANNOTATIONS>
+   <MODIFY_ANNOTATIONS>Y</MODIFY_ANNOTATIONS>
+   <DELETE_ANNOTATIONS>Y</DELETE_ANNOTATIONS>
+   <CREATE_OVERLAYS>Y</CREATE_OVERLAYS>
+   <MODIFY_OVERLAYS>Y</MODIFY_OVERLAYS>
+   <DELETE_OVERLAYS>Y</DELETE_OVERLAYS>
+   <MANIPULATE_DOCUMENT_TOPIC_ITEM_VALUES>Y</MANIPULATE_DOCUMENT_TOPIC_ITEM_VALUES>
+   <MANIPULATE_PROCESS_TOPIC_ITEM_VALUES>Y</MANIPULATE_PROCESS_TOPIC_ITEM_VALUES>
+   <ADD_RETENTION_TOPIC_ITEM_VALUES>Y</ADD_RETENTION_TOPIC_ITEM_VALUES>
+   <MODIFY_RETENTION_TOPIC_ITEM_VALUES>Y</MODIFY_RETENTION_TOPIC_ITEM_VALUES>
+   <DELETE_RETENTION_TOPIC_ITEM_VALUES>Y</DELETE_RETENTION_TOPIC_ITEM_VALUES>
+   <MANIPULATE_TOPIC_ITEM_VALUES_FOR_HELD_DOCUMENTS>Y</MANIPULATE_TOPIC_ITEM_VALUES_FOR_HELD_DOCUMENTS>
+   <AUDITING_MANDATORY>N</AUDITING_MANDATORY>
+   <VIEW_NON_REDACTED_DOCUMENTS>Y</VIEW_NON_REDACTED_DOCUMENTS>
+   <OPERATE_RECORDS_MANAGER>Y</OPERATE_RECORDS_MANAGER>
+   <EMAIL_ADDRESS></EMAIL_ADDRESS>
+   <RECIPIENT_DISTRIBUTION_SEQUENCE>1</RECIPIENT_DISTRIBUTION_SEQUENCE>
+</RECIPIENT>
+<GROUP action="add/modify">
+   <GROUP_ID>mobiusadmin</GROUP_ID>
+   <GROUP_NAME>mobiusadmin</GROUP_NAME>
+   <GROUP_DESCRIPTION></GROUP_DESCRIPTION>
+   <GROUP_GLOBAL_RPT_ACCESS>Y</GROUP_GLOBAL_RPT_ACCESS>
+   <GROUP_GLOBAL_TOPIC_ACCESS>Y</GROUP_GLOBAL_TOPIC_ACCESS>
+   <DEFINE_RECIPIENTS>Y</DEFINE_RECIPIENTS>
+   <DEFINE_REPORTS>Y</DEFINE_REPORTS>
+   <DEFINE_POLICIES>Y</DEFINE_POLICIES>
+   <CREATE_ARCHIVES>Y</CREATE_ARCHIVES>
+   <DELETE_ARCHIVES>Y</DELETE_ARCHIVES>
+   <DISTRIBUTION_ACCESS>Y</DISTRIBUTION_ACCESS>
+   <VIEW_ANNOTATIONS>Y</VIEW_ANNOTATIONS>
+   <CREATE_ANNOTATIONS>Y</CREATE_ANNOTATIONS>
+   <MODIFY_ANNOTATIONS>Y</MODIFY_ANNOTATIONS>
+   <DELETE_ANNOTATIONS>Y</DELETE_ANNOTATIONS>
+   <CREATE_OVERLAYS>Y</CREATE_OVERLAYS>
+   <MODIFY_OVERLAYS>Y</MODIFY_OVERLAYS>
+   <DELETE_OVERLAYS>Y</DELETE_OVERLAYS>
+   <MANIPULATE_DOCUMENT_TOPIC_ITEM_VALUES>Y</MANIPULATE_DOCUMENT_TOPIC_ITEM_VALUES>
+   <MANIPULATE_PROCESS_TOPIC_ITEM_VALUES>Y</MANIPULATE_PROCESS_TOPIC_ITEM_VALUES>
+   <ADD_RETENTION_TOPIC_ITEM_VALUES>Y</ADD_RETENTION_TOPIC_ITEM_VALUES>
+   <MODIFY_RETENTION_TOPIC_ITEM_VALUES>Y</MODIFY_RETENTION_TOPIC_ITEM_VALUES>
+   <DELETE_RETENTION_TOPIC_ITEM_VALUES>Y</DELETE_RETENTION_TOPIC_ITEM_VALUES>
+   <MANIPULATE_TOPIC_ITEM_VALUES_FOR_HELD_DOCUMENTS>Y</MANIPULATE_TOPIC_ITEM_VALUES_FOR_HELD_DOCUMENTS>
+   <AUDITING_MANDATORY>N</AUDITING_MANDATORY>
+   <VIEW_NON_REDACTED_DOCUMENTS>Y</VIEW_NON_REDACTED_DOCUMENTS>
+   <OPERATE_RECORDS_MANAGER>Y</OPERATE_RECORDS_MANAGER>
+</GROUP>
+<REPORT action="add/modify">
+   <REPORT_ID>AC001</REPORT_ID>
+   <REPORT_NAME>AC001 is a shipped sample</REPORT_NAME>
+   <DESCRIPTION>Note that %REPORTID% gets truncated to 8 characters.Use %REPORTID.10% to get the entire report ID.Also, in general, avoid using relative paths.</DESCRIPTION>
+   <REPORT_DATA_TYPE></REPORT_DATA_TYPE>
+   <REPORT_DATA_SUBTYPE></REPORT_DATA_SUBTYPE>
+   <REPORT_SECTION_CODE_LOCATIONS></REPORT_SECTION_CODE_LOCATIONS>
+   <ARCHIVE_MODEL_FILE_NAME>%USERPROFILE%%REPORTID%%PATHDELIM%%ARCHIVEDATE%%PATHDELIM%%ARCHIVETIME%%UNIQUE.2%.DAF</ARCHIVE_MODEL_FILE_NAME>
+   <ARCHIVE_RETENTION_PERIOD>0</ARCHIVE_RETENTION_PERIOD>
+   <INITIAL_FIXED_RETENTION_PERIOD>0</INITIAL_FIXED_RETENTION_PERIOD>
+   <ARCHIVE_RETENTION_BASE>Report version ID</ARCHIVE_RETENTION_BASE>
+   <ARCHIVE_GENERATIONS_KEPT>0</ARCHIVE_GENERATIONS_KEPT>
+   <ARCHIVE_RETENTION_ROUNDING>None</ARCHIVE_RETENTION_ROUNDING>
+   <INTERMEDIATE_INDEFINITE_RETENTION>0</INTERMEDIATE_INDEFINITE_RETENTION>
+   <AUTOMATIC_RM_PROCESSING>False</AUTOMATIC_RM_PROCESSING>
+   <DISABLE_FTS_INDEXING>False</DISABLE_FTS_INDEXING>
+   <DISABLE_CONTENT_INDEXING>False</DISABLE_CONTENT_INDEXING>
+   <POLICY_NAME></POLICY_NAME>
+   <COMPRESS_DATA>No</COMPRESS_DATA>
+   <ENCRYPT_DATA>No</ENCRYPT_DATA>
+   <REDACTION_TYPE>NONE</REDACTION_TYPE>
+   <REDACTION_POLICY_NAME></REDACTION_POLICY_NAME>
+   <OCR_PROCESSING>False</OCR_PROCESSING>
+</REPORT>
 <REPORT action="add/modify">
    <REPORT_ID>Jobs</REPORT_ID>
    <REPORT_NAME>Jobs</REPORT_NAME>
-   <DESCRIPTION>Job Control Language</DESCRIPTION>
+   <DESCRIPTION>Note that %REPORTID% gets truncated to 8 characters.
+Use %REPORTID.10% to get the entire report ID.
+Also, in general, avoid using relative paths.</DESCRIPTION>
    <REPORT_DATA_TYPE></REPORT_DATA_TYPE>
    <REPORT_DATA_SUBTYPE></REPORT_DATA_SUBTYPE>
    <REPORT_SECTION_CODE_LOCATIONS></REPORT_SECTION_CODE_LOCATIONS>
@@ -25,7 +152,6 @@
    <REDACTION_POLICY_NAME></REDACTION_POLICY_NAME>
    <OCR_PROCESSING>False</OCR_PROCESSING>
 </REPORT>
-
 <TOPIC_GROUP action="add/modify">
    <TOPIC_GROUP_ID>Jobs_Index_Group</TOPIC_GROUP_ID>
    <TOPIC_GROUP_NAME>Grupo de Indices para Jobs</TOPIC_GROUP_NAME>
@@ -97,13 +223,357 @@
       <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
    </MEMBER_TOPIC>
 </TOPIC_GROUP>
-
+<TOPIC_GROUP action="add/modify">
+   <TOPIC_GROUP_ID>RET_CHG</TOPIC_GROUP_ID>
+   <TOPIC_GROUP_NAME></TOPIC_GROUP_NAME>
+   <TOPIC_GROUP_SCOPE>PageSet</TOPIC_GROUP_SCOPE>
+   <TOPIC_GROUP_IS_PROTECTED>Yes</TOPIC_GROUP_IS_PROTECTED>
+   <TOPIC_GROUP_CLASS>Retention</TOPIC_GROUP_CLASS>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>RM_RETDATE</TOPIC_ID>
+      <TOPIC_NAME>Retention date</TOPIC_NAME>
+      <DESCRIPTION>Expiration date</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>N</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Retention</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>RM_EVENTDT</TOPIC_ID>
+      <TOPIC_NAME>Event Date</TOPIC_NAME>
+      <DESCRIPTION>Date timestamp of when the event was issued</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>N</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Retention</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>RM_REASON</TOPIC_ID>
+      <TOPIC_NAME>Event Reason</TOPIC_NAME>
+      <DESCRIPTION>Reason for the event</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>N</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>Y</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Retention</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>RM_TYPE</TOPIC_ID>
+      <TOPIC_NAME>Event Type</TOPIC_NAME>
+      <DESCRIPTION>Type of event</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>N</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>Y</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Retention</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>RM_DESC</TOPIC_ID>
+      <TOPIC_NAME>Event Description</TOPIC_NAME>
+      <DESCRIPTION>Event description</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>N</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>Y</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Retention</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+</TOPIC_GROUP>
+<TOPIC_GROUP action="add/modify">
+   <TOPIC_GROUP_ID>ls_docrevs</TOPIC_GROUP_ID>
+   <TOPIC_GROUP_NAME>Library Services Document Revision History</TOPIC_GROUP_NAME>
+   <TOPIC_GROUP_SCOPE>PageSet</TOPIC_GROUP_SCOPE>
+   <TOPIC_GROUP_IS_PROTECTED>Yes</TOPIC_GROUP_IS_PROTECTED>
+   <TOPIC_GROUP_CLASS>Regular</TOPIC_GROUP_CLASS>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_RPTID</TOPIC_ID>
+      <TOPIC_NAME>Report ID</TOPIC_NAME>
+      <DESCRIPTION>Report ID. Implied format is CHAR(10)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_RPTVER</TOPIC_ID>
+      <TOPIC_NAME>Report Version</TOPIC_NAME>
+      <DESCRIPTION>Report Version. Implied format is YYYYMMDDHHMMSS</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_SECTID</TOPIC_ID>
+      <TOPIC_NAME>Section ID</TOPIC_NAME>
+      <DESCRIPTION>Visible portion of section id. Implied format is VARCHAR(30)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_ORGPG</TOPIC_ID>
+      <TOPIC_NAME>Original page in base version</TOPIC_NAME>
+      <DESCRIPTION>Original page number of document start in the base version. Implied format is NUMBER(10,0)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_OUTUSR</TOPIC_ID>
+      <TOPIC_NAME>Check-out user ID</TOPIC_NAME>
+      <DESCRIPTION>User ID that performed check-out. Implied format is VARCHAR(128)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_INUSR</TOPIC_ID>
+      <TOPIC_NAME>Check-in user id</TOPIC_NAME>
+      <DESCRIPTION>User ID that performed check-in. Implied format is VARCHAR(128)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_OUTDT</TOPIC_ID>
+      <TOPIC_NAME>Check-out timestamp</TOPIC_NAME>
+      <DESCRIPTION>The check-out timestamp represented as number of epoch milliseconds in Zulu time. Implied format is NUMBER(19,0)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_INDT</TOPIC_ID>
+      <TOPIC_NAME>Check-in timestamp</TOPIC_NAME>
+      <DESCRIPTION>The check-in timestamp represented as number of epoch milliseconds in Zulu time. Implied format is NUMBER(19,0)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_MSG</TOPIC_ID>
+      <TOPIC_NAME>User message</TOPIC_NAME>
+      <DESCRIPTION>User message. Implied format is VARCHAR(255)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_VERNO</TOPIC_ID>
+      <TOPIC_NAME>Version number</TOPIC_NAME>
+      <DESCRIPTION>Sequence number of this version. Base version is number 1. Implied format is NUMBER(10,0)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_VERTAG</TOPIC_ID>
+      <TOPIC_NAME>Version Tag</TOPIC_NAME>
+      <DESCRIPTION>Version Tag. Implied format is VARCHAR(255)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_OUTID</TOPIC_ID>
+      <TOPIC_NAME>Check-out ID</TOPIC_NAME>
+      <DESCRIPTION>Key identifying the check-out. Implied format is CHAR(36)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>255</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>LS_PGCNT</TOPIC_ID>
+      <TOPIC_NAME>Page count.</TOPIC_NAME>
+      <DESCRIPTION>Page count of this version. Implied format is NUMBER(10,0)</DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206073715</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>Yes</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+</TOPIC_GROUP>
+<TOPIC_GROUP action="add/modify">
+   <TOPIC_GROUP_ID>x</TOPIC_GROUP_ID>
+   <TOPIC_GROUP_NAME>x</TOPIC_GROUP_NAME>
+   <TOPIC_GROUP_SCOPE>Page</TOPIC_GROUP_SCOPE>
+   <TOPIC_GROUP_IS_PROTECTED>No</TOPIC_GROUP_IS_PROTECTED>
+   <TOPIC_GROUP_CLASS>Regular</TOPIC_GROUP_CLASS>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>a1</TOPIC_ID>
+      <TOPIC_NAME>a1</TOPIC_NAME>
+      <DESCRIPTION></DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206203249</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>No</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+   <MEMBER_TOPIC>
+      <TOPIC_ID>a2</TOPIC_ID>
+      <TOPIC_NAME>a2</TOPIC_NAME>
+      <DESCRIPTION></DESCRIPTION>
+      <TOPIC_GLOBAL_ACCESS>Y</TOPIC_GLOBAL_ACCESS>
+      <DATA_TYPE>Character</DATA_TYPE>
+      <DATA_FORMAT>Character</DATA_FORMAT>
+      <TOPIC_ITEM_MAX_LENGTH>30</TOPIC_ITEM_MAX_LENGTH>
+      <CURRENT_TOPIC_VERSION>20231206203249</CURRENT_TOPIC_VERSION>
+      <TOPIC_VERSION_GRANULARITY>All</TOPIC_VERSION_GRANULARITY>
+      <IGNORE_CASE_ON_SEARCHES>N</IGNORE_CASE_ON_SEARCHES>
+      <CAN_SEARCH>Yes</CAN_SEARCH>
+      <TOPIC_IS_PROTECTED>No</TOPIC_IS_PROTECTED>
+      <TOPIC_CATEGORY>Document</TOPIC_CATEGORY>
+      <TOPIC_HAS_STICKY_HOLD>No</TOPIC_HAS_STICKY_HOLD>
+   </MEMBER_TOPIC>
+</TOPIC_GROUP>
 <POLICY action="add/modify">
    <POLICY_NAME>AP_AC2020_v1</POLICY_NAME>
    <POLICY_TYPE>ARCHIVING</POLICY_TYPE>
    <POLICY_DATA>{&quot;name&quot;:&quot;&quot;,&quot;policyType&quot;:&quot;Extraction&quot;,&quot;scope&quot;:&quot;page&quot;,&quot;description&quot;:&quot;&quot;,&quot;sampleFile&quot;:&quot;ac2020_1.txt&quot;,&quot;controlFile&quot;:null,&quot;locationIndexScope&quot;:null,&quot;keepBlankRows&quot;:false,&quot;compatibility&quot;:0,&quot;decimalSeparator&quot;:null,&quot;version&quot;:3.0,&quot;parsingInfo&quot;:{&quot;dataType&quot;:&quot;Text&quot;,&quot;charSet&quot;:&quot;ASCII&quot;,&quot;pageBreak&quot;:{&quot;type&quot;:&quot;FORMFEED&quot;,&quot;fixedPageLength&quot;:0,&quot;markers&quot;:null,&quot;columns&quot;:null},&quot;lineBreak&quot;:{&quot;type&quot;:&quot;CRLF&quot;,&quot;fixedLineLength&quot;:0},&quot;reportFileName&quot;:null,&quot;startPage&quot;:1,&quot;pageCount&quot;:1,&quot;alfFormat&quot;:0,&quot;jdlResource&quot;:null,&quot;jdeResource&quot;:null,&quot;useJslPageSettings&quot;:false,&quot;propagateTleRecords&quot;:false,&quot;externalResources&quot;:null,&quot;reportMetadata&quot;:null,&quot;pageMetadata&quot;:null,&quot;columnDelimiter&quot;:null,&quot;textEnclosure&quot;:null,&quot;processHiddenText&quot;:false,&quot;useOCR&quot;:false},&quot;pageBindInfo&quot;:{&quot;displayTransform&quot;:{&quot;scaleX&quot;:1.0,&quot;scaleY&quot;:1.0,&quot;translateX&quot;:0.0,&quot;translateY&quot;:0.0},&quot;charsPerInch&quot;:0.0,&quot;linesPerInch&quot;:0.0},&quot;regionBindInfoList&quot;:null,&quot;xmlParentInfoList&quot;:null,&quot;sorts&quot;:[],&quot;templates&quot;:[{&quot;name&quot;:&quot;DocInfo&quot;,&quot;type&quot;:&quot;Region&quot;,&quot;templateid&quot;:1,&quot;mask&quot;:&quot;&quot;,&quot;positionByMask&quot;:false,&quot;trap_line&quot;:0,&quot;sample&quot;:null,&quot;position&quot;:{&quot;left&quot;:0.0,&quot;right&quot;:1.84615,&quot;top&quot;:0.02778,&quot;bottom&quot;:0.77389},&quot;textPosition&quot;:null,&quot;stretchHeight&quot;:false,&quot;stretchWidth&quot;:false,&quot;startAnchor&quot;:null,&quot;endAnchor&quot;:null,&quot;headerHeight&quot;:0.0,&quot;textheaderHeight&quot;:0,&quot;wordSpacingThreshold&quot;:55.0,&quot;lineSpacingThreshold&quot;:35.0,&quot;enabled&quot;:true,&quot;fields&quot;:[{&quot;name&quot;:&quot;RPT_ID&quot;,&quot;type&quot;:&quot;text&quot;,&quot;leveltype&quot;:&quot;header1&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:17.0,&quot;right&quot;:22.0,&quot;top&quot;:2.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;&quot;,&quot;minLength&quot;:6,&quot;maxLength&quot;:6,&quot;terminator&quot;:null,&quot;multiline&quot;:null,&quot;useMultiline&quot;:null,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:0,&quot;display_length&quot;:6,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null},{&quot;name&quot;:&quot;VER_ID&quot;,&quot;type&quot;:&quot;date&quot;,&quot;leveltype&quot;:&quot;detail&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:1.0,&quot;right&quot;:10.0,&quot;top&quot;:1.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;MM/DD/YYYY&quot;,&quot;minLength&quot;:7,&quot;maxLength&quot;:9,&quot;terminator&quot;:null,&quot;multiline&quot;:null,&quot;useMultiline&quot;:null,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:1,&quot;display_length&quot;:10,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;YYYYMMDD&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null},{&quot;name&quot;:&quot;SEC1&quot;,&quot;type&quot;:&quot;text&quot;,&quot;leveltype&quot;:&quot;detail&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:17.0,&quot;right&quot;:21.0,&quot;top&quot;:3.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;&quot;,&quot;minLength&quot;:4,&quot;maxLength&quot;:4,&quot;terminator&quot;:null,&quot;multiline&quot;:2,&quot;useMultiline&quot;:false,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:2,&quot;display_length&quot;:6,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null},{&quot;name&quot;:&quot;SEC2&quot;,&quot;type&quot;:&quot;text&quot;,&quot;leveltype&quot;:&quot;detail&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:17.0,&quot;right&quot;:19.0,&quot;top&quot;:4.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;&quot;,&quot;minLength&quot;:2,&quot;maxLength&quot;:2,&quot;terminator&quot;:null,&quot;multiline&quot;:2,&quot;useMultiline&quot;:false,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:3,&quot;display_length&quot;:7,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null},{&quot;name&quot;:&quot;SEC3&quot;,&quot;type&quot;:&quot;text&quot;,&quot;leveltype&quot;:&quot;detail&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:17.0,&quot;right&quot;:20.0,&quot;top&quot;:5.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;&quot;,&quot;minLength&quot;:3,&quot;maxLength&quot;:3,&quot;terminator&quot;:null,&quot;multiline&quot;:2,&quot;useMultiline&quot;:false,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:4,&quot;display_length&quot;:8,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null}],&quot;generatedAreas&quot;:null},{&quot;name&quot;:&quot;AcctCode&quot;,&quot;type&quot;:&quot;Region&quot;,&quot;templateid&quot;:2,&quot;mask&quot;:&quot;&quot;,&quot;positionByMask&quot;:false,&quot;trap_line&quot;:0,&quot;sample&quot;:null,&quot;position&quot;:{&quot;left&quot;:0.0,&quot;right&quot;:0.53793,&quot;top&quot;:1.3848039,&quot;bottom&quot;:7.1186557},&quot;textPosition&quot;:null,&quot;stretchHeight&quot;:false,&quot;stretchWidth&quot;:false,&quot;startAnchor&quot;:null,&quot;endAnchor&quot;:null,&quot;headerHeight&quot;:0.0,&quot;textheaderHeight&quot;:0,&quot;wordSpacingThreshold&quot;:55.0,&quot;lineSpacingThreshold&quot;:35.0,&quot;enabled&quot;:true,&quot;fields&quot;:[{&quot;name&quot;:&quot;AC_Code&quot;,&quot;type&quot;:&quot;text&quot;,&quot;leveltype&quot;:&quot;detail&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:1.0,&quot;right&quot;:7.0,&quot;top&quot;:0.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;&quot;,&quot;minLength&quot;:6,&quot;maxLength&quot;:6,&quot;terminator&quot;:null,&quot;multiline&quot;:2,&quot;useMultiline&quot;:false,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:5,&quot;display_length&quot;:7,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;B&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:7,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null}],&quot;generatedAreas&quot;:null},{&quot;name&quot;:&quot;Details&quot;,&quot;type&quot;:&quot;Region&quot;,&quot;templateid&quot;:3,&quot;mask&quot;:&quot;&quot;,&quot;positionByMask&quot;:false,&quot;trap_line&quot;:0,&quot;sample&quot;:null,&quot;position&quot;:{&quot;left&quot;:1.76923,&quot;right&quot;:4.52297,&quot;top&quot;:0.33333,&quot;bottom&quot;:0.80084854},&quot;textPosition&quot;:null,&quot;stretchHeight&quot;:false,&quot;stretchWidth&quot;:false,&quot;startAnchor&quot;:null,&quot;endAnchor&quot;:null,&quot;headerHeight&quot;:0.0,&quot;textheaderHeight&quot;:0,&quot;wordSpacingThreshold&quot;:55.0,&quot;lineSpacingThreshold&quot;:35.0,&quot;enabled&quot;:true,&quot;fields&quot;:[{&quot;name&quot;:&quot;DEPT_DETAIL&quot;,&quot;type&quot;:&quot;text&quot;,&quot;leveltype&quot;:&quot;header1&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:1.0,&quot;right&quot;:0.0,&quot;top&quot;:1.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;terminator&quot;:&quot;|&quot;,&quot;multiline&quot;:null,&quot;useMultiline&quot;:null,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:6,&quot;display_length&quot;:8,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;B&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:8,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null},{&quot;name&quot;:&quot;REGION_DETAIL&quot;,&quot;type&quot;:&quot;text&quot;,&quot;leveltype&quot;:&quot;detail&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:1.0,&quot;right&quot;:0.0,&quot;top&quot;:2.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;terminator&quot;:&quot;|&quot;,&quot;multiline&quot;:2,&quot;useMultiline&quot;:false,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:7,&quot;display_length&quot;:35,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;B&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null},{&quot;name&quot;:&quot;OFFICE_DETAIL&quot;,&quot;type&quot;:&quot;text&quot;,&quot;leveltype&quot;:&quot;detail&quot;,&quot;allowBlank&quot;:true,&quot;useRetainedValue&quot;:false,&quot;isExternal&quot;:false,&quot;xmlElement&quot;:null,&quot;xmlAttribute&quot;:null,&quot;xmlParentFields&quot;:null,&quot;xmlParentElement&quot;:null,&quot;xmlImmediateParentOnly&quot;:false,&quot;parsingInfo&quot;:{&quot;position&quot;:{&quot;left&quot;:0.0,&quot;right&quot;:0.0,&quot;top&quot;:3.0,&quot;bottom&quot;:0.0},&quot;column&quot;:0,&quot;format&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;terminator&quot;:&quot;|&quot;,&quot;multiline&quot;:2,&quot;useMultiline&quot;:false,&quot;minValue&quot;:&quot;&quot;,&quot;maxValue&quot;:&quot;&quot;,&quot;matchValues&quot;:[],&quot;matchValuesUsage&quot;:&quot;&quot;,&quot;useWildCard&quot;:false,&quot;discardIncompleteWords&quot;:true},&quot;outputInfo&quot;:{&quot;hide&quot;:false,&quot;sequence&quot;:8,&quot;display_length&quot;:34,&quot;alignment&quot;:&quot;L&quot;,&quot;decimalPrecision&quot;:null,&quot;date_pattern&quot;:0,&quot;outputFormat&quot;:&quot;&quot;,&quot;changeCaseTo&quot;:&quot;&quot;,&quot;removeSpaces&quot;:&quot;B&quot;,&quot;padChar&quot;:&quot;&quot;,&quot;minLength&quot;:0,&quot;maxLength&quot;:0,&quot;lookupTable&quot;:null,&quot;useLookupTable&quot;:false,&quot;useThousandSeparator&quot;:&quot;O&quot;},&quot;dependencies&quot;:[],&quot;metadataKey&quot;:null,&quot;expression&quot;:null,&quot;aggregationType&quot;:null,&quot;fieldToAggregate&quot;:null}],&quot;generatedAreas&quot;:null}],&quot;fieldGroups&quot;:[{&quot;name&quot;:&quot;REPORT_ID&quot;,&quot;usage&quot;:&quot;1&quot;,&quot;scope&quot;:null,&quot;requiredOccurrence&quot;:null,&quot;stopIfMissing&quot;:false,&quot;useLocationIndex&quot;:false,&quot;retainFieldValues&quot;:true,&quot;fieldRefs&quot;:[{&quot;ruleName&quot;:&quot;DocInfo&quot;,&quot;fieldName&quot;:&quot;RPT_ID&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:0}],&quot;aggregationFieldRefs&quot;:[],&quot;isDefault&quot;:false,&quot;sort&quot;:null,&quot;filter&quot;:null,&quot;consolidateMatchingRows&quot;:false,&quot;insertAggregationTotal&quot;:null,&quot;aggregationTotalTag&quot;:&quot;Total&quot;,&quot;includeHiddenFields&quot;:false},{&quot;name&quot;:&quot;VERSION_ID&quot;,&quot;usage&quot;:&quot;5&quot;,&quot;scope&quot;:null,&quot;requiredOccurrence&quot;:&quot;report&quot;,&quot;stopIfMissing&quot;:false,&quot;useLocationIndex&quot;:false,&quot;retainFieldValues&quot;:true,&quot;fieldRefs&quot;:[{&quot;ruleName&quot;:&quot;DocInfo&quot;,&quot;fieldName&quot;:&quot;VER_ID&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:0}],&quot;aggregationFieldRefs&quot;:[],&quot;isDefault&quot;:false,&quot;sort&quot;:null,&quot;filter&quot;:null,&quot;consolidateMatchingRows&quot;:false,&quot;insertAggregationTotal&quot;:null,&quot;aggregationTotalTag&quot;:&quot;Total&quot;,&quot;includeHiddenFields&quot;:false},{&quot;name&quot;:&quot;SECTION_ID&quot;,&quot;usage&quot;:&quot;2&quot;,&quot;scope&quot;:null,&quot;requiredOccurrence&quot;:null,&quot;stopIfMissing&quot;:false,&quot;useLocationIndex&quot;:false,&quot;retainFieldValues&quot;:true,&quot;fieldRefs&quot;:[{&quot;ruleName&quot;:&quot;DocInfo&quot;,&quot;fieldName&quot;:&quot;SEC1&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:0},{&quot;ruleName&quot;:&quot;DocInfo&quot;,&quot;fieldName&quot;:&quot;SEC2&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:1},{&quot;ruleName&quot;:&quot;DocInfo&quot;,&quot;fieldName&quot;:&quot;SEC3&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:2}],&quot;aggregationFieldRefs&quot;:[],&quot;isDefault&quot;:false,&quot;sort&quot;:null,&quot;filter&quot;:null,&quot;consolidateMatchingRows&quot;:false,&quot;insertAggregationTotal&quot;:null,&quot;aggregationTotalTag&quot;:&quot;Total&quot;,&quot;includeHiddenFields&quot;:false},{&quot;name&quot;:&quot;ACCode&quot;,&quot;usage&quot;:&quot;3&quot;,&quot;scope&quot;:&quot;page&quot;,&quot;requiredOccurrence&quot;:null,&quot;stopIfMissing&quot;:false,&quot;useLocationIndex&quot;:false,&quot;retainFieldValues&quot;:false,&quot;fieldRefs&quot;:[{&quot;ruleName&quot;:&quot;AcctCode&quot;,&quot;fieldName&quot;:&quot;AC_Code&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:0}],&quot;aggregationFieldRefs&quot;:[],&quot;isDefault&quot;:false,&quot;sort&quot;:null,&quot;filter&quot;:null,&quot;consolidateMatchingRows&quot;:false,&quot;insertAggregationTotal&quot;:null,&quot;aggregationTotalTag&quot;:&quot;Total&quot;,&quot;includeHiddenFields&quot;:false},{&quot;name&quot;:&quot;ACDept&quot;,&quot;usage&quot;:&quot;3&quot;,&quot;scope&quot;:&quot;page&quot;,&quot;requiredOccurrence&quot;:null,&quot;stopIfMissing&quot;:false,&quot;useLocationIndex&quot;:false,&quot;retainFieldValues&quot;:false,&quot;fieldRefs&quot;:[{&quot;ruleName&quot;:&quot;Details&quot;,&quot;fieldName&quot;:&quot;DEPT_DETAIL&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:0}],&quot;aggregationFieldRefs&quot;:[],&quot;isDefault&quot;:false,&quot;sort&quot;:null,&quot;filter&quot;:null,&quot;consolidateMatchingRows&quot;:false,&quot;insertAggregationTotal&quot;:null,&quot;aggregationTotalTag&quot;:&quot;Total&quot;,&quot;includeHiddenFields&quot;:false},{&quot;name&quot;:&quot;ACRegion&quot;,&quot;usage&quot;:&quot;3&quot;,&quot;scope&quot;:&quot;page&quot;,&quot;requiredOccurrence&quot;:null,&quot;stopIfMissing&quot;:false,&quot;useLocationIndex&quot;:false,&quot;retainFieldValues&quot;:false,&quot;fieldRefs&quot;:[{&quot;ruleName&quot;:&quot;Details&quot;,&quot;fieldName&quot;:&quot;REGION_DETAIL&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:0}],&quot;aggregationFieldRefs&quot;:[],&quot;isDefault&quot;:false,&quot;sort&quot;:null,&quot;filter&quot;:null,&quot;consolidateMatchingRows&quot;:false,&quot;insertAggregationTotal&quot;:null,&quot;aggregationTotalTag&quot;:&quot;Total&quot;,&quot;includeHiddenFields&quot;:false},{&quot;name&quot;:&quot;ACOffice&quot;,&quot;usage&quot;:&quot;3&quot;,&quot;scope&quot;:&quot;page&quot;,&quot;requiredOccurrence&quot;:null,&quot;stopIfMissing&quot;:false,&quot;useLocationIndex&quot;:false,&quot;retainFieldValues&quot;:false,&quot;fieldRefs&quot;:[{&quot;ruleName&quot;:&quot;Details&quot;,&quot;fieldName&quot;:&quot;OFFICE_DETAIL&quot;,&quot;optional&quot;:false,&quot;insertAggregationSubtotal&quot;:null,&quot;aggregationSubtotalTag&quot;:null,&quot;hideDuplicateValues&quot;:false,&quot;onlyForAggregationAndCalculation&quot;:false,&quot;fieldPosition&quot;:0}],&quot;aggregationFieldRefs&quot;:[],&quot;isDefault&quot;:false,&quot;sort&quot;:null,&quot;filter&quot;:null,&quot;consolidateMatchingRows&quot;:false,&quot;insertAggregationTotal&quot;:null,&quot;aggregationTotalTag&quot;:&quot;Total&quot;,&quot;includeHiddenFields&quot;:false}],&quot;enableCalculatedFields&quot;:false,&quot;calculatedFields&quot;:null,&quot;enableAggregation&quot;:false,&quot;aggregationFields&quot;:null,&quot;filters&quot;:null,&quot;metadataFields&quot;:{&quot;fields&quot;:[],&quot;values&quot;:[]},&quot;enableEnhancedFieldLevelJoining&quot;:false,&quot;quoteOutputValues&quot;:null,&quot;defaultDateComponentOrder&quot;:&quot;M/D/Y&quot;,&quot;cutoffForTwoDigitYear&quot;:1980,&quot;requireMatchForFieldExtraction&quot;:true}</POLICY_DATA>
 </POLICY>
-
+<POLICY action="add/modify">
+   <POLICY_NAME>SAMPLE_POLICY</POLICY_NAME>
+   <POLICY_TYPE>ARCHIVING</POLICY_TYPE>
+   <POLICY_DATA>policy Description: &apos;&apos;; CharSet: EBCDIC; PageBreaks: CC; LineBreaks: 132; CRValue: 13; LFValue: 37; SampleFile: &apos;.\RPT\Ac001e.rpt&apos;; field Report_ID: level(1), string, rowcol(2, 17); Dept: level(1), string, rowcol(3, 17);Region: level(1), string, rowcol(4, 17); Office: level(1), string, rowcol(5, 17); index REPORT_ID: Report_ID; SECTION_ID: Dept, Region, Office;</POLICY_DATA>
+</POLICY>
 <POLICY action="add/modify">
    <POLICY_NAME>US_JB_DD_DT_TM_ID</POLICY_NAME>
    <POLICY_TYPE>ARCHIVING</POLICY_TYPE>

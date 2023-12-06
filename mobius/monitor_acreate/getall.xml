@@ -6,6 +6,8 @@
 <REPORT action="get" outAction="add/modify"/>
 <REPORT_VERSION action="get" outAction="add/modify"/>
 <REPORT_ACCESS_RIGHTS action="get" outAction="add/modify"/>
+<REPORT_ACCESS_RIGHTS action="get" outAction="add/modify"/>
+<TOPIC_GROUP action="get" outAction="add/modify"/>
 <TOPIC action="get" outAction="add/modify"/>
 <TOPIC_VERSION action="get" outAction="add/modify"/>
 <TOPIC_ACCESS_RIGHTS action="get" outAction="add/modify"/>
