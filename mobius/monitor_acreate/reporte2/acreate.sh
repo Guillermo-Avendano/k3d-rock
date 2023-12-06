@@ -86,7 +86,6 @@ echo "-------------" >> $LOG_DIR/$PREFIX.log
 echo "Procesando..." $FILENAME >> $LOG_DIR/$PREFIX.log
 echo $start_timestamp >> $LOG_DIR/$PREFIX.log
 
-
 # Ejecutar acreate.sh con redirección de salida a un archivo de log
 
 PATH=/opt/asg/java/bin:$PATH
@@ -112,7 +111,7 @@ else
 
 fi
 echo $start_timestamp >> $LOG_DIR/$PREFIX.log
-echo "tiempo en segundos: $elapsed_seconds"
+echo "tiempo en segundos: $elapsed_seconds" >> $LOG_DIR/$PREFIX.log
 echo "-------------" >> $LOG_DIR/$PREFIX.log
 
 # Eliminar el archivo de bloqueo
