@@ -21,7 +21,7 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
   if [ ! -e "$LOG_DIR/$PREFIX.log" ]; then
      touch $LOG_DIR/$PREFIX.log
   fi
-  echo "################" >> $LOG_DIR/$PREFIX.log
+  echo "-------------" >> $LOG_DIR/$PREFIX.log
   cat "$SCRIPT_DIR/.env" >> $LOG_DIR/$PREFIX.log
   echo ""  >> $LOG_DIR/$PREFIX.log
 else
@@ -82,7 +82,6 @@ start_timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
 FILENAME_SHORT=$(basename "$FILENAME")
 
-echo "-------------" >> $LOG_DIR/$PREFIX.log
 echo "Procesando..." $FILENAME >> $LOG_DIR/$PREFIX.log
 echo $start_timestamp >> $LOG_DIR/$PREFIX.log
 
@@ -111,7 +110,7 @@ else
 
 fi
 echo $start_timestamp >> $LOG_DIR/$PREFIX.log
-echo "tiempo en segundos: $elapsed_seconds" >> $LOG_DIR/$PREFIX.log
+echo "Tiempo en segundos: $elapsed_seconds" >> $LOG_DIR/$PREFIX.log
 echo "-------------" >> $LOG_DIR/$PREFIX.log
 
 # Eliminar el archivo de bloqueo
