@@ -3,7 +3,7 @@ pushd /mnt/c/Rocket/DataSampler
 popd
 
 pushd /mnt/c/Rocket/DataSampler
-. ./MobiusRemoteCLI.sh adelete -s Mobius -u ADMIN -r JOBS -c -n -y vfd
+. ./MobiusRemoteCLI.sh adelete -s Mobius -u ADMIN -r Jobs -c -n -y vfd
 popd
 
 pushd /mnt/c/Rocket/DataSampler
