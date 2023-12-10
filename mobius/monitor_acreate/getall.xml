@@ -4,14 +4,11 @@
 <GROUP action="get" outAction="add/modify"/>
 <GROUP_MEMBERSHIP action="get" outAction="add/modify"/>
 <REPORT action="get" outAction="add/modify"/>
-<REPORT_VERSION action="get" outAction="add/modify"/>
-<REPORT_ACCESS_RIGHTS action="get" outAction="add/modify"/>
 <REPORT_ACCESS_RIGHTS action="get" outAction="add/modify"/>
 <TOPIC_GROUP action="get" outAction="add/modify"/>
 <TOPIC action="get" outAction="add/modify"/>
 <TOPIC_VERSION action="get" outAction="add/modify"/>
 <TOPIC_ACCESS_RIGHTS action="get" outAction="add/modify"/>
-<TOPIC_ITEM action="get" outAction="add/modify"/>
 <DEVICE action="get" outAction="add/modify"/>
 <PRINT_DISTRIBUTION_GROUP action="get" outAction="add/modify"/>
 <PRINT_COPY action="get" outAction="add/modify"/>

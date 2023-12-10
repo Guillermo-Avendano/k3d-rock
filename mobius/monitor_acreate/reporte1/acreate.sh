@@ -22,10 +22,10 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
      touch $LOG_DIR/$PREFIX.log
   fi
   
-  echo "" $FILENAME >> $LOG_DIR/$PREFIX.log
-  echo "Parametros:" $FILENAME >> $LOG_DIR/$PREFIX.log
-  cat "$SCRIPT_DIR/.env" >> $LOG_DIR/$PREFIX.log
-  echo ""  >> $LOG_DIR/$PREFIX.log
+  #echo "" $FILENAME >> $LOG_DIR/$PREFIX.log
+  #echo "Parametros:" $FILENAME >> $LOG_DIR/$PREFIX.log
+  #cat "$SCRIPT_DIR/.env" >> $LOG_DIR/$PREFIX.log
+  #echo ""  >> $LOG_DIR/$PREFIX.log
 else
   echo "Error: No se encontró el archivo .env en el directorio $SCRIPT_DIR" >> $LOG_DIR/$PREFIX.log
   exit 1

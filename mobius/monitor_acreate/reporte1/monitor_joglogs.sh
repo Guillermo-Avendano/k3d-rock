@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SEGUNDOS_ESPERA=20
+SEGUNDOS_ESPERA=10
 while true; do
   # Ejecutar el script principal
   ./acreate.sh
