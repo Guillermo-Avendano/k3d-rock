@@ -4,6 +4,7 @@ popd
 
 pushd /mnt/c/Rocket/DataSampler
 . ./MobiusRemoteCLI.sh adelete -s Mobius -u ADMIN -r Jobs -c -n -y vfd
+. ./MobiusRemoteCLI.sh adelete -s Mobius -u ADMIN -r JOBLOGS -y vf -t 20241231000000
 popd
 
 pushd /mnt/c/Rocket/DataSampler
