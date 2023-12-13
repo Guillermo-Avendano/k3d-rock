@@ -38,7 +38,7 @@ metadata:
 spec:
   storageClassName: <KUBE_STORAGE_CLASS>
   capacity:
-    storage: 1Gi
+    storage: 2Gi
   accessModes:
     - <KUBE_STORAGE_READ_WRITE>
   persistentVolumeReclaimPolicy: Retain
@@ -55,19 +55,7 @@ spec:
     - <KUBE_STORAGE_READ_WRITE>
   resources:
     requests:
-      storage: 1000M
+      storage: 2Gi
   selector: 
     matchLabels: 
       type: mobius-diagnose   
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mobius-fts-pv-claim
-spec:
-  storageClassName: <KUBE_STORAGE_CLASS>
-  accessModes:
-    - <KUBE_STORAGE_READ_WRITE>
-  resources:
-    requests:
-      storage: 1000M

@@ -23,6 +23,9 @@ IMAGE_VERSION_EVENTANALYTICS=${IMAGE_VERSION_EVENTANALYTICS:-1.3.18}
 MOBIUS_VIEW_URL=${MOBIUS_VIEW_URL:-mobius12.local.net}
 MOBIUS_VIEW_URL2=${MOBIUS_VIEW_URL2:-mobius12.lapubuntu.net}
 
+MOBIUS_VIEW_HELM=$kube_dir/mobius/mobiusview/helm/mobiusview-12.3.0.tgz
+MOBIUS_HELM=$kube_dir/mobius/mobiusserver/helm/mobius-12.3.0.tgz 
+
 export KUBE_IMAGES=("mobius-server:$IMAGE_VERSION_MOBIUS" "mobius-view:$IMAGE_VERSION_MOBIUSVIEW" "eventanalytics:$IMAGE_VERSION_EVENTANALYTICS") # cluster/local_registry.sh
 
 

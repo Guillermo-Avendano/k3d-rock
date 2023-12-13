@@ -80,7 +80,7 @@ install_mobiusview() {
     kubectl apply -f $MOBIUSVIEW_STORAGE_FILE --namespace $NAMESPACE;
 	
 	info_message "Deploy mobiusview"; 
-	helm upgrade mobiusview -n $NAMESPACE $kube_dir/mobius/mobiusview/helm/mobiusview.tgz --create-namespace -f $MOBIUSVIEW_VALUES_FILE --install	
+	helm upgrade mobiusview -n $NAMESPACE $MOBIUS_VIEW_HELM --create-namespace -f $MOBIUSVIEW_VALUES_FILE --install	
 	
 	info_message "Creating mobiusview ingress";    
     kubectl apply -f $MOBIUSVIEW_INGRESS_FILE --namespace $NAMESPACE;
@@ -88,7 +88,7 @@ install_mobiusview() {
 }
 
 update_mobiusview() {
-	
+
 	################################ VALUES #################################
 	MOBIUSVIEW_VALUES_FILE_TEMPLATE=$kube_dir/mobius/mobiusview/templates/values/mobiusview.yaml;
 	MOBIUSVIEW_VALUES_FILE=$kube_dir/mobius/mobiusview/deploy/mobiusview.yaml;
@@ -142,7 +142,7 @@ update_mobiusview() {
 	info_message "Certificate for $MOBIUS_VIEW_URL2: $cert_directory/$MOBIUS_VIEW_URL2.crt";
 	
 	info_message "Updating mobiusview"; 
-	helm upgrade mobiusview -n $NAMESPACE $kube_dir/mobius/mobiusview/helm/mobiusview-12.3.0.tgz --create-namespace -f $MOBIUSVIEW_VALUES_FILE --install	
+	helm upgrade mobiusview -n $NAMESPACE $MOBIUS_VIEW_HELM --create-namespace -f $MOBIUSVIEW_VALUES_FILE --install	
 	
 	info_message "Updating mobiusview ingress";    
     kubectl apply -f $MOBIUSVIEW_INGRESS_FILE --namespace $NAMESPACE;

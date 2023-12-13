@@ -56,7 +56,7 @@ install_mobius() {
     kubectl apply -f $MOBIUS_STORAGE_FILE --namespace $NAMESPACE;
 	
 	info_message "Deploy mobius"; 
-    helm upgrade mobius -n $NAMESPACE $kube_dir/mobius/mobiusserver/helm/mobius-12.3.0.tgz  --create-namespace -f $MOBIUS_VALUES_FILE --install
+    helm upgrade mobius -n $NAMESPACE $MOBIUS_HELM --create-namespace -f $MOBIUS_VALUES_FILE --install
 }
 
 update_mobius() {
@@ -92,7 +92,7 @@ update_mobius() {
     fi
 	
 	info_message "Updating mobius"; 
-    helm upgrade mobius -n $NAMESPACE $kube_dir/mobius/mobiusserver/helm/mobius.tgz  --create-namespace -f $MOBIUS_VALUES_FILE --install
+    helm upgrade mobius -n $NAMESPACE $MOBIUS_HELM --create-namespace -f $MOBIUS_VALUES_FILE --install
 
 }
 
