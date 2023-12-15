@@ -1,0 +1,73 @@
+
+# Author: Guilllermo Avendaño
+# Cretion Date: 12/15/2023
+# Rocky Linux 8 image
+FROM rockylinux:8
+
+ARG PRINTAGENT_DB_HOST=printagentdbhost
+ARG PRINTAGENT_DB_PORT=5432
+
+# Intall java by according version
+RUN dnf -y install java-1.8.0-openjdk; 
+    #dnf -y install java-11-openjdk; 
+
+# Add "mobius" user with uid=2002
+RUN useradd -u 2002 -m mobius
+
+COPY ./apache-tomcat-9.0.84.tar.gz /tmp/apache-tomcat-9.0.84.tar.gz
+
+RUN mkdir /home/mobius/tomcat
+
+# Installs Apache Tomcat 9.0.81
+RUN tar -xzvf /tmp/apache-tomcat-9.0.84.tar.gz -C /home/mobius/tomcat --strip-components=1  \
+    && rm /tmp/apache-tomcat-9.0.84.tar.gz
+
+RUN rm -rf /home/mobius/tomcat/webapps/docs/ /home/mobius/tomcat/webapps/ROOT/  /home/mobius/tomcat/webapps/examples/  /home/mobius/tomcat/webapps/manager/  /home/mobius/tomcat/webapps/host-manager/      
+
+# copy postgres jdbc driver
+COPY ./postgresql-42.7.0.jar /home/mobius/tomcat/lib/postgresql-42.7.0.jar
+COPY ./startup.sh /home/mobius/startup.sh
+
+# FROM MObius: Tomcat security configuration
+RUN sed -i "s/shutdown=\"SHUTDOWN\"/shutdown=\"KILLTHISSERVER\"/" /home/mobius/tomcat/conf/server.xml
+
+# FROM MObius: Hiding Tomcat details from Tomcat error page and application server error responses
+RUN sed -i '/<Host/ { /<\/Host>/! { N; }; s/\(<Host[^>]*>\)/\1\n    \n<Valve className="org.apache.catalina.valves.ErrorReportValve" showReport="false" showServerInfo="false"\/>/; }' /home/mobius/tomcat/conf/server.xml
+
+# Clean up cache to reduce the image size
+RUN dnf clean all
+
+# Copy "printagent" directory to tomcat's webapps
+COPY ./printagent /home/mobius/tomcat/webapps/printagent/
+COPY ./asg /home/mobius/templates/asg/
+
+
+# Change ownership, and execution rights of directories and files copied
+RUN chown 2002:0 -R /home/mobius/templates 
+RUN chown 2002:0 -R /home/mobius/tomcat && chmod +x /home/mobius/tomcat/bin/*.sh
+RUN chown 2002:0 /home/mobius/startup.sh && chmod +x /home/mobius/startup.sh
+
+#----------------
+# set mobius as default user
+USER mobius
+
+ENV PRINTAGENT_DB_HOST=$PRINTAGENT_DB_HOST
+ENV PRINTAGENT_DB_PORT=$PRINTAGENT_DB_PORT
+
+# set JAVA_HOME
+ENV JAVA_HOME=/usr/lib/jvm/jre
+
+#Adds java to PATH
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# Set CATALINA_HOME
+ENV CATALINA_HOME=/home/mobius/tomcat
+
+# Set mobius's home as working directory
+WORKDIR /home/mobius
+
+# Expose 8080
+EXPOSE 8080
+
+# Inicia Apache Tomcat al ejecutar el contenedor
+CMD ["sh","-c","./startup.sh"]

@@ -1,0 +1,43 @@
+version: "3.0"
+      
+volumes:
+  printagent_dbdata:
+  printagent_conf:
+  
+services:   
+  printagent_init:
+      image: busybox:latest
+      command: sh -c "chown -R 2002:0 /home/mobius/asg"
+      volumes:
+      - printagent_conf:/home/mobius/asg
+  printagentdbhost:
+    image: postgres:14-alpine
+    container_name: printagentdbhost
+    hostname: printagentdbhost
+    #ports:
+    #- "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - printagent_dbdata:/var/lib/postgresql/data"
+      - ./create_printagent_db.sh:/docker-entrypoint-initdb.d/create_printagent_db.sh
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  printagent:
+    image: 'guillermoavendano/printagent:12.3'
+    container_name: printagent
+    command: sh -c "sleep 9999999"
+    environment:
+      PRINTAGENT_DB_HOST: printagentdbhost
+      PRINTAGENT_DB_PORT: 5432
+    ports:
+      - '7070:8080'
+    volumes:
+    - printagent_conf:/home/mobius/asg
+    depends_on:
+      - printagent_init      
+      - printagentdbhost
