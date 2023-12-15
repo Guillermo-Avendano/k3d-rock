@@ -30,7 +30,7 @@ services:
   printagent:
     image: 'guillermoavendano/printagent:12.3'
     container_name: printagent
-    command: sh -c "sleep 9999999"
+    #command: sh -c "sleep 9999999"
     environment:
       PRINTAGENT_DB_HOST: printagentdbhost
       PRINTAGENT_DB_PORT: 5432
@@ -41,3 +41,12 @@ services:
     depends_on:
       - printagent_init      
       - printagentdbhost
+  cupsserver:
+    image: cups-server:latest
+    environment:
+      CUPS_USER: mobius
+      CUPS_PASSWORD: mobius  
+    ports:
+      - '631:631'
+    volumes:
+      - ./output_directory:/output_directory

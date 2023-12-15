@@ -17,13 +17,16 @@ replace_tag_in_file() {
 
 cp -r /home/mobius/templates/asg/* /home/mobius/asg/
 
-PRINTAGENT_CONFIG_FILE=/home/mobius/asg/printagent/config/application
+PRINTAGENT_TEMPLATE_CONFIG_FILE=/home/mobius/asg/printagent/config/application.template.yaml
+PRINTAGENT_CONFIG_FILE=/home/mobius/tomcat/webapps/printagent/WEB-INF/classes/application.yaml
 
-cp $PRINTAGENT_CONFIG_FILE.template.yaml $PRINTAGENT_CONFIG_FILE.yaml
+cp $PRINTAGENT_TEMPLATE_CONFIG_FILE $PRINTAGENT_CONFIG_FILE
                 
 # replace all the possible parameters 
-replace_tag_in_file $PRINTAGENT_CONFIG_FILE.yaml "<PRINTAGENT_DB_HOST>" $PRINTAGENT_DB_HOST
-replace_tag_in_file $PRINTAGENT_CONFIG_FILE.yaml "<PRINTAGENT_DB_PORT>" $PRINTAGENT_DB_PORT
+replace_tag_in_file $PRINTAGENT_CONFIG_FILE "<PRINTAGENT_DB_HOST>" $PRINTAGENT_DB_HOST
+replace_tag_in_file $PRINTAGENT_CONFIG_FILE "<PRINTAGENT_DB_PORT>" $PRINTAGENT_DB_PORT
+replace_tag_in_file $PRINTAGENT_CONFIG_FILE "<PRINTAGENT_DB_USER>" $PRINTAGENT_DB_USER
+replace_tag_in_file $PRINTAGENT_CONFIG_FILE "<PRINTAGENT_DB_PASS>" $PRINTAGENT_DB_PASS
 
 cd /home/mobius/tomcat/bin
 
