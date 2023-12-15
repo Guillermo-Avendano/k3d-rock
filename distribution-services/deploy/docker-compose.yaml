@@ -41,12 +41,3 @@ services:
     depends_on:
       - printagent_init      
       - printagentdbhost
-  cupsserver:
-    image: cups-server:latest
-    environment:
-      CUPS_USER: mobius
-      CUPS_PASSWORD: mobius  
-    ports:
-      - '631:631'
-    volumes:
-      - ./output_directory:/output_directory
