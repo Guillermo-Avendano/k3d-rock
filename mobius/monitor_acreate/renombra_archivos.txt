@@ -1,0 +1,25 @@
+# renombra archivos de xxx_xx_vv.txt a separados por puntos
+#!/bin/bash
+
+# Solicita al usuario el directorio a renombrar
+echo "Ingrese el directorio a renombrar:"
+read directorio
+
+# Obtiene la lista de archivos del directorio
+archivos=$(ls $directorio)
+
+# Bucle sobre los archivos
+for archivo in $archivos; do
+
+  # Obtiene la extensión del archivo
+  extension="${archivo##*.}"
+
+  # Renombra el archivo
+  nuevo_archivo="${archivo:0:2}.${archivo:2:4}.${archivo:6:10}.${archivo:16:4}.$extension"
+
+  mv "$directorio/$archivo" "$directorio/$nuevo_archivo"
+
+done
+
+# Imprime un mensaje de confirmación
+echo "Los archivos se han renombrado correctamente."
