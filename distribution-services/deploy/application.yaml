@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: printagent
+    #  jpa:
+    #    hibernate:
+    #      ddl-auto: none
+    #PostgreSQL:
+  datasource:
+    url: jdbc:postgresql://printagentdbhost:5432/printagent
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: ASG_ENC(24nehFemiaYBp/WWb6TNL27GF/J7FJtD)
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    hibernate:
+      ddl-auto: none
+asg:
+  printagent:
+    type: restserver
+  security:
+    enabled: false
+    url-patterns: ["/printrest/*","/adminrest/*"]
+    basic-auth:
+      inbound: false
+      url-patterns: ["/printrest/*","/adminrest/*"]
+      users:
+        - username: admin
+          password: admin
+    trusted-connection:
+      inbound: false
+      trusted-key: ABCEDFREDFFGERTYHG
+logging:
+  level:
+    root: INFO
+    org.springframework: ERROR
+    org.glassfish.jersey: ERROR
+    org.reflections: ERROR
+    com.asg.services.printagent: INFO
+    org.flywaydb: ERROR
+  path:
+    file: /home/mobius/asg/printagent/logs/printagent.log
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{[%-5level]} %X{CORRELATION_ID} %X{TENANT}:%X{USER} %X{SERVICE} %style{[%t]}{magenta} %style{%c:%M}{cyan} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %X{CORRELATION_ID} %X{TENANT}:%X{USER} [%t] %c:%M - %msg%n'
