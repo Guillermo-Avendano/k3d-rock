@@ -108,31 +108,7 @@ echo "$TM_LOG [INFO] Procesando: $FILENAME" >> $LOG_FILE
 # Ejecutar acreate.sh con redirección de salida a un archivo de log
 
 PATH=/opt/asg/java/bin:$PATH
-
-patron=".*\.TXT"
-if [[ "$FILENAME_SHORT" =~ $patron ]] ; then
-   IFS="." read -r P1 P2 P3 P4 P5 P6 <<<"$(basename "${FILENAME_SHORT%.*}")"
-
-   if [[ $P2 == "JEXCA108" ]]; then
-      CONTENT_CLASS="JEXCA108"
-      ARCHIVE_POLICY="JEXCA108"
-
-      echo "$TM_LOG [INFO] Content class: $CONTENT_CLASS" >> $LOG_FILE
-      #java -D"log4j.configurationFile=${MOBIUS_REMOTE_CLI_PATH}/BOOT-INF/classes/log4j2.yaml" -jar ${MOBIUS_REMOTE_CLI_PATH}/acreate-cli.jar acreate -s Mobius -u ADMIN -f "$FILENAME" -r $CONTENT_CLASS -c $ARCHIVE_POLICY -v 2 > "$LOG_DIR/$FILENAME_SHORT.log" 2>&1
-
-   elif [[ $P2 == "AC2020" ]]; then
-      CONTENT_CLASS="AC2020"
-      ARCHIVE_POLICY="AC2020"
-
-      echo "$TM_LOG [INFO] Content class: $CONTENT_CLASS" >> $LOG_FILE
-      #java -D"log4j.configurationFile=${MOBIUS_REMOTE_CLI_PATH}/BOOT-INF/classes/log4j2.yaml" -jar ${MOBIUS_REMOTE_CLI_PATH}/acreate-cli.jar acreate -s Mobius -u ADMIN -f "$FILENAME" -r $CONTENT_CLASS -c $ARCHIVE_POLICY -v 2 > "$LOG_DIR/$FILENAME_SHORT.log" 2>&1
-
-   else    
-      echo "$TM_LOG [ERROR] Content class: $P2 no es valida."   >> $LOG_FILE
-   fi
-fi   
-
-#java -D"log4j.configurationFile=${MOBIUS_REMOTE_CLI_PATH}/BOOT-INF/classes/log4j2.yaml" -jar ${MOBIUS_REMOTE_CLI_PATH}/acreate-cli.jar acreate -s Mobius -u ADMIN -f "$FILENAME" -r $CONTENT_CLASS -c $ARCHIVE_POLICY -v 2 > "$LOG_DIR/$FILENAME_SHORT.log" 2>&1
+java -D"log4j.configurationFile=${MOBIUS_REMOTE_CLI_PATH}/BOOT-INF/classes/log4j2.yaml" -jar ${MOBIUS_REMOTE_CLI_PATH}/acreate-cli.jar acreate -s Mobius -u ADMIN -f "$FILENAME" -r $CONTENT_CLASS -c $ARCHIVE_POLICY -v 2 > "$LOG_DIR/$FILENAME_SHORT.log" 2>&1
 
 # Obtener timestamp después de ejecutar el comando
 TM_LOG_END=$(date "+%Y-%m-%d %H:%M:%S.%3N")
