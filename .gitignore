@@ -14,3 +14,4 @@ cluster/mobius-mycluster_config.yaml
 mobius/monitor_acreate/reporte1/mobiuscli.log
 mobius/monitor_acreate/reporte1/nohup.out
 distribution-services/image/printagent/postgresql-42.7.0.jar
+distribution-services/deploy/catalina.2023-12-18.log

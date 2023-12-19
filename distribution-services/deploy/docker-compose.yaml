@@ -34,6 +34,8 @@ services:
     environment:
       PRINTAGENT_DB_HOST: printagentdbhost
       PRINTAGENT_DB_PORT: 5432
+      PRINTAGENT_DB_USER: postgres
+      PRINTAGENT_DB_PASS: postgres
     ports:
       - '7070:8080'
     volumes:
