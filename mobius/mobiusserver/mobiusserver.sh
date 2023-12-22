@@ -47,7 +47,7 @@ install_mobius() {
     if ! kubectl get namespace "$NAMESPACE" &> /dev/null; then
        info_message "Creating namespace $NAMESPACE..."
        kubectl create namespace "$NAMESPACE"
-	   if [ "$KUBE_ISTIO_ENABLED" == "true" ]; then
+	   if [ "$KUBE_ISTIO_ENABLED_MOBIUS" == "true" ]; then
            kubectl label namespace $NAMESPACE istio-injection=enabled
        fi  
     fi

@@ -93,7 +93,7 @@ install_istio(){
   curl -L https://istio.io/downloadIstio | sh -
 
   # $HOME/.profile
-  #export PATH="$PATH:/home/rocket/istio-1.19.0/bin"
+  #export PATH="$PATH:/home/rocket/istio-1.20.1/bin"
 
   istioctl x precheck
   istioctl install --set profile=demo -y

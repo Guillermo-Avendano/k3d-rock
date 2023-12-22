@@ -58,7 +58,8 @@ export NGINX_EXTERNAL_TLS_PORT=443
 
 export KUBE_PV_ROOT=$kube_dir/pv_cluster
 
-export KUBE_ISTIO_ENABLED="false"
+export KUBE_ISTIO_ENABLED_MOBIUS="true"
+export KUBE_ISTIO_ENABLED_SHARED="false"
 
 export KUBE_NFS_ENABLED=${KUBE_NFS_ENABLED:-false}
 

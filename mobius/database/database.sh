@@ -14,7 +14,7 @@ install_database() {
             
         if ! kubectl get namespace "$NAMESPACE_SHARED" >/dev/null 2>&1; then
             kubectl create namespace "$NAMESPACE_SHARED";
-            if [ "$KUBE_ISTIO_ENABLED" == "true" ]; then
+            if [ "$KUBE_ISTIO_ENABLED_SHARED" == "true" ]; then
                 kubectl label namespace $NAMESPACE_SHARED istio-injection=enabled
             fi    
         fi 
