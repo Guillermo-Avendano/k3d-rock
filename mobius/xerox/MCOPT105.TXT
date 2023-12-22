@@ -1,0 +1,134 @@
+1DJDE  JDE=Z,JDL=DFAULT,FORM=PR1004,PMODE=POR,FONTS=(R2BO8P,6),;
+ DJDE  BEGIN=(.4,.35),DUPLEX=NO,END;
+1
+
+
+
+
+ MORAN RUIZ DE ARBULO             HIPOTECAR    00.008316.10     4,413   4,413    11.12.2023       63.842,46
+ BARBARA          (585.08316.10)
+
+
+ EURIBOR   3,926  0,400   4,326   11.11.2023   11.12.2023             0,00            1,62         1.500,00
+
+                                                                                                  62.342,46
+
+                 BARBARA MORAN RUIZ DE ARBULO            8316
+                 CL PETUNIAS 1  4  02 G
+                 ROZAS DE MADRID (LAS)/MADRID            28232
+
+
+     * Límite mínimo 0%
+
+
+
+1
+
+
+
+
+ CORTEJOSO LINO                   HIPOTECAR    01.009797.07     2,841   2,841    11.12.2023       64.667,12
+ EMMA             (585.09797.07)
+
+
+ EURIBOR   2,804  0,000   2,804   01.12.2023   31.12.2023             0,00            9,31        11.000,00
+
+                                                                                                  53.667,12
+
+                 EMMA CORTEJOSO LINO                     9797
+                 CL ARTURO SORIA 310    03 B
+                 MADRID/MADRID                           28033
+
+
+     * Límite máximo 5,25% y mínimo 0,50%
+
+
+
+1
+
+
+
+
+ MARTINEZ DE LA PRESA             HIPOTECAR    00.009845.00     4,549   4,549    11.12.2023      128.908,01
+ CRISTINA         (585.09845.00)
+
+
+ EURIBOR   4,057  0,400   4,457   11.11.2023   11.12.2023             0,00            8,02         5.400,00
+
+                                                                                                 123.508,01
+
+                 CRISTINA MARTINEZ DE LA PRESA           9845
+                 CL PENALARA 5  6  01 D
+                 POZUELO DE ALARCON/MADRID               28224
+
+
+     * Límite mínimo 0%
+
+
+
+1
+
+
+
+
+ MENENDEZ GONZALEZ                HIPOTECAR    00.008400.10     2,841   2,841    11.12.2023       61.452,60
+ JOSE             (585.08400.10)
+
+
+ EURIBOR   2,804  0,000   2,804   01.12.2023   31.12.2023             0,00           16,92        20.000,00
+
+                                                                                                  41.452,60
+
+                 JOSE MENENDEZ GONZALEZ                  8400
+                 CL LOPEZ DE HOYOS 184    05 C
+                 MADRID/MADRID                           28002
+
+
+     * Límite máximo 5,25% y mínimo 0,50%
+
+
+
+1
+
+
+
+
+ ROMERO RUBIO                     HIPOTECAR    00.009827.02     4,400   4,400    11.12.2023      140.605,62
+ VIRGINIA         (585.09827.02)
+
+
+ EURIBOR   3,914  0,400   4,314   11.11.2023   11.12.2023             0,00           17,97        50.000,00
+
+                                                                                                  90.605,62
+
+                 VIRGINIA ROMERO RUBIO                   9827
+                 CL CIRAUQUI 7  PORTAL  04 C
+                 MADRID/MADRID                           28050
+
+
+     * Límite mínimo 0%
+
+
+
+1
+
+
+
+
+ AZAOLA ZUBIAGA                   HIPOTECAR    00.009920.01     5,386   5,386    11.12.2023       60.335,23
+ FRANCISCO DE BORJ(585.09920.01)
+
+
+ EURIBOR   4,007  1,250   5,257   01.12.2023   31.12.2023             0,00           94,66        60.335,23
+
+                                                                                                       0,00
+
+                 FRANCISCO DE BORJA AZAOLA ZUBIAGA       9920
+                 CL ARACENA 13
+                 MADRID/MADRID                           28023
+
+
+
+
+
+
