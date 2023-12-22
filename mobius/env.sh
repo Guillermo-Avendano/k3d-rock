@@ -57,7 +57,7 @@ export KEYCLOAK_URL=${KEYCLOAK_URL:-keycloak.local.net}
 ################################################################################
 ELASTICSEARCH_ENABLED=true
 
-ELASTICSEARCH_VERSION=8.6.2  #Elasticsearch was validated on versions 7.17.9 and 8.6.2
+ELASTICSEARCH_VERSION=7.17.9  #Elasticsearch was validated on versions 7.17.9 and 8.6.2
 ELASTICSEARCH_URL=${ELASTICSEARCH_URL:-elastic.local.net} 
 ELASTICSEARCH_HOST=elasticsearch-master.shared
 ELASTICSEARCH_PORT=9200
