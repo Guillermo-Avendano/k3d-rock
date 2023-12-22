@@ -1,4 +1,4 @@
-FROM guillermoavendano/outbound:611
+FROM rocketsoftware2024/outbound:611
 
 EXPOSE 19803
 

@@ -2,7 +2,7 @@ version: "3.0"
 
 services: 
   outbound:
-    image: guillermoavendano/outbound:6.1.1
+    image: rocketsoftware2024/outbound:6.1.1
     command: ["/bin/sh", "-c", "chmod -R 777 /data ; /opt/obent/startup.sh 2>&1"]
     ports:
       - '1803:19803'

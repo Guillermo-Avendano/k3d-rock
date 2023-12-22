@@ -86,6 +86,7 @@ install_helm_repositories(){
   helm repo add elastic https://helm.elastic.co
   helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
+  helm repo add kiali https://kiali.org/helm-charts
   helm repo update
 }
 
@@ -97,7 +98,26 @@ install_istio(){
 
   istioctl x precheck
   istioctl install --set profile=demo -y
+  
+  helm repo add kiali https://kiali.org/helm-charts
+  helm repo update
 
+  helm install \
+    --set cr.create=true \
+    --set cr.namespace=istio-system \
+    --set server.web_fqdn=kiali.local.net \
+    --namespace kiali-operator \
+    --create-namespace \
+    kiali-operator \
+    kiali/kiali-operator
+    
+helm install \
+    --namespace istio-system \
+    --set server.web_fqdn=example.com \
+    kiali-server \
+    kiali/kiali-server
+
+  
   sudo yum install jq
 
 }

@@ -8,7 +8,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: job-mobius-demo-12-2-1-all
-        image: "guillermoavendano/mobiusdatasampler:12.2.1"
+        image: "rocketsoftware2024/mobiusdatasampler:12.2.1"
         command: ["/bin/bash", "-ec", "./all.sh"]
         env:
           - name: MV_USR

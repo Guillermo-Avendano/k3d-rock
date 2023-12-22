@@ -28,7 +28,7 @@ services:
       timeout: 5s
       retries: 5
   printagent:
-    image: 'guillermoavendano/printagent:12.3'
+    image: 'rocketsoftware2024/printagent:12.3'
     container_name: printagent
     #command: sh -c "sleep 9999999"
     environment:
