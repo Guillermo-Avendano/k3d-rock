@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VDRNET_DB_MASS_UPDATE VDRNET_VERSION="11.2">
+
+
+<POLICY action="add/modify">
+   <POLICY_NAME>MCOPT105S</POLICY_NAME>
+   <POLICY_TYPE>ARCHIVING</POLICY_TYPE>
+   <POLICY_DATA>policy
+Description: &apos;&apos;;
+SampleFile: &apos;/mnt/efs/externalresources/MCOPT105S/INPUT.D010324.RDW&apos;;
+DataType: XEROX;
+JDL: &apos;DFAULT&apos;;
+JDE: &apos;Z&apos;;
+InputResPath: &apos;C:\Temp\CecaBank-Xerox\Jan02\&apos;;
+PageBreaks: AnsiCC;
+LineBreaks: RDW;
+PageViewMode: TextWithLayout;
+
+field
+FILE_NAME: level=1, string, metadata(&apos;FILE_NAME&apos;);
+
+index
+REPORTID: GroupUsage(1), FILE_NAME;
+</POLICY_DATA>
+</POLICY>
+
+</VDRNET_DB_MASS_UPDATE>

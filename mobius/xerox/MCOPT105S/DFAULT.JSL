@@ -1,0 +1,43 @@
+DFAULT: JDL;
+VFURT: VFU ASS=(1,1), TOF=1, BOF=75;
+CODESC: CODE DEFAULT=EBCDIC,
+             ASS=(X'7B',A'!B1'),      /* EE MAYUSCULA */
+             ASS=(X'6A',A'!D1'),      /* EE MINUSCULA */
+             ASS=(X'8F',A'!C0'),      /* A   ACENTUADA */
+             ASS=(X'90',A'!C8'),      /* E   ACENTUADA */
+             ASS=(X'9A',A'!CC'),      /* I   ACENTUADA */
+             ASS=(X'9B',A'!D3'),      /* O   ACENTUADA */
+             ASS=(X'9C',A'!DB');      /* U   ACENTUADA */
+        VOLUME HOST=IBMONL, CODE=CODESC, OPTIMIZE=(NCC,NDC,NPR);
+        LINE   UCSB=IGNORE, FCB=IGNORE, VFU=VFURT, DATA=(0,215);
+IDEN    PREFIX='DJDE', SKIP=6, OFFSET=0;
+JES2:   TABLE
+              MASK='?',
+              CONSTANT=('*? START ??? ',
+                        '*?  END  ??? ',
+                        '*?  CONT ??? ',
+                        '* JOBID:     ');
+CJES2:  CRITERIA
+                 CONSTANT=(0,13,EQ,JES2),
+                 LINENUM=(30,30);
+        BANNER
+                 TEST=CJES2,
+                 HCOUNT=1,
+                 TCOUNT=1,
+                 HRPTNA=(21,4),
+                 HJOBNO=(13,5);
+FICTI:  TABLE
+                 CONSTANT='HRPTNA';
+CFICTI: CRITERIA CONSTANT=(0,6,EQ,FICTI);
+/*    , LINENUM=1;                        */
+        RSTACK  TEST=CFICTI,DELIMTER=YES;
+/*               HRPTNA=(18,8);          */
+        OUTPUT
+                 DUPLEX=NO;
+ /* CYCLEFORMS=(VA1060,STDB)             */
+ /*              MODIFY=CMCADI;          */
+Z: JDE;
+END;
+CMCADI: CME      LIN= 1      POS=1 FON=1
+                 LIN=(2,-)   POS=1 FON=2;
+END;END;

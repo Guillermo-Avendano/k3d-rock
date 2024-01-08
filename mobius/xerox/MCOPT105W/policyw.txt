@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VDRNET_DB_MASS_UPDATE VDRNET_VERSION="11.2">
+
+
+<POLICY action="add/modify">
+   <POLICY_NAME>MCOPT105W</POLICY_NAME>
+   <POLICY_TYPE>ARCHIVING</POLICY_TYPE>
+   <POLICY_DATA>policy
+
+Description: &apos;&apos;;
+SampleFile: &apos;/mnt/efs/externalresources/MCOPT105W/MCOPT105.L133.VB&apos;;
+DataType: XEROX;
+JDL: &apos;DFAULT&apos;;
+JDE: &apos;Z&apos;;
+InputResPath: &apos;/mnt/efs/externalresources/MCOPT105W/&apos;;
+PageBreaks: AnsiCC;
+LineBreaks: 133;
+PageViewMode: TextOnly;
+
+field
+FILE_NAME: level=1, string, metadata(&apos;FILE_NAME&apos;), matches(&apos;MCOPT105&apos;);;
+TEST: level=1, string(1), matches(&apos;(&apos;), row(4);;
+ACCT: level=1, string(12), row(4), follows(SAMELINE, TEST);
+
+index
+RPT: GroupUsage(1), GroupPersistenceYes, FILE_NAME;
+SECT: GroupUsage(2), ACCT;
+
+</POLICY_DATA>
+</POLICY>
+
+</VDRNET_DB_MASS_UPDATE>
